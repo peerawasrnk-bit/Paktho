@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ต้นแบบเว็บไซต์ รพ.ปากท่อ (ดีไซน์ใหม่ แยกหน้าเจ้าหน้าที่ ข้อมูลครบ 100%)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* (Style เดิมทั้งหมด ยังคงอยู่) */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
+        body { background-color: #f9fbfd; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section-title { text-align: center; font-size: 28px; font-weight: 600; color: #0056b3; margin-bottom: 30px; }
+        .section-title span { color: #f39c12; }
+
+        header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .header-top { background: #0056b3; color: white; padding: 5px 0; font-size: 13px; display: flex; justify-content: space-between; }
+        .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+        .logo { display: flex; align-items: center; gap: 15px; font-size: 22px; font-weight: 700; color: #0056b3; cursor: pointer; }
+        .logo i { font-size: 32px; color: #28a745; }
+        
+        nav ul { list-style: none; display: flex; gap: 20px; align-items: center; }
+        nav > ul > li { position: relative; padding: 10px 0; }
+        nav a { text-decoration: none; color: #333; font-weight: 500; cursor: pointer; transition: 0.3s; padding: 8px 12px; border-radius: 6px; }
+        nav a:hover, nav a.active { color: #0056b3; background: #eef5ff; }
+        
+        .dropdown { display: none; position: absolute; top: 100%; left: 0; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 220px; border-radius: 8px; overflow: hidden; z-index: 1000; }
+        nav > ul > li:hover .dropdown { display: block; }
+        .dropdown li { border-bottom: 1px solid #eee; }
+        .dropdown a { display: block; padding: 10px 15px; font-size: 14px; color: #555; }
+        .dropdown a:hover { background: #f0f7ff; color: #0056b3; }
+        
+        .btn-staff { background: #f39c12 !important; color: white !important; padding: 8px 20px !important; border-radius: 20px !important; }
+        .btn-staff:hover { background: #e67e22 !important; }
+
+        .page { display: none; flex: 1; animation: fadeIn 0.4s ease-in-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hero { background: linear-gradient(rgba(0,86,179,0.8), rgba(0,86,179,0.8)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d') center/cover; height: 400px; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 60px 0; }
+        .service-card { background: #f8f9fa; border: 1px solid #eee; padding: 25px 15px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .service-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); background: #fff; border-color: #cce5ff; }
+        .service-card i { font-size: 32px; color: #0056b3; margin-bottom: 15px; background: #e6f0fa; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 50px 0; }
+        .info-box { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        .data-table th, .data-table td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; }
+        .data-table th { background: #f8f9fa; color: #0056b3; font-weight: 600; }
+
+        .news-section { padding: 60px 0; background: #fff; }
+        .news-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        .carousel-container { display: flex; align-items: center; gap: 15px; }
+        .carousel-wrapper { overflow: hidden; width: 100%; }
+        .carousel-track { display: flex; gap: 20px; transition: transform 0.4s ease-in-out; }
+        .news-card { flex: 0 0 calc(50% - 10px); background: #f9fbfd; border-radius: 12px; overflow: hidden; border: 1px solid #eee; }
+        .news-img { height: 150px; background-color: #eef5ff; display: flex; align-items: center; justify-content: center; color: #0056b3; font-size: 30px; }
+        .news-content { padding: 20px; }
+        .btn-slider { background: #fff; border: 1px solid #cce5ff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: 0.3s; flex-shrink: 0; color: #0056b3; display: flex; align-items: center; justify-content: center; }
+        .btn-slider:hover { background: #0056b3; color: white; }
+        
+        .list-news { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 20px; }
+        .list-item { padding: 12px 0; border-bottom: 1px dashed #ddd; display: flex; gap: 15px; align-items: flex-start; }
+        .list-date { background: #f39c12; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px; white-space: nowrap; }
+        .list-title { font-size: 14px; color: #444; }
+
+        .contact-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; padding: 50px 0; }
+        .director-card { background: #fff; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .network-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .network-box { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; font-size: 14px; display: flex; justify-content: space-between; }
+
+        #page-staff { background: #eef5ff; padding: 60px 0; }
+        .staff-container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; }
+        .staff-header { background: #0056b3; color: white; padding: 40px 20px; text-align: center; }
+        .staff-body { padding: 40px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; }
+        
+        .login-box { background: #f8f9fa; padding: 30px; border-radius: 15px; border: 1px solid #eee; }
+        .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; }
+        .login-box button { width: 100%; padding: 12px; background: #f39c12; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        
+        .system-links h4 { color: #0056b3; margin-bottom: 15px; border-bottom: 2px solid #eef5ff; padding-bottom: 10px; }
+        .system-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tag { background: #fff; border: 1px solid #cce5ff; padding: 8px 15px; border-radius: 20px; font-size: 13px; color: #0056b3; cursor: pointer; transition: 0.3s; }
+        .tag:hover { background: #0056b3; color: white; }
+
+        footer { background: #0d1b2a; color: #888; padding: 30px 0; text-align: center; font-size: 14px; margin-top: auto; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-top">
+            <div class="container"><span><i class="fa-solid fa-phone"></i> 032-282530-31</span> <span><i class="fa-solid fa-envelope"></i> Tpiyarat20@gmail.com</span></div>
+        </div>
+        <div class="container header-main">
+            <div class="logo" onclick="switchPage('home')"><i class="fa-solid fa-staff-snake"></i> โรงพยาบาลปากท่อ</div>
+            <nav>
+                <ul>
+                    <li><a onclick="switchPage('home')" id="nav-home" class="active">หน้าแรก</a></li>
+                    <li><a href="#">เกี่ยวกับเรา <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="#">คณะกรรมการบริหารฯ</a></li>
+                            <li><a href="#">โครงสร้าง รพ. ปัจจุบัน</a></li>
+                            <li><a href="#">บุคลากรในหน่วยงาน</a></li>
+                            <li><a href="#">ข้อมูล GIS สถานพยาบาล</a></li>
+                            <li><a href="#">ภาพกิจกรรมทั้งหมด</a></li>
+                            <li><a href="#">VDO แนะนำความรู้</a></li>
+                            <li><a href="#">ITA</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">บริการประชาชน <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="#">ตรวจสอบสิทธิการรักษา</a></li>
+                            <li><a href="#">เรียกค่ารักษาผู้มีปัญหาสิทธิ</a></li>
+                            <li><a href="#">ดาวน์โหลดแบบฟอร์ม</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">ข่าวสาร <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
+                        <!-- นำเมนูข่าวสารที่หายไปกลับมา -->
+                        <ul class="dropdown">
+                            <li><a href="#">กระดานข่าวล่าสุด</a></li>
+                            <li><a href="#">ประกาศจัดซื้อ/จัดจ้าง</a></li>
+                            <li><a href="#">CPG & วิชาการ</a></li>
+                            <li><a href="#">เรื่องแจ้ง คปสอ.</a></li>
+                        </ul>
+                    </li>
+                    <li><a onclick="switchPage('staff')" id="nav-staff" class="btn-staff"><i class="fa-solid fa-user-lock"></i> สำหรับเจ้าหน้าที่</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ================== PAGE 1: หน้าแรก ================== -->
+    <div id="page-home" class="page active">
+        <section class="hero">
+            <div>
+                <h1 style="font-size: 42px; margin-bottom: 10px;">ยินดีต้อนรับสู่ โรงพยาบาลปากท่อ</h1>
+                <p style="font-size: 18px; font-weight: 300;">ให้บริการด้วยมาตรฐาน ห่วงใยสุขภาพของประชาชนชาวอำเภอปากท่อ</p>
+            </div>
+        </section>
+
+        <section class="container services-grid">
+            <div class="service-card"><i class="fa-solid fa-id-card-clip"></i><h3>ตรวจสอบสิทธิ<br>กรมบัญชีกลาง</h3></div>
+            <div class="service-card"><i class="fa-solid fa-users"></i><h3>จองคิว<br>รับบริการ</h3></div>
+            <div class="service-card"><i class="fa-regular fa-calendar-check"></i><h3>ตรวจสอบ<br>การนัดหมาย</h3></div>
+            <div class="service-card"><i class="fa-solid fa-address-book"></i><h3>ปรับปรุงที่อยู่<br>เบอร์โทรศัพท์</h3></div>
+            <div class="service-card"><i class="fa-solid fa-person-walking-with-cane"></i><h3>จองคิว<br>กายภาพบำบัด</h3></div>
+            <div class="service-card"><i class="fa-solid fa-leaf"></i><h3>จองคิว<br>แพทย์แผนไทย</h3></div>
+            <div class="service-card" style="border-color:#ff9800;"><i class="fa-solid fa-syringe" style="color:#ff9800; background:#fff3e0;"></i><h3>จองวัคซีน<br>ทางเลือก</h3></div>
+            <div class="service-card" style="border-color:#dc3545;"><i class="fa-solid fa-bullhorn" style="color:#dc3545; background:#f8d7da;"></i><h3>รับเรื่อง<br>ร้องเรียน</h3></div>
+        </section>
+
+        <section style="background: #f4f7f6;">
+            <div class="container info-grid">
+                <div class="info-box">
+                    <h3 style="color:#0056b3;"><i class="fa-solid fa-chart-pie"></i> สถิติผู้รับบริการ (วันนี้)</h3>
+                    <table class="data-table"><tr><th>แผนก</th><th>จำนวน (คน)</th></tr><tr><td>ผู้ป่วยนอก (OPD)</td><td>0</td></tr><tr><td>อุบัติเหตุฉุกเฉิน (ER)</td><td>38</td></tr><tr><td>ผู้ป่วยใน (IPD)</td><td>0</td></tr><tr><td>ทันตกรรม</td><td>0</td></tr></table>
+                </div>
+                <div class="info-box">
+                    <h3 style="color:#28a745;"><i class="fa-solid fa-user-doctor"></i> ตารางคลินิกพิเศษ</h3>
+                    <table class="data-table"><tr><th>คลินิก</th><th>จันทร์</th><th>พุธ</th><th>ศุกร์</th></tr><tr><td>อายุรกรรม</td><td>09.00-12.00</td><td>09.00-12.00</td><td>09.00-12.00</td></tr><tr><td>เบาหวาน/ความดัน</td><td>-</td><td>08.30-15.30</td><td>-</td></tr><tr><td>ฝากครรภ์</td><td>08.30-12.00</td><td>-</td><td>-</td></tr></table>
+                </div>
+            </div>
+        </section>
+
+        <!-- นำส่วนข่าวสาร (News Hub) กลับมา -->
+        <section class="news-section">
+            <div class="container">
+                <h2 class="section-title">ข่าวสารและ <span>ประชาสัมพันธ์</span></h2>
+                <div class="news-grid">
+                    <div>
+                        <h3 style="color:#0056b3; margin-bottom:15px;"><i class="fa-regular fa-image"></i> แบนเนอร์กิจกรรม / นโยบาย</h3>
+                        <div class="carousel-container">
+                            <!-- เพิ่มปุ่มลูกศรเลื่อนซ้าย-ขวา -->
+                            <button class="btn-slider" onclick="moveSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                            <div class="carousel-wrapper">
+                                <div class="carousel-track" id="newsTrack">
+                                    <div class="news-card"><div class="news-img"><i class="fa-solid fa-hand-holding-medical"></i></div><div class="news-content"><span style="color:#888; font-size:12px;">12 ส.ค. 2569</span><br><strong>ขอชื่นชมคนดี รพ.ปากท่อ</strong></div></div>
+                                    <div class="news-card"><div class="news-img"><i class="fa-solid fa-shield-halved"></i></div><div class="news-content"><span style="color:#888; font-size:12px;">นโยบาย</span><br><strong>คุ้มครองข้อมูลส่วนบุคคล (PDPA)</strong></div></div>
+                                    <div class="news-card"><div class="news-img"><i class="fa-solid fa-money-bill-wave"></i></div><div class="news-content"><span style="color:#888; font-size:12px;">1 มี.ค. 2569</span><br><strong>ประกาศค่าบริการนอกเวลา</strong></div></div>
+                                    <div class="news-card"><div class="news-img"><i class="fa-solid fa-gift"></i></div><div class="news-content"><span style="color:#888; font-size:12px;">นโยบาย</span><br><strong>No Gift Policy</strong></div></div>
+                                </div>
+                            </div>
+                            <button class="btn-slider" onclick="moveSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="list-news">
+                        <h3 style="color:#f39c12; margin-bottom:15px; border-bottom:2px solid #f39c12; padding-bottom:10px;">ประกาศจัดซื้อ / จัดจ้าง</h3>
+                        <div class="list-item"><div class="list-date">24 ส.ค.</div><div class="list-title">รายงานสรุปผลข้อมูลสาระสำคัญในสัญญา</div></div>
+                        <div class="list-item"><div class="list-date">21 ส.ค.</div><div class="list-title">รับสมัครสอบคัดเลือกลูกจ้างชั่วคราว</div></div>
+                        <div class="list-item"><div class="list-date">19 ส.ค.</div><div class="list-title">ประกาศร่างเอกสารประกวดราคาซื้อครุภัณฑ์</div></div>
+                        <a href="#" style="display:block; text-align:center; margin-top:15px; font-size:13px; color:#0056b3;">ดูประกาศทั้งหมด &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container contact-grid">
+            <div class="director-card">
+                <i class="fa-solid fa-user-doctor" style="font-size:60px; color:#cce5ff; margin-bottom:15px;"></i>
+                <h3 style="color:#0056b3;">พญ. ปิยารัตน์ ทองย้อย</h3>
+                <p style="color:#666; font-size:14px;">ผู้อำนวยการโรงพยาบาล</p>
+                <div style="margin-top:10px; font-size:13px; color:#555;">032-281585<br>Tpiyarat20@gmail.com</div>
+            </div>
+            <div>
+                <h3 style="color:#333;"><i class="fa-solid fa-network-wired"></i> เครือข่าย รพ.สต. ในพื้นที่</h3>
+                <div class="network-grid">
+                    <div class="network-box"><span>สสอ.ปากท่อ</span> <strong>032-281-162</strong></div>
+                    <div class="network-box"><span>รพ.สต.บ้านหนองไร่</span> <strong>032-229-870</strong></div>
+                    <div class="network-box"><span>รพ.สต.ทุ่งหลวง</span> <strong>032-240-245</strong></div>
+                    <div class="network-box"><span>รพ.สต.วังมะนาว</span> <strong>032-737-552</strong></div>
+                    <div class="network-box"><span>รพ.สต.ดอนทราย</span> <strong>032-282-198</strong></div>
+                    <div class="network-box"><span>รพ.ราชบุรี</span> <strong>032-327-999</strong></div>
+                    <div class="network-box" style="background:#eef5ff; color:#0056b3; justify-content:center; cursor:pointer;">ดูรายชื่อเครือข่ายทั้งหมด...</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================== PAGE 2: หน้าเจ้าหน้าที่ (Staff Portal) ================== -->
+    <div id="page-staff" class="page">
+        <div class="container">
+            <div class="staff-container">
+                <div class="staff-header">
+                    <i class="fa-solid fa-shield-halved" style="font-size:50px; color:#f39c12; margin-bottom:15px;"></i>
+                    <h2 style="font-weight:600;">ระบบปฏิบัติการบุคลากร (Intranet)</h2>
+                    <p style="font-weight:300; opacity:0.9;">โรงพยาบาลปากท่อ จังหวัดราชบุรี</p>
+                </div>
+                
+                <div class="staff-body">
+                    <div class="login-box">
+                        <h3 style="margin-bottom:20px; color:#333; text-align:center;">ลงชื่อเข้าใช้งาน</h3>
+                        <input type="text" placeholder="รหัสพนักงาน (Username)">
+                        <input type="password" placeholder="รหัสผ่าน (Password)">
+                        <button>เข้าสู่ระบบ</button>
+                    </div>
+
+                    <div class="system-links">
+                        <h4><i class="fa-solid fa-link"></i> ระบบงานสนับสนุน</h4>
+                        <div class="system-tags">
+                            <!-- นำลิงก์ที่เคยตกหล่นกลับมาใส่ให้ครบ -->
+                            <span class="tag">HOSxP</span><span class="tag">ระบบ CMI กระทรวง</span>
+                            <span class="tag">สลิปเงินเดือน (e-Slip)</span><span class="tag">HIS MOBILE 2023</span>
+                            <span class="tag">EMR-DHDC</span><span class="tag">PHR Register</span>
+                            <span class="tag">OwnCloud Paktho</span><span class="tag">ระบบ HA</span>
+                            <span class="tag">HRMS ความเสี่ยง</span><span class="tag">รายงานการเงิน NHSO</span>
+                            <span class="tag">DATA Check</span><span class="tag">ICD-10 / ICD9_CM</span>
+                            <span class="tag">กระดานสนทนาภายใน</span><span class="tag">หมายเลขโทรศัพท์ภายใน</span>
+                            <span class="tag">รับ-ส่ง OP/PP สปสช</span><span class="tag">Myoffice สสจ.</span>
+                            <span class="tag">EOC ON WEB</span><span class="tag">HDC ราชบุรี</span>
+                            <span class="tag">DBPOP VS PERSON</span><span class="tag">EMR&LAB (PTHP รพ.สต.)</span>
+                            <span class="tag">ตรวจสอบข้อมูลผู้รับบริการ HOSxP</span><span class="tag">กรอกประวัติ จนท.ใหม่</span>
+                            <span class="tag">ข้อมูลบุคลากร NonHR</span><span class="tag">BACKoffice</span>
+                            <span class="tag">MOPH GDCC e Office</span><span class="tag">ANTWEBViewer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================== Footer ================== -->
+    <footer>
+        <div class="container">
+            <!-- นำข้อมูลที่เคยตกหล่นใน Footer กลับมา -->
+            <p>โรงพยาบาลปากท่อ เลขที่ 201/10 หมู่ 8 ถ.ท้าวอู่ทอง ต.ปากท่อ อ.ปากท่อ จ.ราชบุรี 70140 | โทรศัพท์ 032-282530-31</p>
+            <p>Copyright 2010 by Paktho Computer Center. All rights reserved.</p>
+            <div style="display:inline-block; background:#0056b3; color:white; padding:5px 15px; border-radius:20px; font-size:12px; margin-top:15px;">
+                <i class="fa-solid fa-chart-line"></i> สถิติผู้เข้าชมเว็บไซต์: 12,011,852 unique visits
+            </div>
+        </div>
+    </footer>
+
+    <!-- นำ Script สไลด์โชว์ และสลับหน้า กลับมา -->
+    <script>
+        function switchPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            
+            if(pageId === 'home') document.getElementById('nav-home').classList.add('active');
+            if(pageId === 'staff') document.getElementById('nav-staff').classList.add('active');
+            
+            window.scrollTo(0, 0);
+        }
+
+        let currentSlide = 0;
+        function moveSlide(direction) {
+            const track = document.getElementById('newsTrack');
+            const cards = track.querySelectorAll('.news-card');
+            const maxSlide = cards.length - 2; 
+            
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide > maxSlide) currentSlide = maxSlide;
+            
+            const cardWidth = cards[0].offsetWidth + 20; 
+            track.style.transform = `translateX(-${currentSlide * cardWidth}px)`;
+        }
+    </script>
+</body>
+</html>
