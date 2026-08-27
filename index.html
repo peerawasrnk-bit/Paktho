@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ต้นแบบเว็บไซต์ รพ.ปากท่อ (ดีไซน์ใหม่ แยกหน้าเจ้าหน้าที่ ข้อมูลครบ 100%)</title>
+    <title>เว็บไซต์ โรงพยาบาลปากท่อ (ลิงก์จริง)</title>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* (Style เดิมทั้งหมด ยังคงอยู่) */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
+        html { scroll-behavior: smooth; }
         body { background-color: #f9fbfd; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .section-title { text-align: center; font-size: 28px; font-weight: 600; color: #0056b3; margin-bottom: 30px; }
@@ -16,6 +16,8 @@
 
         header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
         .header-top { background: #0056b3; color: white; padding: 5px 0; font-size: 13px; display: flex; justify-content: space-between; }
+        .header-top a { color: white; text-decoration: none; transition: 0.3s; }
+        .header-top a:hover { color: #f39c12; }
         .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
         .logo { display: flex; align-items: center; gap: 15px; font-size: 22px; font-weight: 700; color: #0056b3; cursor: pointer; }
         .logo i { font-size: 32px; color: #28a745; }
@@ -39,6 +41,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .hero { background: linear-gradient(rgba(0,86,179,0.8), rgba(0,86,179,0.8)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d') center/cover; height: 400px; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        
         .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 60px 0; }
         .service-card { background: #f8f9fa; border: 1px solid #eee; padding: 25px 15px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; }
         .service-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); background: #fff; border-color: #cce5ff; }
@@ -50,7 +53,7 @@
         .data-table th, .data-table td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; }
         .data-table th { background: #f8f9fa; color: #0056b3; font-weight: 600; }
 
-        .news-section { padding: 60px 0; background: #fff; }
+        .news-section { padding: 60px 0; background: #fff; scroll-margin-top: 80px; }
         .news-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
         .carousel-container { display: flex; align-items: center; gap: 15px; }
         .carousel-wrapper { overflow: hidden; width: 100%; }
@@ -62,14 +65,21 @@
         .btn-slider:hover { background: #0056b3; color: white; }
         
         .list-news { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 20px; }
-        .list-item { padding: 12px 0; border-bottom: 1px dashed #ddd; display: flex; gap: 15px; align-items: flex-start; }
+        .list-item { padding: 12px 0; border-bottom: 1px dashed #ddd; display: flex; gap: 15px; align-items: flex-start; cursor: pointer; transition: 0.2s; }
+        .list-item:hover { background: #f9fbfd; padding-left: 5px; }
         .list-date { background: #f39c12; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px; white-space: nowrap; }
         .list-title { font-size: 14px; color: #444; }
 
+        .contact-section { scroll-margin-top: 80px; }
         .contact-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; padding: 50px 0; }
         .director-card { background: #fff; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .director-card a { color: #555; text-decoration: none; transition: 0.3s; }
+        .director-card a:hover { color: #28a745; }
+        
         .network-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .network-box { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; font-size: 14px; display: flex; justify-content: space-between; }
+        .network-box { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+        .network-box a { color: #0056b3; font-weight: 600; text-decoration: none; padding: 5px 10px; background: #eef5ff; border-radius: 4px; transition: 0.3s; }
+        .network-box a:hover { background: #0056b3; color: white; }
 
         #page-staff { background: #eef5ff; padding: 60px 0; }
         .staff-container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; }
@@ -79,6 +89,7 @@
         .login-box { background: #f8f9fa; padding: 30px; border-radius: 15px; border: 1px solid #eee; }
         .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; }
         .login-box button { width: 100%; padding: 12px; background: #f39c12; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .login-box button:hover { background: #e67e22; }
         
         .system-links h4 { color: #0056b3; margin-bottom: 15px; border-bottom: 2px solid #eef5ff; padding-bottom: 10px; }
         .system-tags { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -92,40 +103,43 @@
 
     <header>
         <div class="header-top">
-            <div class="container"><span><i class="fa-solid fa-phone"></i> 032-282530-31</span> <span><i class="fa-solid fa-envelope"></i> Tpiyarat20@gmail.com</span></div>
+            <div class="container">
+                <span><i class="fa-solid fa-phone"></i> <a href="tel:032282530">032-282530-31</a></span> 
+                <span><i class="fa-solid fa-envelope"></i> <a href="mailto:Tpiyarat20@gmail.com">Tpiyarat20@gmail.com</a></span>
+            </div>
         </div>
         <div class="container header-main">
             <div class="logo" onclick="switchPage('home')"><i class="fa-solid fa-staff-snake"></i> โรงพยาบาลปากท่อ</div>
             <nav>
                 <ul>
                     <li><a onclick="switchPage('home')" id="nav-home" class="active">หน้าแรก</a></li>
-                    <li><a href="#">เกี่ยวกับเรา <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
+                    
+                    <li><a href="#about-section" onclick="switchPage('home')">เกี่ยวกับเรา <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
                         <ul class="dropdown">
-                            <li><a href="#">คณะกรรมการบริหารฯ</a></li>
-                            <li><a href="#">โครงสร้าง รพ. ปัจจุบัน</a></li>
-                            <li><a href="#">บุคลากรในหน่วยงาน</a></li>
-                            <li><a href="#">ข้อมูล GIS สถานพยาบาล</a></li>
-                            <li><a href="#">ภาพกิจกรรมทั้งหมด</a></li>
-                            <li><a href="#">VDO แนะนำความรู้</a></li>
-                            <li><a href="#">ITA</a></li>
+                            <li><a href="http://www.pthosp.net/ceo/Staff-04122568.png" target="_blank">คณะกรรมการบริหารฯ</a></li>
+                            <li><a href="http://www.pthosp.net/hospital/FTE_Paktho2566.pdf" target="_blank">โครงสร้าง รพ. ปัจจุบัน</a></li>
+                            <li><a href="http://www.pthosp.net/dep/" target="_blank">บุคลากรในหน่วยงาน</a></li>
+                            <li><a href="http://www.pthosp.net/hospital/work.php" target="_blank">ข้อมูลบุคลากรโรงพยาบาล</a></li>
+                            <li><a href="http://www.pthosp.net/hospital/photogallery1.php" target="_blank">ภาพกิจกรรมทั้งหมด</a></li>
+                            <li><a href="https://sites.google.com/view/paktho-vdo-hopital/หนาแรก" target="_blank">VDO แนะนำความรู้</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">บริการประชาชน <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
+                    
+                    <li><a href="#services-section" onclick="switchPage('home')">บริการประชาชน <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
                         <ul class="dropdown">
-                            <li><a href="#">ตรวจสอบสิทธิการรักษา</a></li>
-                            <li><a href="#">เรียกค่ารักษาผู้มีปัญหาสิทธิ</a></li>
-                            <li><a href="#">ดาวน์โหลดแบบฟอร์ม</a></li>
+                            <li><a href="https://srmcitizen.nhso.go.th/" target="_blank">ตรวจสอบสิทธิการรักษา</a></li>
+                            <li><a onclick="alert('ระบบออฟไลน์ชั่วคราว: เรียกค่ารักษาผู้มีปัญหาสิทธิ')" style="cursor:pointer">เรียกค่ารักษาผู้มีปัญหาสิทธิ</a></li>
+                            <li><a href="http://pthosp.net/hospital/contact.php" target="_blank">ติดต่อเรา / รับเรื่องร้องเรียน</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">ข่าวสาร <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
-                        <!-- นำเมนูข่าวสารที่หายไปกลับมา -->
+
+                    <li><a href="#news-section" onclick="switchPage('home')">ข่าวสาร <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
                         <ul class="dropdown">
-                            <li><a href="#">กระดานข่าวล่าสุด</a></li>
-                            <li><a href="#">ประกาศจัดซื้อ/จัดจ้าง</a></li>
-                            <li><a href="#">CPG & วิชาการ</a></li>
-                            <li><a href="#">เรื่องแจ้ง คปสอ.</a></li>
+                            <li><a href="#news-section" onclick="switchPage('home')">กระดานข่าวล่าสุด</a></li>
+                            <li><a href="http://pthosp.net/forum//index.php?board=6.0" target="_blank">ประกาศจัดซื้อ/จัดจ้าง</a></li>
                         </ul>
                     </li>
+                    
                     <li><a onclick="switchPage('staff')" id="nav-staff" class="btn-staff"><i class="fa-solid fa-user-lock"></i> สำหรับเจ้าหน้าที่</a></li>
                 </ul>
             </nav>
@@ -134,24 +148,27 @@
 
     <!-- ================== PAGE 1: หน้าแรก ================== -->
     <div id="page-home" class="page active">
+        
         <section class="hero">
             <div>
                 <h1 style="font-size: 42px; margin-bottom: 10px;">ยินดีต้อนรับสู่ โรงพยาบาลปากท่อ</h1>
-                <p style="font-size: 18px; font-weight: 300;">ให้บริการด้วยมาตรฐาน ห่วงใยสุขภาพของประชาชนชาวอำเภอปากท่อ</p>
+                <p style="font-size: 18px; font-weight: 300;">ให้บริการด้วยมาตรฐาน ห่วงใยสุขภาพของประชาชนชาวอำเภอปากท่อและพื้นที่ใกล้เคียง</p>
             </div>
         </section>
 
-        <section class="container services-grid">
-            <div class="service-card"><i class="fa-solid fa-id-card-clip"></i><h3>ตรวจสอบสิทธิ<br>กรมบัญชีกลาง</h3></div>
-            <div class="service-card"><i class="fa-solid fa-users"></i><h3>จองคิว<br>รับบริการ</h3></div>
-            <div class="service-card"><i class="fa-regular fa-calendar-check"></i><h3>ตรวจสอบ<br>การนัดหมาย</h3></div>
-            <div class="service-card"><i class="fa-solid fa-address-book"></i><h3>ปรับปรุงที่อยู่<br>เบอร์โทรศัพท์</h3></div>
-            <div class="service-card"><i class="fa-solid fa-person-walking-with-cane"></i><h3>จองคิว<br>กายภาพบำบัด</h3></div>
-            <div class="service-card"><i class="fa-solid fa-leaf"></i><h3>จองคิว<br>แพทย์แผนไทย</h3></div>
-            <div class="service-card" style="border-color:#ff9800;"><i class="fa-solid fa-syringe" style="color:#ff9800; background:#fff3e0;"></i><h3>จองวัคซีน<br>ทางเลือก</h3></div>
-            <div class="service-card" style="border-color:#dc3545;"><i class="fa-solid fa-bullhorn" style="color:#dc3545; background:#f8d7da;"></i><h3>รับเรื่อง<br>ร้องเรียน</h3></div>
+        <!-- บริการประชาชน: แมปจาก Excel -->
+        <section class="container services-grid" id="services-section">
+            <div class="service-card" onclick="window.open('https://mbdb.cgd.go.th/wel/mwa03q050', '_blank')"><i class="fa-solid fa-id-card-clip"></i><h3>ตรวจสอบสิทธิ<br>กรมบัญชีกลาง</h3></div>
+            <div class="service-card" onclick="window.open('http://pthosp.net/que/queuetoday.php', '_blank')"><i class="fa-solid fa-users"></i><h3>คิวรับบริการ<br>วันนี้</h3></div>
+            <div class="service-card" onclick="window.open('http://www.pthosp.net/pthp/rpst/index_opaa_check1.php', '_blank')"><i class="fa-regular fa-calendar-check"></i><h3>ตรวจสอบ<br>การนัดหมาย</h3></div>
+            <div class="service-card" onclick="window.open('http://pthosp.net/profileupdate/index.php', '_blank')"><i class="fa-solid fa-address-book"></i><h3>ปรับปรุงที่อยู่<br>เบอร์โทรศัพท์</h3></div>
+            <div class="service-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSd0mpmHdytw-ft-Kxc9Cc8f6-3L1jDM5llUvJDtXAPG6GghvA/viewform?pli=1', '_blank')"><i class="fa-solid fa-person-walking-with-cane"></i><h3>จองคิว<br>กายภาพบำบัด</h3></div>
+            <div class="service-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfMuYlwmu510qVN9VoQuweb1b7n_gHC9DBSuD7xV6p-N_KNlg/viewform', '_blank')"><i class="fa-solid fa-leaf"></i><h3>จองคิว<br>แพทย์แผนไทย</h3></div>
+            <div class="service-card" style="border-color:#ff9800;" onclick="alert('ระบบออฟไลน์ชั่วคราว: จองคิวรับบริการ/วัคซีน')"><i class="fa-solid fa-syringe" style="color:#ff9800; background:#fff3e0;"></i><h3>จองวัคซีน<br>ทางเลือก</h3></div>
+            <div class="service-card" style="border-color:#dc3545;" onclick="window.open('http://www.pthosp.net/hospital/contact.php', '_blank')"><i class="fa-solid fa-bullhorn" style="color:#dc3545; background:#f8d7da;"></i><h3>รับเรื่อง<br>ร้องเรียน</h3></div>
         </section>
 
+        <!-- สถิติ & ตารางตรวจ -->
         <section style="background: #f4f7f6;">
             <div class="container info-grid">
                 <div class="info-box">
@@ -165,15 +182,13 @@
             </div>
         </section>
 
-        <!-- นำส่วนข่าวสาร (News Hub) กลับมา -->
-        <section class="news-section">
+        <section class="news-section" id="news-section">
             <div class="container">
                 <h2 class="section-title">ข่าวสารและ <span>ประชาสัมพันธ์</span></h2>
                 <div class="news-grid">
                     <div>
                         <h3 style="color:#0056b3; margin-bottom:15px;"><i class="fa-regular fa-image"></i> แบนเนอร์กิจกรรม / นโยบาย</h3>
                         <div class="carousel-container">
-                            <!-- เพิ่มปุ่มลูกศรเลื่อนซ้าย-ขวา -->
                             <button class="btn-slider" onclick="moveSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button>
                             <div class="carousel-wrapper">
                                 <div class="carousel-track" id="newsTrack">
@@ -189,32 +204,35 @@
                     
                     <div class="list-news">
                         <h3 style="color:#f39c12; margin-bottom:15px; border-bottom:2px solid #f39c12; padding-bottom:10px;">ประกาศจัดซื้อ / จัดจ้าง</h3>
-                        <div class="list-item"><div class="list-date">24 ส.ค.</div><div class="list-title">รายงานสรุปผลข้อมูลสาระสำคัญในสัญญา</div></div>
-                        <div class="list-item"><div class="list-date">21 ส.ค.</div><div class="list-title">รับสมัครสอบคัดเลือกลูกจ้างชั่วคราว</div></div>
-                        <div class="list-item"><div class="list-date">19 ส.ค.</div><div class="list-title">ประกาศร่างเอกสารประกวดราคาซื้อครุภัณฑ์</div></div>
-                        <a href="#" style="display:block; text-align:center; margin-top:15px; font-size:13px; color:#0056b3;">ดูประกาศทั้งหมด &rarr;</a>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">24 ส.ค.</div><div class="list-title">รายงานสรุปผลข้อมูลสาระสำคัญในสัญญา</div></div>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">21 ส.ค.</div><div class="list-title">รับสมัครสอบคัดเลือกลูกจ้างชั่วคราว</div></div>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">19 ส.ค.</div><div class="list-title">ประกาศร่างเอกสารประกวดราคาซื้อครุภัณฑ์</div></div>
+                        <a onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')" style="display:block; text-align:center; margin-top:15px; font-size:13px; color:#0056b3; cursor:pointer;">ดูประกาศทั้งหมด &rarr;</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="container contact-grid">
+        <section class="container contact-grid contact-section" id="about-section">
             <div class="director-card">
                 <i class="fa-solid fa-user-doctor" style="font-size:60px; color:#cce5ff; margin-bottom:15px;"></i>
                 <h3 style="color:#0056b3;">พญ. ปิยารัตน์ ทองย้อย</h3>
                 <p style="color:#666; font-size:14px;">ผู้อำนวยการโรงพยาบาล</p>
-                <div style="margin-top:10px; font-size:13px; color:#555;">032-281585<br>Tpiyarat20@gmail.com</div>
+                <div style="margin-top:10px; font-size:13px;">
+                    <a href="tel:032281585" style="display:block; margin-bottom:5px;"><i class="fa-solid fa-phone"></i> 032-281585</a>
+                    <a href="mailto:Tpiyarat20@gmail.com"><i class="fa-solid fa-envelope"></i> Tpiyarat20@gmail.com</a>
+                </div>
             </div>
             <div>
                 <h3 style="color:#333;"><i class="fa-solid fa-network-wired"></i> เครือข่าย รพ.สต. ในพื้นที่</h3>
                 <div class="network-grid">
-                    <div class="network-box"><span>สสอ.ปากท่อ</span> <strong>032-281-162</strong></div>
-                    <div class="network-box"><span>รพ.สต.บ้านหนองไร่</span> <strong>032-229-870</strong></div>
-                    <div class="network-box"><span>รพ.สต.ทุ่งหลวง</span> <strong>032-240-245</strong></div>
-                    <div class="network-box"><span>รพ.สต.วังมะนาว</span> <strong>032-737-552</strong></div>
-                    <div class="network-box"><span>รพ.สต.ดอนทราย</span> <strong>032-282-198</strong></div>
-                    <div class="network-box"><span>รพ.ราชบุรี</span> <strong>032-327-999</strong></div>
-                    <div class="network-box" style="background:#eef5ff; color:#0056b3; justify-content:center; cursor:pointer;">ดูรายชื่อเครือข่ายทั้งหมด...</div>
+                    <div class="network-box"><span>สสอ.ปากท่อ</span> <a href="tel:032281162">032-281-162</a></div>
+                    <div class="network-box"><span>รพ.สต.บ้านหนองไร่</span> <a href="tel:032229870">032-229-870</a></div>
+                    <div class="network-box"><span>รพ.สต.ทุ่งหลวง</span> <a href="tel:032240245">032-240-245</a></div>
+                    <div class="network-box"><span>รพ.สต.วังมะนาว</span> <a href="tel:032737552">032-737-552</a></div>
+                    <div class="network-box"><span>รพ.สต.ดอนทราย</span> <a href="tel:032282198">032-282-198</a></div>
+                    <div class="network-box"><span>รพ.ราชบุรี</span> <a href="tel:032327999">032-327-999</a></div>
+                    <div class="network-box" onclick="alert('แสดงรายชื่อเครือข่ายทั้งหมด')" style="background:#eef5ff; color:#0056b3; justify-content:center; cursor:pointer; font-weight:600;">ดูรายชื่อเครือข่ายทั้งหมด...</div>
                 </div>
             </div>
         </section>
@@ -235,26 +253,41 @@
                         <h3 style="margin-bottom:20px; color:#333; text-align:center;">ลงชื่อเข้าใช้งาน</h3>
                         <input type="text" placeholder="รหัสพนักงาน (Username)">
                         <input type="password" placeholder="รหัสผ่าน (Password)">
-                        <button>เข้าสู่ระบบ</button>
+                        <button onclick="alert('กรุณาตรวจสอบรหัสพนักงานและรหัสผ่านของคุณอีกครั้ง (ทดสอบระบบ)')">เข้าสู่ระบบ</button>
                     </div>
 
                     <div class="system-links">
-                        <h4><i class="fa-solid fa-link"></i> ระบบงานสนับสนุน</h4>
+                        <h4><i class="fa-solid fa-link"></i> ระบบงานสนับสนุน (อ้างอิงลิงก์จากเว็บเก่า)</h4>
                         <div class="system-tags">
-                            <!-- นำลิงก์ที่เคยตกหล่นกลับมาใส่ให้ครบ -->
-                            <span class="tag">HOSxP</span><span class="tag">ระบบ CMI กระทรวง</span>
-                            <span class="tag">สลิปเงินเดือน (e-Slip)</span><span class="tag">HIS MOBILE 2023</span>
-                            <span class="tag">EMR-DHDC</span><span class="tag">PHR Register</span>
-                            <span class="tag">OwnCloud Paktho</span><span class="tag">ระบบ HA</span>
-                            <span class="tag">HRMS ความเสี่ยง</span><span class="tag">รายงานการเงิน NHSO</span>
-                            <span class="tag">DATA Check</span><span class="tag">ICD-10 / ICD9_CM</span>
-                            <span class="tag">กระดานสนทนาภายใน</span><span class="tag">หมายเลขโทรศัพท์ภายใน</span>
-                            <span class="tag">รับ-ส่ง OP/PP สปสช</span><span class="tag">Myoffice สสจ.</span>
-                            <span class="tag">EOC ON WEB</span><span class="tag">HDC ราชบุรี</span>
-                            <span class="tag">DBPOP VS PERSON</span><span class="tag">EMR&LAB (PTHP รพ.สต.)</span>
-                            <span class="tag">ตรวจสอบข้อมูลผู้รับบริการ HOSxP</span><span class="tag">กรอกประวัติ จนท.ใหม่</span>
-                            <span class="tag">ข้อมูลบุคลากร NonHR</span><span class="tag">BACKoffice</span>
-                            <span class="tag">MOPH GDCC e Office</span><span class="tag">ANTWEBViewer</span>
+                            <!-- แมปปุ่มเจ้าหน้าที่จากไฟล์ Excel -->
+                            <span class="tag" onclick="window.open('https://hosxp.net/wordpress/', '_blank')">HOSxP</span>
+                            <span class="tag" onclick="window.open('https://cmi.moph.go.th', '_blank')">ระบบ CMI กระทรวง</span>
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/sliplink/paysliplink.php', '_blank')">สลิปเงินเดือน (e-Slip)</span>
+                            <span class="tag" onclick="window.open('http://pthosp.net/dhdc2/frontend/web/index.php', '_blank')">HDC ราชบุรี</span>
+                            <span class="tag" onclick="window.open('http://pthosp.net/pthp/rpst/index_dhdc_ncd.php', '_blank')">EMR-DHDC</span>
+                            <span class="tag" onclick="window.open('http://pthosp.net/phr/register.php', '_blank')">PHR Register</span>
+                            <span class="tag" onclick="window.open('http://pthosp.net/owncloud/index.php/login', '_blank')">OwnCloud Paktho</span>
+                            <span class="tag" onclick="window.open('http://pthosp.net/forum//index.php?board=2.0', '_blank')">ระบบ HA</span>
+                            <span class="tag" onclick="window.open('https://paktho.thai-nrls.org/', '_blank')">HRMS ความเสี่ยง</span>
+                            <span class="tag" onclick="window.open('https://smt.nhso.go.th/smtf/#/home/budget/summary', '_blank')">รายงานการเงิน NHSO</span>
+                            <span class="tag" onclick="window.open('http://www.thcc.or.th/ICD-10TM/index.html', '_blank')">ICD10_TM</span>
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/forum/', '_blank')">กระดานสนทนาภายใน</span>
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/hospital/tel.php', '_blank')">หมายเลขโทรศัพท์ภายใน</span>
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/hospital/download1.php', '_blank')">ดาวน์โหลดแบบฟอร์ม</span>
+                            <span class="tag" onclick="window.open('https://op.nhso.go.th/op/main/MainWebAction.do', '_blank')">รับ-ส่ง OP/PP สปสช</span>
+                            <span class="tag" onclick="window.open('http://pthosp.net/eoc/index.php', '_blank')">EOC ON WEB</span>
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/pthp/index_main.php', '_blank')">EMR&LAB (PTHP รพ.สต.)</span>
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/doctor/', '_blank')">ตรวจสอบข้อมูลผู้ให้บริการ HOSxP</span>
+                            <span class="tag" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSc8ZBV84tWCwL0Vm11KTEZnZCj57MRQM6oyUlekkijn6C0ISw/viewform', '_blank')">กรอกประวัติ จนท.ใหม่</span>
+                            <span class="tag" onclick="window.open('https://nonhr.moph.go.th/', '_blank')">ข้อมูลบุคลากรรายบุคคล NonHR</span>
+                            <span class="tag" onclick="window.open('http://192.168.13.248/backoffice/login', '_blank')">BACKoffice (ภายใน)</span>
+                            <span class="tag" onclick="window.open('http://183.88.245.106/backoffice/login', '_blank')">BACKoffice (ภายนอก)</span>
+                            <span class="tag" onclick="window.open('https://eoffice-paktho.moph.go.th/api/auth/login', '_blank')">MOPH GDCC e Office</span>
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/hospital/opdcase1.php', '_blank')">สถิติผู้รับบริการ</span>
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/20opd/report-20opd.php', '_blank')">สถิติบริการรายไตรมาส</span>
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/20opd/report-dent57.php', '_blank')">รายงานทันตกรรม</span>
+                            <span class="tag" onclick="window.open('https://www.google.com/maps/d/viewer?mid=12JS3TepoBTvHN07jvdDsPjX3KFc&ll=13.536093647264932%2C99.46320352539058&z=9', '_blank')">พิกัดแผนที่ CVD RISK</span>
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/hospital/images/HEALTH%20%20ID.jpg', '_blank')">HEALTH ID</span>
                         </div>
                     </div>
                 </div>
@@ -265,7 +298,6 @@
     <!-- ================== Footer ================== -->
     <footer>
         <div class="container">
-            <!-- นำข้อมูลที่เคยตกหล่นใน Footer กลับมา -->
             <p>โรงพยาบาลปากท่อ เลขที่ 201/10 หมู่ 8 ถ.ท้าวอู่ทอง ต.ปากท่อ อ.ปากท่อ จ.ราชบุรี 70140 | โทรศัพท์ 032-282530-31</p>
             <p>Copyright 2010 by Paktho Computer Center. All rights reserved.</p>
             <div style="display:inline-block; background:#0056b3; color:white; padding:5px 15px; border-radius:20px; font-size:12px; margin-top:15px;">
@@ -274,7 +306,6 @@
         </div>
     </footer>
 
-    <!-- นำ Script สไลด์โชว์ และสลับหน้า กลับมา -->
     <script>
         function switchPage(pageId) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
@@ -284,7 +315,9 @@
             if(pageId === 'home') document.getElementById('nav-home').classList.add('active');
             if(pageId === 'staff') document.getElementById('nav-staff').classList.add('active');
             
-            window.scrollTo(0, 0);
+            if(!event.target.href || !event.target.href.includes('#')) {
+                window.scrollTo(0, 0);
+            }
         }
 
         let currentSlide = 0;
