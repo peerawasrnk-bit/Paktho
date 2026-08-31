@@ -72,7 +72,31 @@
         .news-card-body { padding: 15px; }
         .news-date { font-size: 12px; color: #f39c12; font-weight: 500; margin-bottom: 5px; display: block; }
         .news-title { font-size: 14px; color: #333; line-height: 1.4; font-weight: 500; }
-
+/* สไตล์สำหรับหน้าต่าง Popup แสดงภาพขนาดใหญ่ */
+        .image-modal {
+            display: none; 
+            position: fixed; 
+            z-index: 9999; 
+            padding-top: 50px; 
+            left: 0; top: 0; 
+            width: 100%; height: 100%; 
+            background-color: rgba(0,0,0,0.8); 
+            text-align: center;
+        }
+        .modal-content {
+            max-width: 85%; 
+            max-height: 85vh; 
+            border-radius: 8px; 
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+        }
+        .close-modal {
+            position: absolute; 
+            top: 20px; right: 35px; 
+            color: #fff; font-size: 40px; 
+            font-weight: bold; cursor: pointer;
+            transition: 0.3s;
+        }
+        .close-modal:hover { color: #f39c12; }
         .list-news { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 20px; margin-top: 20px; }
         .list-item { padding: 12px 0; border-bottom: 1px dashed #ddd; display: flex; gap: 15px; align-items: flex-start; cursor: pointer; transition: 0.2s; }
         .list-item:hover { background: #f9fbfd; padding-left: 5px; }
@@ -206,34 +230,29 @@
                 <div class="category-block">
                     <h3 class="category-title"><i class="fa-solid fa-bullhorn"></i> ข่าวประชาสัมพันธ์</h3>
                     <div class="news-grid-row">
-                        <!-- ประกาศที่ 1 (ใส่ลิงก์ครอบรูป ให้คลิกดูรูปใหญ่ได้) -->
-                        <div class="news-card-simple">
-                            <a href="Picture/ประกาศโรงพยาบาล.jpg" target="_blank" style="text-decoration: none; color: inherit; display: block;">
-                                <div class="news-card-img">
-                                    <img src="Picture/ประกาศโรงพยาบาล.jpg" alt="ประกาศโรงพยาบาล" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-2x\'></i>'">
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ประกาศสำคัญ (คลิกเพื่อดูภาพเต็ม)</span>
-                                    <h4 class="news-title">ประกาศโรงพยาบาลปากท่อ</h4>
-                                </div>
-                            </a>
+                        <!-- ประกาศที่ 1 -->
+                        <div class="news-card-simple" onclick="openModal('Picture/ประกาศโรงพยาบาล.jpg')">
+                            <div class="news-card-img">
+                                <img src="Picture/ประกาศโรงพยาบาล.jpg" alt="ประกาศโรงพยาบาล" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-2x\'></i>'">
+                            </div>
+                            <div class="news-card-body">
+                                <span class="news-date">ประกาศสำคัญ (คลิกเพื่อขยายภาพ)</span>
+                                <h4 class="news-title">ประกาศโรงพยาบาลปากท่อ</h4>
+                            </div>
                         </div>
 
-                        <!-- ประกาศที่ 2 (ใส่ลิงก์ครอบรูป ให้คลิกดูรูปใหญ่ได้) -->
-                        <div class="news-card-simple">
-                            <a href="Picture/ประกาศเจตนารมณ์.jpg" target="_blank" style="text-decoration: none; color: inherit; display: block;">
-                                <div class="news-card-img">
-                                    <img src="Picture/ประกาศเจตนารมณ์.jpg" alt="ประกาศเจตนารมณ์" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-2x\'></i>'">
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">นโยบาย (คลิกเพื่อดูภาพเต็ม)</span>
-                                    <h4 class="news-title">ประกาศเจตนารมณ์ No Gift Policy</h4>
-                                </div>
-                            </a>
+                        <!-- ประกาศที่ 2 -->
+                        <div class="news-card-simple" onclick="openModal('Picture/ประกาศเจตนารมณ์.jpg')">
+                            <div class="news-card-img">
+                                <img src="Picture/ประกาศเจตนารมณ์.jpg" alt="ประกาศเจตนารมณ์" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-2x\'></i>'">
+                            </div>
+                            <div class="news-card-body">
+                                <span class="news-date">นโยบาย (คลิกเพื่อขยายภาพ)</span>
+                                <h4 class="news-title">ประกาศเจตนารมณ์ No Gift Policy</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
-
                 <!-- หมวดที่ 2: คนเก่ง คนดี -->
                 <div class="category-block">
                     <h3 class="category-title"><i class="fa-solid fa-award"></i> คนเก่ง คนดี คนคุณภาพ ที่โรงพยาบาลปากท่อ</h3>
@@ -392,6 +411,26 @@
             if(!event.target.href || !event.target.href.includes('#')) {
                 window.scrollTo(0, 0);
             }
+        }
+    </script>
+    <!-- โครงสร้างหน้าต่าง Popup (ซ่อนไว้ก่อนจนกว่าจะกดคลิก) -->
+    <div id="imageModal" class="image-modal" onclick="closeModal()">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
+
+    <script>
+        // ฟังก์ชันสั่งเปิด Popup และดึงรูปมาแสดง
+        function openModal(imgSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            modal.style.display = "block";
+            modalImg.src = imgSrc;
+        }
+
+        // ฟังก์ชันสั่งปิด Popup เมื่อคลิกปุ่มกากบาทหรือคลิกพื้นที่ว่าง
+        function closeModal() {
+            document.getElementById('imageModal').style.display = "none";
         }
     </script>
 </body>
