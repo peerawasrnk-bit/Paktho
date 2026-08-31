@@ -59,8 +59,6 @@
         .category-title i { color: #f39c12; font-size: 22px; }
         
         .carousel-container { display: flex; align-items: center; position: relative; }
-        
-        /* แก้ไขให้จัดเรียงแนวนอน ไม่ต้องมี scroll-snap จะได้เลื่อนสมูท */
         .carousel-track { display: flex; gap: 20px; overflow-x: hidden; scroll-behavior: smooth; padding-bottom: 15px; flex: 1; -ms-overflow-style: none; scrollbar-width: none; }
         .carousel-track::-webkit-scrollbar { display: none; }
         
@@ -72,8 +70,10 @@
         .news-card-img { height: 360px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 10px; }
         .news-card-img img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
         
-        /* ซ่อนข้อความด้านล่างรูป */
-        .news-card-body { padding: 15px; display: none; } 
+        /* แสดงข้อความด้านล่างรูป */
+        .news-card-body { padding: 15px; } 
+        .news-date { font-size: 12px; color: #f39c12; font-weight: 500; margin-bottom: 5px; display: block; }
+        .news-title { font-size: 14px; color: #333; line-height: 1.4; font-weight: 500; }
         
         /* ปุ่มเลื่อนซ้าย-ขวา */
         .slide-btn { background: #fff; border: 1px solid #cce5ff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: 0.3s; color: #0056b3; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 10; }
@@ -250,51 +250,127 @@
                     <div class="carousel-container">
                         <button class="slide-btn prev" onclick="slideCarousel('track1', -1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <div class="carousel-track" id="track1">
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/announce.jpg')">
                                 <div class="news-card-img"><img src="Picture/announce.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ประกาศสำคัญ</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/No gift policy.jpg')">
                                 <div class="news-card-img"><img src="Picture/No gift policy.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">นโยบาย</span>
+                                    <h4 class="news-title">ประกาศเจตนารมณ์การต่อต้านทุจริต รพ.ปากท่อ</h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/01.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/01.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/02.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/02.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/03.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/03.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/04.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/04.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/05.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/05.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/06.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/06.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/07.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/07.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/08.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/08.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/09.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/09.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/10.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/10.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/11.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/11.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/12.jpg')">
                                 <div class="news-card-img"><img src="Picture/News/12.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/13.png')">
                                 <div class="news-card-img"><img src="Picture/News/13.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ข่าวสาร</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
                             </div>
+                            
                         </div>
                         <button class="slide-btn next" onclick="slideCarousel('track1', 1)"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
@@ -306,10 +382,71 @@
                     <div class="carousel-container">
                         <button class="slide-btn prev" onclick="slideCarousel('track2', -1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <div class="carousel-track" id="track2">
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                            
+                            <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/01.png')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/01.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
+                            </div>
+                            
+                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/02.png')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/02.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
+                            </div>
+                            
+                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/03.jpg')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/03.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
+                            </div>
+                            
+                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/04.png')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/04.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
+                            </div>
+                            
+                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/05.jpg')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/05.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
+                                    <h4 class="news-title">คุณเวีรยุทธ มั่นคง พนักงานเปล ร.พ.ปากท่อ พบผู้บาดเจ็บจากอุบัติเหตุ และได้ให้ความช่วยเหลือในทันที</h4>
+                                </div>
+                            </div>
+                            
+                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/06.jpg')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/06.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
+                                    <h4 class="news-title">คุณเสริมยศ พจนสิทธิ์ คนสวนร.พ.ปากท่อ เก็บของมีค่าได้และนำส่งคืนให้เจ้าของ คุณณัฐธิดา รุนเจริญ</h4>
+                                </div>
+                            </div>
+                            
+                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/07.jpg')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/07.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
+                                    <h4 class="news-title">คุณนันทินี ผลเจริญ พยาบาลห้องอุบัติเหตุฉุกเฉินร.พ.ปากท่อ ขณะเดินทางกลับที่พัก พบอุบัติเหตุ จึงเข้าช่วยเหลือผู้บาดเจ็บทันที</h4>
+                                </div>
+                            </div>
+                            
+                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/08.jpg')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/08.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
+                                    <h4 class="news-title">คุณละเมียด ศรนรินทร์ พนักงานหน่วยซักฟอก พบเงินในชุดผู้ป่วยที่ส่งซัก นำส่งมอบคืนให้ผู้ป่วย</h4>
+                                </div>
+                            </div>
+                            
                         </div>
                         <button class="slide-btn next" onclick="slideCarousel('track2', 1)"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
@@ -321,10 +458,31 @@
                     <div class="carousel-container">
                         <button class="slide-btn prev" onclick="slideCarousel('track3', -1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <div class="carousel-track" id="track3">
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                          <div class="news-card-simple" onclick="openModal('Picture/Project for people/01.jpg')">
+                                <div class="news-card-img"><img src="Picture/Project for people/01.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
+                                    <h4 class="news-title"></h4>
+                                </div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/02.jpg')">
+                                <div class="news-card-img"><img src="Picture/Project for people/02.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
+                                    <h4 class="news-title"></h4>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/03.jpg')">
+                                <div class="news-card-img"><img src="Picture/Project for people/03.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
+                                    <h4 class="news-title"></h4>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/04.jpg')">
+                                <div class="news-card-img"><img src="Picture/Project for people/04.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                                <div class="news-card-body">
+                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
+                                    <h4 class="news-title"></h4>
+                            </div>
                         </div>
                         <button class="slide-btn next" onclick="slideCarousel('track3', 1)"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
@@ -336,10 +494,22 @@
                     <div class="carousel-container">
                         <button class="slide-btn prev" onclick="slideCarousel('track4', -1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <div class="carousel-track" id="track4">
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                            <div class="news-card-simple">
+                                <div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title">หัวข้อข่าว</h4></div>
+                            </div>
+                            <div class="news-card-simple">
+                                <div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title">หัวข้อข่าว</h4></div>
+                            </div>
+                            <div class="news-card-simple">
+                                <div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title">หัวข้อข่าว</h4></div>
+                            </div>
+                            <div class="news-card-simple">
+                                <div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title">หัวข้อข่าว</h4></div>
+                            </div>
                         </div>
                         <button class="slide-btn next" onclick="slideCarousel('track4', 1)"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
@@ -558,4 +728,4 @@
         }
     </script>
 </body>
-</html>
+</html> 
