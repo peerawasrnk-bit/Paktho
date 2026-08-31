@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เว็บไซต์ โรงพยาบาลปากท่อ (ลิงก์จริง)</title>
+    <title>โรงพยาบาลปากท่อ</title>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
         html { scroll-behavior: smooth; }
-        body { background-color: #f9fbfd; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        body { background-color: #f9fbfd; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .section-title { text-align: center; font-size: 28px; font-weight: 600; color: #0056b3; margin-bottom: 30px; }
         .section-title span { color: #f39c12; }
@@ -52,22 +52,28 @@
         .data-table th, .data-table td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; }
         .data-table th { background: #f8f9fa; color: #0056b3; font-weight: 600; }
 
-        /* ================== หมวดหมู่ข่าวสาร (ระบบ Slider) ================== */
+        /* ================== หมวดหมู่ข่าวสาร (ระบบ Slider Infinite Loop) ================== */
         .news-section { padding: 60px 0; background: #fff; scroll-margin-top: 80px; }
         .category-block { margin-bottom: 50px; }
         .category-title { font-size: 20px; color: #0056b3; border-bottom: 3px solid #eef5ff; padding-bottom: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .category-title i { color: #f39c12; font-size: 22px; }
         
         .carousel-container { display: flex; align-items: center; position: relative; }
-        .carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; padding-bottom: 15px; flex: 1; -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* แก้ไขให้จัดเรียงแนวนอน ไม่ต้องมี scroll-snap จะได้เลื่อนสมูท */
+        .carousel-track { display: flex; gap: 20px; overflow-x: hidden; scroll-behavior: smooth; padding-bottom: 15px; flex: 1; -ms-overflow-style: none; scrollbar-width: none; }
         .carousel-track::-webkit-scrollbar { display: none; }
-        .news-card-simple { flex: 0 0 calc(25% - 15px); scroll-snap-align: start; background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); cursor: pointer; }
+        
+        /* การ์ดข่าว (ปรับให้โชว์ 3 รูปต่อแถว) */
+        .news-card-simple { flex: 0 0 calc(33.33% - 14px); background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); cursor: pointer; }
         .news-card-simple:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); border-color: #cce5ff; }
-        .news-card-img { height: 250px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 10px; }
+        
+        /* ขยายความสูงรูปภาพให้ใหญ่เต็มตา */
+        .news-card-img { height: 360px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 10px; }
         .news-card-img img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
-        .news-card-body { padding: 15px; }
-        .news-date { font-size: 12px; color: #f39c12; font-weight: 500; margin-bottom: 5px; display: block; }
-        .news-title { font-size: 14px; color: #333; line-height: 1.4; font-weight: 500; }
+        
+        /* ซ่อนข้อความด้านล่างรูป */
+        .news-card-body { padding: 15px; display: none; } 
         
         /* ปุ่มเลื่อนซ้าย-ขวา */
         .slide-btn { background: #fff; border: 1px solid #cce5ff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: 0.3s; color: #0056b3; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 10; }
@@ -244,17 +250,51 @@
                     <div class="carousel-container">
                         <button class="slide-btn prev" onclick="slideCarousel('track1', -1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <div class="carousel-track" id="track1">
-                            <div class="news-card-simple" onclick="openModal('Picture/ประกาศโรงพยาบาล.jpg')">
-                                <div class="news-card-img"><img src="Picture/ประกาศโรงพยาบาล.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
-                                <div class="news-card-body"><span class="news-date">ประกาศสำคัญ</span><h4 class="news-title">ประกาศโรงพยาบาลปากท่อ</h4></div>
+                            <div class="news-card-simple" onclick="openModal('Picture/announce.jpg')">
+                                <div class="news-card-img"><img src="Picture/announce.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
                             </div>
-                            <div class="news-card-simple" onclick="openModal('Picture/ประกาศเจตนารมณ์.jpg')">
-                                <div class="news-card-img"><img src="Picture/ประกาศเจตนารมณ์.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
-                                <div class="news-card-body"><span class="news-date">นโยบาย</span><h4 class="news-title">ประกาศเจตนารมณ์ No Gift Policy</h4></div>
+                            <div class="news-card-simple" onclick="openModal('Picture/No gift policy.jpg')">
+                                <div class="news-card-img"><img src="Picture/No gift policy.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
                             </div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title">รับบริการนอกเวลา</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title">การประเมิน ITA ประจำปี</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title">นโยบายข้อมูลส่วนบุคคล</h4></div></div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/01.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/01.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/02.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/02.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/03.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/03.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/04.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/04.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/05.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/05.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/06.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/06.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/07.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/07.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/08.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/08.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/09.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/09.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/10.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/10.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/11.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/11.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/12.jpg')">
+                                <div class="news-card-img"><img src="Picture/News/12.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/News/13.png')">
+                                <div class="news-card-img"><img src="Picture/News/13.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"></div>
+                            </div>
                         </div>
                         <button class="slide-btn next" onclick="slideCarousel('track1', 1)"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
@@ -266,11 +306,10 @@
                     <div class="carousel-container">
                         <button class="slide-btn prev" onclick="slideCarousel('track2', -1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <div class="carousel-track" id="track2">
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title">พยาบาลดีเด่นประจำเดือน</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title">บุคลากรตัวอย่าง</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title">ทีมแพทย์คุณภาพ</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title">รางวัลการบริการดีเด่น</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title">รวมภาพกิจกรรมคนเก่ง</h4></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
                         </div>
                         <button class="slide-btn next" onclick="slideCarousel('track2', 1)"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
@@ -282,11 +321,10 @@
                     <div class="carousel-container">
                         <button class="slide-btn prev" onclick="slideCarousel('track3', -1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <div class="carousel-track" id="track3">
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">กิจกรรมเพื่อสังคม</span><h4 class="news-title">โครงการส่งเสริมสุขภาพผู้สูงอายุ</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">กิจกรรมเพื่อสังคม</span><h4 class="news-title">ตรวจสุขภาพเคลื่อนที่</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">กิจกรรมเพื่อสังคม</span><h4 class="news-title">อบรมการปฐมพยาบาลเบื้องต้น</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">กิจกรรมเพื่อสังคม</span><h4 class="news-title">รณรงค์ป้องกันไข้เลือดออก</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">กิจกรรมเพื่อสังคม</span><h4 class="news-title">รับบริจาคโลหิต</h4></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
                         </div>
                         <button class="slide-btn next" onclick="slideCarousel('track3', 1)"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
@@ -298,11 +336,10 @@
                     <div class="carousel-container">
                         <button class="slide-btn prev" onclick="slideCarousel('track4', -1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <div class="carousel-track" id="track4">
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title">รับมอบอุปกรณ์การแพทย์</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title">มอบเตียงผู้ป่วยและวีลแชร์</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title">บริจาคทุนทรัพย์พัฒนาโรงพยาบาล</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title">สนับสนุนน้ำดื่มและอาหาร</h4></div></div>
-                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div><div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title">บริจาคหน้ากากอนามัย</h4></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
+                            <div class="news-card-simple"><div class="news-card-img"><i class="fa-solid fa-image fa-3x" style="color:#ccc;"></i></div></div>
                         </div>
                         <button class="slide-btn next" onclick="slideCarousel('track4', 1)"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
@@ -433,14 +470,65 @@
             }
         }
 
-        // 2. ฟังก์ชันเลื่อนภาพ Slider (Carousel) ในหมวดหมู่ข่าวสาร
+        // 2. ฟังก์ชันเลื่อนภาพ Slider แบบวนลูป (Infinite Loop)
+        let isSliding = false;
+
         function slideCarousel(trackId, direction) {
+            if (isSliding) return;
+            isSliding = true;
+
             const track = document.getElementById(trackId);
-            const scrollAmount = track.clientWidth > 600 ? track.clientWidth / 2 : track.clientWidth;
-            track.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
+            const itemWidth = track.firstElementChild.clientWidth + 20;
+
+            if (direction === 1) {
+                track.scrollBy({ left: itemWidth, behavior: 'smooth' });
+                
+                setTimeout(() => {
+                    track.style.scrollBehavior = 'auto'; 
+                    track.appendChild(track.firstElementChild);
+                    track.scrollLeft -= itemWidth; 
+                    track.style.scrollBehavior = 'smooth'; 
+                    isSliding = false;
+                }, 500); 
+            } else {
+                track.style.scrollBehavior = 'auto'; 
+                track.prepend(track.lastElementChild); 
+                track.scrollLeft += itemWidth;
+                track.style.scrollBehavior = 'smooth';
+                
+                setTimeout(() => {
+                    track.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+                    setTimeout(() => { isSliding = false; }, 500);
+                }, 50);
+            }
         }
 
-        // 3. ฟังก์ชันปุ่ม Back to Top
+        // 3. ฟังก์ชันสไลด์เลื่อนอัตโนมัติ
+        let autoSlideIntervals = {};
+
+        function startAutoSlide(trackId) {
+            const track = document.getElementById(trackId);
+            if (!track) return;
+
+            autoSlideIntervals[trackId] = setInterval(() => {
+                slideCarousel(trackId, 1);
+            }, 4000); 
+
+            track.addEventListener('mouseenter', () => clearInterval(autoSlideIntervals[trackId]));
+            track.addEventListener('mouseleave', () => {
+                clearInterval(autoSlideIntervals[trackId]);
+                startAutoSlide(trackId); 
+            });
+        }
+
+        window.addEventListener('load', function() {
+            startAutoSlide('track1');
+            startAutoSlide('track2');
+            startAutoSlide('track3');
+            startAutoSlide('track4');
+        });
+
+        // 4. ฟังก์ชันปุ่ม Back to Top
         window.addEventListener('scroll', function() {
             const btn = document.getElementById('backToTop');
             if (window.scrollY > 300) {
@@ -454,11 +542,14 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 4. ฟังก์ชันขยายภาพ (Lightbox)
+        // 5. ฟังก์ชันขยายภาพ (Lightbox)
         function openModal(imgSrc) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImg');
-            modal.style.display = "block";
+            modal.style.display = "flex";
+            modal.style.flexDirection = "column";
+            modal.style.alignItems = "center";
+            modal.style.justifyContent = "center";
             modalImg.src = imgSrc;
         }
 
