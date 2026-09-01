@@ -32,7 +32,6 @@
         .dropdown a { display: block; padding: 10px 15px; font-size: 14px; color: #555; }
         .dropdown a:hover { background: #f0f7ff; color: #0056b3; }
         
-        /* 🌟 แก้ไข: ลบ !important ออก */
         .btn-staff { background: #f39c12; color: white; padding: 8px 20px; border-radius: 20px; }
         .btn-staff:hover { background: #e67e22; }
 
@@ -108,7 +107,7 @@
         .slide-btn.prev { margin-right: 15px; }
         .slide-btn.next { margin-left: 15px; }
 
-        /* ระบบขยายภาพ (Lightbox) */
+        /* ระบบขยายภาพ (Lightbox และ Modal เครือข่าย) */
         .image-modal { 
             display: none; 
             position: fixed; 
@@ -118,14 +117,11 @@
             width: 100vw; 
             height: 100vh; 
             background-color: rgba(0,0,0,0.85); 
+            align-items: center;
+            justify-content: center;
         }
         
-        /* 🌟 สร้าง Wrapper สำหรับรูปเพื่อจัดกึ่งกลางให้สมบูรณ์ */
         .modal-wrapper {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             width: 90vw;
             height: 90vh;
             display: flex;
@@ -138,8 +134,9 @@
             max-height: 100%; 
             width: auto; 
             height: auto; 
-            object-fit: contain; /* รักษาอัตราส่วนรูปเป๊ะๆ */
+            object-fit: contain; 
             box-shadow: 0 5px 25px rgba(0,0,0,0.5); 
+            border-radius: 4px;
         }
 
         .close-modal { 
@@ -902,7 +899,7 @@
                     <div class="network-box"><span>รพ.สต.วังมะนาว</span> <a href="tel:032737552">032-737-552</a></div>
                     <div class="network-box"><span>รพ.สต.ดอนทราย</span> <a href="tel:032282198">032-282-198</a></div>
                     <div class="network-box"><span>รพ.ราชบุรี</span> <a href="tel:032327999">032-327-999</a></div>
-                    <div class="network-box" onclick="alert('แสดงรายชื่อเครือข่ายทั้งหมด')" style="background:#eef5ff; color:#0056b3; justify-content:center; cursor:pointer; font-weight:600;">ดูรายชื่อเครือข่ายทั้งหมด...</div>
+                    <div class="network-box" onclick="openNetworkModal()" style="background:#eef5ff; color:#0056b3; justify-content:center; cursor:pointer; font-weight:600; grid-column: 1 / -1;">ดูรายชื่อเครือข่ายทั้งหมด...</div>
                 </div>
             </div>
         </section>
@@ -977,9 +974,44 @@
     <!-- โครงสร้างหน้าต่าง Popup ซูมภาพ (Lightbox) -->
     <div id="imageModal" class="image-modal" onclick="closeModal()">
         <span class="close-modal">&times;</span>
-        <!-- 🌟 เพิ่ม modal-wrapper ครอบ img ไว้ตรงนี้ -->
         <div class="modal-wrapper">
             <img class="modal-content" id="modalImg" onclick="event.stopPropagation();">
+        </div>
+    </div>
+
+    <!-- โครงสร้างหน้าต่าง Popup รายชื่อเครือข่าย รพ.สต. -->
+    <div id="networkModal" class="image-modal" onclick="closeNetworkModal()">
+        <div class="modal-wrapper" style="width: 800px; max-width: 90vw; height: auto; max-height: 85vh; background: #fff; border-radius: 12px; padding: 25px; flex-direction: column; align-items: stretch; justify-content: flex-start; overflow: hidden;" onclick="event.stopPropagation();">
+            
+            <!-- ส่วนหัว Modal -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eef5ff; padding-bottom: 15px; margin-bottom: 15px;">
+                <h3 style="color:#0056b3; margin:0;"><i class="fa-solid fa-network-wired"></i> รายชื่อเครือข่าย รพ.สต. ในพื้นที่</h3>
+                <span style="font-size: 30px; cursor: pointer; color: #888; line-height: 1;" onclick="closeNetworkModal()">&times;</span>
+            </div>
+            
+            <!-- ส่วนเนื้อหา (เลื่อน Scroll ได้) -->
+            <div class="network-grid" style="overflow-y: auto; padding-right: 10px; margin-top: 0; align-content: start;">
+                <div class="network-box"><span>สสอ.ปากท่อ</span> <a href="tel:032281162">032-281-162</a></div>
+                <div class="network-box"><span>รพ.สต.บ้านหนองไร่</span> <a href="tel:032229870">032-229-870</a></div>
+                <div class="network-box"><span>รพ.สต.ทุ่งหลวง</span> <a href="tel:032240245">032-240-245</a></div>
+                <div class="network-box"><span>รพ.สต.บ้านหนองวัวดำ</span> <a href="tel:0936139375">093-613-9375</a></div>
+                <div class="network-box"><span>รพ.สต.วังมะนาว</span> <a href="tel:032737552">032-737-552</a></div>
+                <div class="network-box"><span>รพ.สต.ดอนทราย</span> <a href="tel:032282198">032-282-198</a></div>
+                <div class="network-box"><span>รพ.สต.หนองกระทุ่ม</span> <a href="tel:0625795534">062-579-5534</a></div>
+                <div class="network-box"><span>รพ.สต.บ้านเขาดิน</span> <a href="tel:032734613">032-734-613</a></div>
+                <div class="network-box"><span>รพ.สต.ตำบลป่าไก่</span> <a href="tel:0810060686">081-006-0686</a></div>
+                <div class="network-box"><span>รพ.สต.วัดยางงาม</span> <a href="tel:032720318">032-720-318</a></div>
+                <div class="network-box"><span>รพ.สต.อ่างหิน</span> <a href="tel:0890549600">089-054-9600</a></div>
+                <div class="network-box"><span>รพ.สต.บ้านนาคอก</span> <a href="tel:032732042">032-732-042</a></div>
+                <div class="network-box"><span>รพ.สต.บ่อกระดาน</span> <a href="tel:032733588">032-733-588</a></div>
+                <div class="network-box"><span>รพ.สต.บ้านวังปลาช่อน</span> <a href="tel:032720649">032-720-649</a></div>
+                <div class="network-box"><span>รพ.สต.ยางหัก</span> <a href="tel:0899905713">089-990-5713</a></div>
+                <div class="network-box"><span>รพ.สต.บ้านหินสี</span> <a href="tel:0928914464">092-891-4464</a></div>
+                <div class="network-box"><span>รพ.สต.วันดาว</span> <a href="tel:032281452">032-281-452</a></div>
+                <div class="network-box"><span>รพ.สต.ห้วยยางโทน</span> <a href="tel:0898376269">089-837-6269</a></div>
+                <div class="network-box"><span>รพ.ราชบุรี</span> <a href="tel:032327999">032-327-999</a></div>
+            </div>
+            
         </div>
     </div>
 
@@ -1076,7 +1108,6 @@ function switchPage(e, pageId) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImg');
             
-            // เปิดหน้าต่าง Modal อย่างเดียว ส่วนการจัดกึ่งกลางให้ CSS จัดการ
             modal.style.display = "flex"; 
             
             modalImg.src = imgSrc;
@@ -1084,6 +1115,14 @@ function switchPage(e, pageId) {
 
         function closeModal() {
             document.getElementById('imageModal').style.display = "none";
+        }
+
+        function openNetworkModal() {
+            document.getElementById('networkModal').style.display = "flex"; 
+        }
+
+        function closeNetworkModal() {
+            document.getElementById('networkModal').style.display = "none";
         }
     </script>
 </body>
