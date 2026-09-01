@@ -32,8 +32,9 @@
         .dropdown a { display: block; padding: 10px 15px; font-size: 14px; color: #555; }
         .dropdown a:hover { background: #f0f7ff; color: #0056b3; }
         
-        .btn-staff { background: #f39c12 !important; color: white !important; padding: 8px 20px !important; border-radius: 20px !important; }
-        .btn-staff:hover { background: #e67e22 !important; }
+        /* 🌟 แก้ไข: ลบ !important ออก */
+        .btn-staff { background: #f39c12; color: white; padding: 8px 20px; border-radius: 20px; }
+        .btn-staff:hover { background: #e67e22; }
 
         .page { display: none; flex: 1; animation: fadeIn 0.4s ease-in-out; }
         .page.active { display: block; }
@@ -65,11 +66,17 @@
         .news-card-simple { flex: 0 0 calc(33.33% - 14px); background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); cursor: pointer; }
         .news-card-simple:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); border-color: #cce5ff; }
         
-        /* 🌟 ปรับปรุง: เพิ่ม position relative ให้กล่องรูป เพื่อวางไอคอนซูม */
         .news-card-img { position: relative; height: 360px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 10px; }
-        .news-card-img img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
+        .news-card-img img { 
+             max-width: 100%; 
+             max-height: 100%; 
+             width: auto; 
+             height: auto; 
+             object-fit: contain; 
+             border-radius: 4px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
+        }
 
-        /* 🌟 ปรับปรุง: สร้างไอคอน Click to Zoom */
         .zoom-hint {
             position: absolute;
             bottom: 15px;
@@ -79,7 +86,7 @@
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 12px;
-            opacity: 0; /* ซ่อนไว้ก่อน */
+            opacity: 0;
             transition: 0.3s;
             pointer-events: none;
             display: flex;
@@ -87,7 +94,7 @@
             gap: 5px;
         }
         .news-card-simple:hover .zoom-hint {
-            opacity: 1; /* แสดงขึ้นมาเมื่อเอาเมาส์ชี้ */
+            opacity: 1;
             background: #f39c12;
             transform: scale(1.05);
         }
@@ -102,10 +109,51 @@
         .slide-btn.next { margin-left: 15px; }
 
         /* ระบบขยายภาพ (Lightbox) */
-        .image-modal { display: none; position: fixed; z-index: 9999; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); text-align: center; }
-        .modal-content { max-width: 85%; max-height: 85vh; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
-        .close-modal { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .close-modal:hover { color: #f39c12; }
+        .image-modal { 
+            display: none; 
+            position: fixed; 
+            z-index: 9999; 
+            left: 0; 
+            top: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            background-color: rgba(0,0,0,0.85); 
+        }
+        
+        /* 🌟 สร้าง Wrapper สำหรับรูปเพื่อจัดกึ่งกลางให้สมบูรณ์ */
+        .modal-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content { 
+            max-width: 100%; 
+            max-height: 100%; 
+            width: auto; 
+            height: auto; 
+            object-fit: contain; /* รักษาอัตราส่วนรูปเป๊ะๆ */
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5); 
+        }
+
+        .close-modal { 
+            position: absolute; 
+            top: 20px; 
+            right: 35px; 
+            color: #fff; 
+            font-size: 40px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            z-index: 10000; 
+        }
+        .close-modal:hover { color: #f39c12; transform: scale(1.1); }
         
         .list-news { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 20px; margin-top: 20px; }
         .list-item { padding: 12px 0; border-bottom: 1px dashed #ddd; display: flex; gap: 15px; align-items: flex-start; cursor: pointer; transition: 0.2s; }
@@ -927,10 +975,13 @@
     <button id="backToTop" onclick="scrollToTop()" title="กลับขึ้นด้านบน"><i class="fa-solid fa-arrow-up"></i></button>
 
     <!-- โครงสร้างหน้าต่าง Popup ซูมภาพ (Lightbox) -->
-   <div id="imageModal" class="image-modal" onclick="closeModal()">
-    <span class="close-modal">&times;</span>
-    <img class="modal-content" id="modalImg" onclick="event.stopPropagation();">
-</div>
+    <div id="imageModal" class="image-modal" onclick="closeModal()">
+        <span class="close-modal">&times;</span>
+        <!-- 🌟 เพิ่ม modal-wrapper ครอบ img ไว้ตรงนี้ -->
+        <div class="modal-wrapper">
+            <img class="modal-content" id="modalImg" onclick="event.stopPropagation();">
+        </div>
+    </div>
 
     <!-- ================== JavaScript ================== -->
     <script>
@@ -1024,10 +1075,10 @@ function switchPage(e, pageId) {
         function openModal(imgSrc) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImg');
-            modal.style.display = "flex";
-            modal.style.flexDirection = "column";
-            modal.style.alignItems = "center";
-            modal.style.justifyContent = "center";
+            
+            // เปิดหน้าต่าง Modal อย่างเดียว ส่วนการจัดกึ่งกลางให้ CSS จัดการ
+            modal.style.display = "flex"; 
+            
             modalImg.src = imgSrc;
         }
 
