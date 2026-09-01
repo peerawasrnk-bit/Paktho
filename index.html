@@ -18,12 +18,12 @@
         .header-top { background: #0056b3; color: white; padding: 5px 0; font-size: 13px; display: flex; justify-content: space-between; }
         .header-top a { color: white; text-decoration: none; transition: 0.3s; }
         .header-top a:hover { color: #f39c12; }
-        .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
-        .logo { display: flex; align-items: center; gap: 15px; font-size: 22px; font-weight: 700; color: #0056b3; cursor: pointer; }
+        .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; flex-wrap: wrap; gap: 15px; }
+        .logo { display: flex; align-items: center; gap: 15px; font-size: 22px; font-weight: 700; color: #0056b3; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
         
         nav ul { list-style: none; display: flex; gap: 20px; align-items: center; }
         nav > ul > li { position: relative; padding: 10px 0; }
-        nav a { text-decoration: none; color: #333; font-weight: 500; cursor: pointer; transition: 0.3s; padding: 8px 12px; border-radius: 6px; }
+        nav a { text-decoration: none; color: #333; font-weight: 500; cursor: pointer; transition: 0.3s; padding: 8px 12px; border-radius: 6px; white-space: nowrap; }
         nav a:hover, nav a.active { color: #0056b3; background: #eef5ff; }
         
         .dropdown { display: none; position: absolute; top: 100%; left: 0; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 220px; border-radius: 8px; overflow: hidden; z-index: 1000; }
@@ -165,7 +165,16 @@
         .director-card a:hover { color: #28a745; }
         .network-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
         .network-box { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
-        .network-box a { color: #0056b3; font-weight: 600; text-decoration: none; padding: 5px 10px; background: #eef5ff; border-radius: 4px; transition: 0.3s; }
+        .network-box a { 
+            color: #0056b3; 
+            font-weight: 600; 
+            text-decoration: none; 
+            padding: 5px 10px; 
+            background: #eef5ff; 
+            border-radius: 4px; 
+            transition: 0.3s;
+            white-space: nowrap; /* 🌟 เพิ่มโค้ดนี้: บังคับเบอร์โทรไม่ให้ตัดบรรทัด */
+        }
         .network-box a:hover { background: #0056b3; color: white; }
 
         #page-staff { background: #eef5ff; padding: 60px 0; }
@@ -209,6 +218,8 @@
             nav ul { flex-wrap: wrap; gap: 5px; justify-content: center; width: 100%; }
             nav a { padding: 6px 8px; font-size: 13px; }
             .btn-staff { width: 100%; text-align: center; margin-top: 10px; } 
+            
+            .network-grid { grid-template-columns: 1fr; } 
         }
     </style>
 </head>
@@ -868,13 +879,24 @@
                     </div>
                 </div>
 
-                <!-- บล็อกประกาศจัดซื้อจัดจ้าง -->
-                <div class="list-news">
-                    <h3 style="color:#f39c12; margin-bottom:15px; border-bottom:2px solid #f39c12; padding-bottom:10px;">ประกาศจัดซื้อ / จัดจ้าง</h3>
-                    <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">24 ส.ค.</div><div class="list-title">รายงานสรุปผลข้อมูลสาระสำคัญในสัญญา</div></div>
-                    <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">21 ส.ค.</div><div class="list-title">รับสมัครสอบคัดเลือกลูกจ้างชั่วคราว</div></div>
-                    <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">19 ส.ค.</div><div class="list-title">ประกาศร่างเอกสารประกวดราคาซื้อครุภัณฑ์</div></div>
-                    <a onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')" style="display:block; text-align:center; margin-top:15px; font-size:13px; color:#0056b3; cursor:pointer;">ดูประกาศทั้งหมด &rarr;</a>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                    
+                    <div class="list-news" style="margin-top: 0;">
+                        <h3 style="color:#f39c12; margin-bottom:15px; border-bottom:2px solid #f39c12; padding-bottom:10px;">ประกาศจัดซื้อ / จัดจ้าง</h3>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">24 ส.ค.</div><div class="list-title">รายงานสรุปผลข้อมูลสาระสำคัญในสัญญา</div></div>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">21 ส.ค.</div><div class="list-title">รับสมัครสอบคัดเลือกลูกจ้างชั่วคราว</div></div>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">19 ส.ค.</div><div class="list-title">ประกาศร่างเอกสารประกวดราคาซื้อครุภัณฑ์</div></div>
+                        <a onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')" style="display:block; text-align:center; margin-top:15px; font-size:13px; color:#0056b3; cursor:pointer;">ดูประกาศทั้งหมด →</a>
+                    </div>
+
+                    <div class="list-news" style="margin-top: 0;">
+                        <h3 style="color:#0056b3; margin-bottom:15px; border-bottom:2px solid #eef5ff; padding-bottom:10px;">เรื่องแจ้ง คปสอ. & วิชาการ</h3>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum/', '_blank')"><div class="list-date" style="background:#0056b3;">ล่าสุด</div><div class="list-title">แจ้งเลื่อนการประชุม คปสอ. ประจำเดือน</div></div>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum/', '_blank')"><div class="list-date" style="background:#0056b3;">อัปเดต</div><div class="list-title">แนวทางการรักษา (CPG) ฉบับปรับปรุงใหม่</div></div>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum/', '_blank')"><div class="list-date" style="background:#0056b3;">ประกาศ</div><div class="list-title">สรุปรายงานการประชุมวิชาการประจำปี</div></div>
+                        <a onclick="window.open('http://pthosp.net/forum/', '_blank')" style="display:block; text-align:center; margin-top:15px; font-size:13px; color:#0056b3; cursor:pointer;">ดูกระทู้ทั้งหมด →</a>
+                    </div>
+
                 </div>
 
             </div>
