@@ -173,7 +173,7 @@
             background: #eef5ff; 
             border-radius: 4px; 
             transition: 0.3s;
-            white-space: nowrap; /* 🌟 เพิ่มโค้ดนี้: บังคับเบอร์โทรไม่ให้ตัดบรรทัด */
+            white-space: nowrap; 
         }
         .network-box a:hover { background: #0056b3; color: white; }
 
@@ -224,7 +224,71 @@
     </style>
 </head>
 <body>
+    <!-- ================== Splash Screen ================== -->
+    <style>
+        .splash-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            /* พื้นหลังไล่สีแบบ Spotlight ดึงความสนใจไปที่ตรงกลาง */
+            background: radial-gradient(circle at center, #2a2a2a 0%, #000000 100%); 
+            z-index: 999999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            animation: splashFadeIn 1.2s ease-out; /* แอนิเมชันเปิดตัวนุ่มนวล */
+        }
+        .splash-img {
+            max-width: 90vw;
+            max-height: 75vh; 
+            object-fit: contain;
+            /* เพิ่มขอบบางๆ และเงาเพื่อให้ภาพแยออกจากพื้นหลัง */
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(255,255,255,0.05); 
+            border-radius: 4px;
+        }
+        .splash-btn {
+            margin-top: 35px;
+            padding: 12px 40px;
+            background: rgba(255, 255, 255, 0.08); /* ปุ่มแบบโปร่งแสง */
+            color: #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-family: 'Prompt', sans-serif;
+            letter-spacing: 1px;
+            backdrop-filter: blur(5px);
+        }
+        .splash-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-color: #fff;
+            transform: translateY(-3px); /* ปุ่มลอยขึ้นเมื่อเอาเมาส์ชี้ */
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+        }
+        @keyframes splashFadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .splash-fade-out {
+            animation: splashFadeOut 0.8s ease-in forwards;
+        }
+        @keyframes splashFadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; visibility: hidden; }
+        }
+    </style>
 
+    <div id="splashScreen" class="splash-overlay">
+        <img src="Picture/RIP.png" alt="ถวายความอาลัย" class="splash-img">
+        <button onclick="closeSplashScreen()" class="splash-btn">
+            เข้าสู่เว็บไซต์
+        </button>
+    </div>
     <!-- ================== Header ================== -->
     <header>
         <div class="header-top">
@@ -289,7 +353,7 @@
             </div>
         </section>
 
-        <!-- บริการประชาชน -->
+        <!-- บริการประชาชน (🌟 อัปเดตเพิ่มเมนู ปรับปรุงข้อมูล จาก Excel) -->
         <section class="container services-grid" id="services-section">
             <div class="service-card" onclick="window.open('https://mbdb.cgd.go.th/wel/mwa03q050', '_blank')"><i class="fa-solid fa-id-card-clip"></i><h3>ตรวจสอบสิทธิ<br>กรมบัญชีกลาง</h3></div>
             <div class="service-card" onclick="window.open('http://pthosp.net/que/queuetoday.php', '_blank')"><i class="fa-solid fa-users"></i><h3>คิวรับบริการ<br>วันนี้</h3></div>
@@ -297,6 +361,8 @@
             <div class="service-card" onclick="window.open('https://sites.google.com/view/paktho-vdo-hopital/หนาแรก', '_blank')"><i class="fa-solid fa-video"></i><h3>VDO<br>แนะนำความรู้</h3></div>
             <div class="service-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSd0mpmHdytw-ft-Kxc9Cc8f6-3L1jDM5llUvJDtXAPG6GghvA/viewform?pli=1', '_blank')"><i class="fa-solid fa-person-walking-with-cane"></i><h3>จองคิว<br>กายภาพบำบัด</h3></div>
             <div class="service-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfMuYlwmu510qVN9VoQuweb1b7n_gHC9DBSuD7xV6p-N_KNlg/viewform', '_blank')"><i class="fa-solid fa-leaf"></i><h3>จองคิว<br>แพทย์แผนไทย</h3></div>
+            <!-- 🌟 เพิ่มเมนูนี้เข้ามาจากไฟล์ Excel -->
+            <div class="service-card" style="border-color:#17a2b8;" onclick="window.open('http://pthosp.net/profileupdate/index.php', '_blank')"><i class="fa-solid fa-address-card" style="color:#17a2b8; background:#e0f7fa;"></i><h3>ปรับปรุงที่อยู่<br>เบอร์โทรศัพท์</h3></div>
             <div class="service-card" style="border-color:#ff9800;" onclick="window.open('http://www.pthosp.net/hospital/contact.php', '_blank')"><i class="fa-solid fa-bullhorn" style="color:#ff9800; background:#fff3e0;"></i><h3>รับเรื่อง<br>ร้องเรียน</h3></div>
             <div class="service-card" style="border-color:#28a745;" onclick="window.open('http://www.pthosp.net/hospital/cont.php', '_blank')"><i class="fa-solid fa-address-book" style="color:#28a745; background:#e8f5e9;"></i><h3>ติดต่อ<br>โรงพยาบาล</h3></div>
         </section>
@@ -430,7 +496,18 @@
                         <button class="slide-btn prev" onclick="slideCarousel('track1', -1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <div class="carousel-track" id="track1">
                             
-                            <!-- 🌟 เพิ่ม <div class="zoom-hint"> ในการ์ดข่าวทุกใบ -->
+                            <!-- 🌟 HEALTH ID เลื่อนมาอยู่ประชาสัมพันธ์แทน -->
+                            <div class="news-card-simple" onclick="openModal('Picture/HEALTH  ID.jpg')">
+                                <div class="news-card-img">
+                                    <img src="Picture/HEALTH  ID.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
+                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
+                                </div>
+                                <div class="news-card-body">
+                                    <span class="news-date">ประชาสัมพันธ์</span>
+                                    <h4 class="news-title">ขอเชิญประชาชนยืนยันตัวตน Health ID ผ่านหมอพร้อม</h4>
+                                </div>
+                            </div>
+                            
                             <div class="news-card-simple" onclick="openModal('Picture/announce.jpg')">
                                 <div class="news-card-img">
                                     <img src="Picture/announce.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
@@ -947,13 +1024,30 @@
 
                     <div class="system-links">
                         <h4><i class="fa-solid fa-link"></i> ระบบงานสนับสนุน (อัพเดตตามตาราง)</h4>
+                        <!-- 🌟 อัปเดตรายการที่ตกหล่นจาก Excel ทั้งหมด -->
                         <div class="system-tags">
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/doctor/', '_blank')">ตรวจสอบข้อมูลผู้ให้บริการ HOSxP</span>
+                            <span class="tag" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSc8ZBV84tWCwL0Vm11KTEZnZCj57MRQM6oyUlekkijn6C0ISw/viewform', '_blank')">กรอกประวัติ จนท.ใหม่ Online</span>
+                            <span class="tag" onclick="window.open('https://nonhr.moph.go.th/', '_blank')">ข้อมูลบุคลากรรายบุคคล NonHR</span>
+                            <span class="tag" onclick="window.open('http://192.168.13.248/backoffice/login', '_blank')">Backoffice (ภายใน)</span>
+                            <span class="tag" onclick="window.open('http://183.88.245.106/backoffice/login', '_blank')">Backoffice (ภายนอก)</span>
+                            <span class="tag" onclick="window.open('https://eoffice-paktho.moph.go.th/api/auth/login', '_blank')">MOPH GDCC e Office</span>
+                            <span class="tag offline" onclick="alert('ระบบออฟไลน์ชั่วคราว')">ANTWEBViewer <i class="fa-solid fa-triangle-exclamation"></i></span>
+                            <span class="tag" onclick="window.open('https://www.who.int/', '_blank')">ICD-10 Version:2016</span>
+                            <span class="tag" onclick="window.open('http://www.thcc.or.th/ICD-10TM/index.html', '_blank')">ICD10_TM</span>
+                            <span class="tag" onclick="window.open('http://icd9.chrisendres.com/', '_blank')">รหัสหัตถการ ICD9_CM</span>
+                            <span class="tag" onclick="window.open('http://www.pthosp.net/hospital/doc/portfolio.pdf', '_blank')">แผนปฏิบัติการราชการรายบุคคล</span>
+                            <span class="tag offline" onclick="alert('ระบบออฟไลน์ชั่วคราว')">DATA Check <i class="fa-solid fa-triangle-exclamation"></i></span>
+                            <span class="tag offline" onclick="alert('ระบบออฟไลน์ชั่วคราว')">His Mobile (Intra Web) <i class="fa-solid fa-triangle-exclamation"></i></span>
+                            <span class="tag offline" onclick="alert('ระบบออฟไลน์ชั่วคราว')">EMR Hosxp <i class="fa-solid fa-triangle-exclamation"></i></span>
+                            <span class="tag offline" onclick="alert('ระบบออฟไลน์ชั่วคราว')">Ihosxp <i class="fa-solid fa-triangle-exclamation"></i></span>
+                            <span class="tag offline" onclick="alert('ระบบออฟไลน์ชั่วคราว')">Hosxp Training <i class="fa-solid fa-triangle-exclamation"></i></span>
+                            <span class="tag offline" onclick="alert('ระบบออฟไลน์ชั่วคราว')">วารสาร BMS <i class="fa-solid fa-triangle-exclamation"></i></span>
                             <span class="tag" onclick="window.open('http://www.pthosp.net/forum/', '_blank')">กระดานสนทนาภายใน</span>
                             <span class="tag" onclick="window.open('http://www.pthosp.net/hospital/tel.php', '_blank')">หมายเลขโทรศัพท์ภายใน</span>
                             <span class="tag" onclick="window.open('http://www.pthosp.net/hospital/download1.php', '_blank')">ดาวน์โหลดแบบฟอร์ม</span>
                             <span class="tag" onclick="window.open('http://www.pthosp.net/hospital/opdcase1.php', '_blank')">สถิติผู้รับบริการ</span>
                             <span class="tag" onclick="window.open('https://cmi.moph.go.th', '_blank')">ระบบ CMI กระทรวง</span>
-                            <span class="tag" onclick="window.open('http://www.pthosp.net/hospital/images/HEALTH%20%20ID.jpg', '_blank')">HEALTH ID</span>
                             <span class="tag" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')">จัดซื้อ/จัดจ้าง</span>
                             <span class="tag" onclick="window.open('https://moph.go.th/', '_blank')">กระทรวงสาธารณสุข</span>
                             <span class="tag" onclick="window.open('https://www.nhso.go.th/th/', '_blank')">สปสช.</span>
@@ -966,6 +1060,7 @@
                             <span class="tag" onclick="window.open('http://pthosp.net/dhdc2/frontend/web/index.php', '_blank')">DHDC PAKTHO</span>
                             <span class="tag" onclick="window.open('http://pthosp.net/pthp/rpst/index_dhdc_ncd.php', '_blank')">EMR-DHDC</span>
                             <span class="tag" onclick="window.open('https://www.google.com/maps/d/viewer?mid=12JS3TepoBTvHN07jvdDsPjX3KFc&ll=13.536093647264932%2C99.46320352539058&z=9', '_blank')">พิกัดแผนที่ CVD RISK</span>
+                            <span class="tag offline" onclick="alert('ระบบออฟไลน์ชั่วคราว')">ระบบพิกัดหลอดเลือดหัวใจ CAD <i class="fa-solid fa-triangle-exclamation"></i></span>
                             <span class="tag" onclick="window.open('http://www.pthosp.net/20opd/report-dent57.php', '_blank')">รายงานทันตกรรม</span>
                             <span class="tag" onclick="window.open('http://pthosp.net/forum//index.php?board=2.0', '_blank')">HA</span>
                             <span class="tag" onclick="window.open('https://paktho.thai-nrls.org/', '_blank')">การบริหารจัดการความเสี่ยง</span>
@@ -1011,7 +1106,7 @@
                 <span style="font-size: 30px; cursor: pointer; color: #888; line-height: 1;" onclick="closeNetworkModal()">&times;</span>
             </div>
             
-            <!-- ส่วนเนื้อหา -->
+            <!-- ส่วนเนื้อหา (เลื่อน Scroll ได้) -->
             <div class="network-grid" style="overflow-y: auto; padding-right: 10px; margin-top: 0; align-content: start;">
                 <div class="network-box"><span>สสอ.ปากท่อ</span> <a href="tel:032281162">032-281-162</a></div>
                 <div class="network-box"><span>รพ.สต.บ้านหนองไร่</span> <a href="tel:032229870">032-229-870</a></div>
@@ -1037,6 +1132,7 @@
         </div>
     </div>
 
+    <!-- ================== JavaScript ================== -->
     <script>
 function switchPage(e, pageId) {
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
@@ -1144,6 +1240,15 @@ function switchPage(e, pageId) {
 
         function closeNetworkModal() {
             document.getElementById('networkModal').style.display = "none";
+        }
+        function closeSplashScreen() {
+            const splash = document.getElementById('splashScreen');
+            splash.classList.add('splash-fade-out'); // เรียกใช้แอนิเมชันเฟดหาย
+            
+            // รอให้แอนิเมชันทำงานจบ (800ms) แล้วค่อยซ่อนกล่องทิ้งไป
+            setTimeout(() => {
+                splash.style.display = "none";
+            }, 800); 
         }
     </script>
 </body>
