@@ -226,6 +226,13 @@
             
             .network-grid { grid-template-columns: 1fr; } 
         }
+        @media (max-width: 600px) {
+        .data-table th, .data-table td {
+            font-size: 13px; /* ปรับตัวหนังสือใหญ่ขึ้นนิดนึงให้อ่านง่าย */
+            padding: 10px 18px; /* เพิ่มช่องไฟซ้าย-ขวาให้กว้างขึ้นเป็น 18px */
+            white-space: nowrap; 
+        }
+    }
     </style>
 </head>
 <body>
@@ -353,7 +360,7 @@
         
         <section class="hero">
             <div>
-                <h1 style="font-size: 42px; margin-bottom: 10px;">ยินดีต้อนรับสู่ โรงพยาบาลปากท่อ</h1>
+                <h1 style="font-size: 42px; margin-bottom: 10px;">ยินดีต้อนรับสู่ <span style="white-space: nowrap;">โรงพยาบาลปากท่อ</span></h1>
                 <p style="font-size: 18px; font-weight: 300;">ให้บริการด้วยมาตรฐาน ห่วงใยสุขภาพของประชาชนชาวอำเภอปากท่อและพื้นที่ใกล้เคียง</p>
             </div>
         </section>
@@ -1139,24 +1146,26 @@
 
     <!-- ================== JavaScript ================== -->
     <script>
-function switchPage(e, pageId) {
-    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-    document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
-    document.getElementById('page-' + pageId).classList.add('active');
-    
-    if(pageId === 'home') document.getElementById('nav-home').classList.add('active');
-    if(pageId === 'staff') document.getElementById('nav-staff').classList.add('active');
-    
-    if (e && e.currentTarget) {
-        let target = e.currentTarget;
-        if (!target.href || !target.href.includes('#')) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // 1. เปลี่ยนหน้าเว็บ
+        function switchPage(e, pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            
+            if(pageId === 'home') document.getElementById('nav-home').classList.add('active');
+            if(pageId === 'staff') document.getElementById('nav-staff').classList.add('active');
+            
+            if (e && e.currentTarget) {
+                let target = e.currentTarget;
+                if (!target.href || !target.href.includes('#')) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
-    } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}
 
+        // 2. ฟังก์ชันเลื่อนภาพ Slider แบบวนลูป (Infinite Loop)
         let isSliding = false;
 
         function slideCarousel(trackId, direction) {
@@ -1168,7 +1177,6 @@ function switchPage(e, pageId) {
 
             if (direction === 1) {
                 track.scrollBy({ left: itemWidth, behavior: 'smooth' });
-                
                 setTimeout(() => {
                     track.style.scrollBehavior = 'auto'; 
                     track.appendChild(track.firstElementChild);
@@ -1189,6 +1197,33 @@ function switchPage(e, pageId) {
             }
         }
 
+        // 3. ฟังก์ชันตรวจจับการปัดนิ้วในมือถือ (ให้วนลูปได้เมื่อปัดสุด)
+        function handleMobileSwipeLoop(trackId) {
+            const track = document.getElementById(trackId);
+            if(!track) return;
+            
+            track.addEventListener('scroll', () => {
+                // ถ้าปัดไปทางขวาจนเกือบสุดขอบ (เหลือระยะห่างน้อยกว่า 50px)
+                if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 50) {
+                    const itemWidth = track.firstElementChild.clientWidth + 20;
+                    track.style.scrollBehavior = 'auto'; // ปิดความสมูทชั่วคราว
+                    track.appendChild(track.firstElementChild); // ย้ายรูปหน้าสุดไปต่อท้าย
+                    track.scrollLeft -= itemWidth; // ขยับมุมมองตามไป
+                    track.style.scrollBehavior = 'smooth'; // เปิดความสมูทคืน
+                }
+                
+                // ถ้าปัดย้อนกลับไปทางซ้ายจนสุดขอบ
+                if (track.scrollLeft <= 0) {
+                    const itemWidth = track.firstElementChild.clientWidth + 20;
+                    track.style.scrollBehavior = 'auto';
+                    track.prepend(track.lastElementChild); // ย้ายรูปท้ายสุดมาไว้หน้า
+                    track.scrollLeft += itemWidth;
+                    track.style.scrollBehavior = 'smooth';
+                }
+            });
+        }
+
+        // 4. ฟังก์ชันสไลด์เลื่อนอัตโนมัติ
         let autoSlideIntervals = {};
 
         function startAutoSlide(trackId) {
@@ -1199,11 +1234,9 @@ function switchPage(e, pageId) {
                 slideCarousel(trackId, 1);
             }, 4000); 
 
-            
             track.addEventListener('mouseenter', () => clearInterval(autoSlideIntervals[trackId]));
             track.addEventListener('touchstart', () => clearInterval(autoSlideIntervals[trackId]), {passive: true});
 
-            
             track.addEventListener('mouseleave', () => {
                 clearInterval(autoSlideIntervals[trackId]);
                 startAutoSlide(trackId); 
@@ -1214,13 +1247,21 @@ function switchPage(e, pageId) {
             });
         }
 
+        // สั่งให้ระบบทั้งหมดทำงานเมื่อเปิดเว็บ
         window.addEventListener('load', function() {
-            startAutoSlide('track1');
-            startAutoSlide('track2');
-            startAutoSlide('track3');
-            startAutoSlide('track4');
+            // ซ่อน Splash Screen ถ้าระบบจำได้ว่าเคยกดแล้ว
+            if (sessionStorage.getItem('splashClosed')) {
+                document.getElementById('splashScreen').style.display = 'none';
+            }
+
+            const tracks = ['track1', 'track2', 'track3', 'track4'];
+            tracks.forEach(track => {
+                startAutoSlide(track);
+                handleMobileSwipeLoop(track); // เปิดระบบตรวจจับการปัดนิ้ว
+            });
         });
 
+        // 5. ปุ่ม Back to Top และ Modal
         window.addEventListener('scroll', function() {
             const btn = document.getElementById('backToTop');
             if (window.scrollY > 300) {
@@ -1237,9 +1278,7 @@ function switchPage(e, pageId) {
         function openModal(imgSrc) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImg');
-            
             modal.style.display = "flex"; 
-            
             modalImg.src = imgSrc;
         }
 
@@ -1254,13 +1293,14 @@ function switchPage(e, pageId) {
         function closeNetworkModal() {
             document.getElementById('networkModal').style.display = "none";
         }
+
         function closeSplashScreen() {
             const splash = document.getElementById('splashScreen');
             splash.classList.add('splash-fade-out'); 
             
-            
             setTimeout(() => {
                 splash.style.display = "none";
+                sessionStorage.setItem('splashClosed', 'true'); // จำไว้ว่ากดปิดแล้ว
             }, 800); 
         }
     </script>
