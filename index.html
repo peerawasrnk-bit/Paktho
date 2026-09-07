@@ -64,7 +64,7 @@
         .category-title i { color: #f39c12; font-size: 22px; }
         
         .carousel-container { display: flex; align-items: center; position: relative; }
-        .carousel-track { display: flex; gap: 20px; overflow-x: hidden; scroll-behavior: smooth; padding-bottom: 15px; flex: 1; -ms-overflow-style: none; scrollbar-width: none; }
+        .carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 15px; flex: 1; -ms-overflow-style: none; scrollbar-width: none; }
         .carousel-track::-webkit-scrollbar { display: none; }
         
         .news-card-simple { flex: 0 0 calc(33.33% - 14px); background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); cursor: pointer; }
@@ -1105,13 +1105,13 @@
     <div id="networkModal" class="image-modal" onclick="closeNetworkModal()">
         <div class="modal-wrapper" style="width: 800px; max-width: 90vw; height: auto; max-height: 85vh; background: #fff; border-radius: 12px; padding: 25px; flex-direction: column; align-items: stretch; justify-content: flex-start; overflow: hidden;" onclick="event.stopPropagation();">
             
-            <!-- ส่วนหัว Modal -->
+
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eef5ff; padding-bottom: 15px; margin-bottom: 15px;">
                 <h3 style="color:#0056b3; margin:0;"><i class="fa-solid fa-network-wired"></i> รายชื่อเครือข่าย รพ.สต. ในพื้นที่</h3>
                 <span style="font-size: 30px; cursor: pointer; color: #888; line-height: 1;" onclick="closeNetworkModal()">&times;</span>
             </div>
             
-            <!-- ส่วนเนื้อหา (เลื่อน Scroll ได้) -->
+            
             <div class="network-grid" style="overflow-y: auto; padding-right: 10px; margin-top: 0; align-content: start;">
                 <div class="network-box"><span>สสอ.ปากท่อ</span> <a href="tel:032281162">032-281-162</a></div>
                 <div class="network-box"><span>รพ.สต.บ้านหนองไร่</span> <a href="tel:032229870">032-229-870</a></div>
@@ -1199,8 +1199,16 @@ function switchPage(e, pageId) {
                 slideCarousel(trackId, 1);
             }, 4000); 
 
+            
             track.addEventListener('mouseenter', () => clearInterval(autoSlideIntervals[trackId]));
+            track.addEventListener('touchstart', () => clearInterval(autoSlideIntervals[trackId]), {passive: true});
+
+            
             track.addEventListener('mouseleave', () => {
+                clearInterval(autoSlideIntervals[trackId]);
+                startAutoSlide(trackId); 
+            });
+            track.addEventListener('touchend', () => {
                 clearInterval(autoSlideIntervals[trackId]);
                 startAutoSlide(trackId); 
             });
