@@ -7,320 +7,211 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ================== โทนสีใหม่: ชมพูอ่อนละมุน ================== */
+        :root {
+            --primary-pink: #d81b60;    /* ชมพูเข้ม (สำหรับหัวข้อ/โลโก้) */
+            --light-pink: #fce4ec;      /* ชมพูอ่อน (สำหรับ Hover/พื้นหลังตาราง) */
+            --accent-pink: #f06292;     /* ชมพูสว่าง (ปุ่ม/ไอคอน) */
+            --bg-pink: #fff5f8;         /* พื้นหลังเว็บชมพูอ่อนมากๆ */
+        }
+
+        /* 🌟 ขยายขนาดฟอนต์มาตรฐาน */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
         html { scroll-behavior: smooth; }
-        body { background-color: #f9fbfd; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .section-title { text-align: center; font-size: 28px; font-weight: 600; color: #0056b3; margin-bottom: 30px; }
-        .section-title span { color: #f39c12; }
+        body { background-color: var(--bg-pink); color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; font-size: 18px; }
+        
+        .container { max-width: 1320px; margin: 0 auto; padding: 0 20px; } /* ขยาย container ให้เหมาะกับจอ PC */
+        .section-title { text-align: center; font-size: 36px; font-weight: 600; color: var(--primary-pink); margin-bottom: 40px; }
+        .section-title span { color: var(--accent-pink); }
 
-        header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .header-top { background: #ffa3f7; color: white; padding: 5px 0; font-size: 13px; display: flex; justify-content: space-between; }
+        header { background: #fff; box-shadow: 0 2px 15px rgba(216, 27, 96, 0.08); position: sticky; top: 0; z-index: 100; }
+        .header-top { background: var(--primary-pink); color: white; padding: 6px 0; font-size: 14px; display: flex; justify-content: space-between; }
         .header-top a { color: white; text-decoration: none; transition: 0.3s; }
-        .header-top a:hover { color: #f39c12; }
+        .header-top a:hover { color: var(--light-pink); }
         .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; flex-wrap: wrap; gap: 15px; }
-        .logo { display: flex; align-items: center; gap: 15px; font-size: 22px; font-weight: 700; color: #0056b3; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+        .logo { display: flex; align-items: center; gap: 15px; font-size: 26px; font-weight: 700; color: var(--primary-pink); cursor: pointer; white-space: nowrap; flex-shrink: 0; }
         
         nav ul { list-style: none; display: flex; gap: 20px; align-items: center; }
         nav > ul > li { position: relative; padding: 10px 0; }
-        nav a { text-decoration: none; color: #333; font-weight: 500; cursor: pointer; transition: 0.3s; padding: 8px 12px; border-radius: 6px; white-space: nowrap; }
-        nav a:hover, nav a.active { color: #0056b3; background: #eef5ff; }
+        nav a { text-decoration: none; color: #333; font-weight: 500; font-size: 17px; cursor: pointer; transition: 0.3s; padding: 10px 15px; border-radius: 6px; white-space: nowrap; }
+        nav a:hover, nav a.active { color: var(--primary-pink); background: var(--light-pink); }
         
-        .dropdown { display: none; position: absolute; top: 100%; left: 0; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 220px; border-radius: 8px; overflow: hidden; z-index: 1000; }
+        .dropdown { display: none; position: absolute; top: 100%; left: 0; background: #fff; box-shadow: 0 4px 15px rgba(216, 27, 96, 0.1); width: 240px; border-radius: 8px; overflow: hidden; z-index: 1000; }
         nav > ul > li:hover .dropdown { display: block; }
-        .dropdown li { border-bottom: 1px solid #eee; }
-        .dropdown a { display: block; padding: 10px 15px; font-size: 14px; color: #555; }
-        .dropdown a:hover { background: #f0f7ff; color: #0056b3; }
+        .dropdown li { border-bottom: 1px solid #f8bbd0; }
+        .dropdown a { display: block; padding: 12px 18px; font-size: 16px; color: #555; }
+        .dropdown a:hover { background: var(--bg-pink); color: var(--primary-pink); }
         
-        .btn-staff { background: #f39c12; color: white; padding: 8px 20px; border-radius: 20px; }
-        .btn-staff:hover { background: #e67e22; }
+        .btn-staff { background: var(--accent-pink); color: white !important; padding: 10px 24px !important; border-radius: 25px !important; }
+        .btn-staff:hover { background: var(--primary-pink) !important; color: white !important; }
 
         .page { display: none; flex: 1; animation: fadeIn 0.4s ease-in-out; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .hero { background: linear-gradient(rgba(248, 126, 240, 0.8), rgba(248, 126, 240, 0.8)), url('Picture/hospital_BG.jpg') top/cover; height: 400px; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        /* ฮีโร่แบนเนอร์ ปรับโทนชมพู */
+        .hero { background: linear-gradient(rgba(244, 143, 177, 0.85), rgba(244, 143, 177, 0.85)), url('Picture/hospital_BG.jpg') top/cover; height: 450px; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        .hero h1 { font-size: 52px; margin-bottom: 15px; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .hero p { font-size: 22px; font-weight: 400; text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
-        .services-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 20px; 
-            padding: 60px 0; 
-        }
-        .service-card { background: #f8f9fa; border: 1px solid #eee; padding: 25px 15px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .service-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); background: #fff; border-color: #cce5ff; }
-        .service-card i { font-size: 32px; color: #0056b3; margin-bottom: 15px; background: #e6f0fa; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; }
+        /* 🌟 ส่วนต้อนรับ ผอ. (ด้านบน) */
+        .director-top-section { margin-top: -60px; position: relative; z-index: 10; padding: 0 20px; }
+        .director-top-card { background: #fff; border-radius: 20px; box-shadow: 0 15px 40px rgba(216, 27, 96, 0.12); padding: 40px; display: flex; align-items: center; justify-content: center; gap: 40px; max-width: 900px; margin: 0 auto; border: 2px solid var(--light-pink); }
+        .director-top-card img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; object-position: top; border: 5px solid var(--light-pink); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .director-info h2 { color: var(--primary-pink); font-size: 28px; margin-bottom: 5px; }
+        .director-info p { color: #666; font-size: 18px; margin-bottom: 15px; }
+        .director-contact { display: flex; gap: 20px; font-size: 16px; color: #444; flex-wrap: wrap; }
+        .director-contact a { color: var(--primary-pink); text-decoration: none; font-weight: 500; transition: 0.3s; }
+        .director-contact a:hover { color: var(--accent-pink); }
 
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 50px 0; }
-        .info-box { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
-        .data-table th, .data-table td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; }
-        .data-table th { background: #f8f9fa; color: #0056b3; font-weight: 600; }
+        /* บริการ 9 กล่อง */
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; padding: 70px 0; }
+        .service-card { background: #fff; border: 1px solid var(--light-pink); padding: 35px 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(216, 27, 96, 0.04); }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(216, 27, 96, 0.12); border-color: var(--accent-pink); }
+        .service-card i { font-size: 38px; color: var(--primary-pink); margin-bottom: 20px; background: var(--light-pink); width: 80px; height: 80px; line-height: 80px; border-radius: 50%; transition: 0.3s; }
+        .service-card:hover i { background: var(--primary-pink); color: white; transform: scale(1.1); }
+        .service-card h3 { font-size: 19px; color: #333; }
 
-        /* ================== หมวดหมู่ข่าวสาร (ระบบ Slider Infinite Loop) ================== */
+        /* ================== หมวดหมู่ข่าวสาร (ระบบ Center Scale) ================== */
         .news-section { padding: 60px 0; background: #fff; scroll-margin-top: 80px; }
-        .category-block { margin-bottom: 50px; }
-        .category-title { font-size: 20px; color: #0056b3; border-bottom: 3px solid #eef5ff; padding-bottom: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .category-title i { color: #f39c12; font-size: 22px; }
+        .category-block { margin-bottom: 60px; }
+        .category-title { font-size: 24px; color: var(--primary-pink); border-bottom: 3px solid var(--light-pink); padding-bottom: 10px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; }
+        .category-title i { color: var(--accent-pink); font-size: 26px; }
         
         .carousel-container { display: flex; align-items: center; position: relative; }
-        .carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 15px; flex: 1; -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 🌟 ปรับแต่ง Track ให้รองรับการขยายภาพตรงกลาง */
+        .carousel-track { display: flex; gap: 30px; overflow-x: auto; scroll-behavior: smooth; padding: 40px 10px; flex: 1; -ms-overflow-style: none; scrollbar-width: none; align-items: center; }
         .carousel-track::-webkit-scrollbar { display: none; }
         
-        .news-card-simple { flex: 0 0 calc(33.33% - 14px); background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); cursor: pointer; }
-        .news-card-simple:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); border-color: #cce5ff; }
+        /* 🌟 ตั้งค่าเริ่มต้นให้กล่องดูเล็กลงและโปร่งแสงนิดๆ */
+        .news-card-simple { flex: 0 0 calc(33.33% - 20px); background: #fff; border: 1px solid #eee; border-radius: 15px; overflow: hidden; transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); transform: scale(0.85); opacity: 0.6; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         
-        .news-card-img { position: relative; height: 360px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 10px; }
-        .news-card-img img { 
-             max-width: 100%; 
-             max-height: 100%; 
-             width: auto; 
-             height: auto; 
-             object-fit: contain; 
-             border-radius: 4px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
-        }
+        /* 🌟 คลาสพิเศษเมื่อกล่องเลื่อนมาอยู่ตรงกลาง (ควบคุมโดย JS) */
+        .news-card-simple.is-center { transform: scale(1.15); opacity: 1; z-index: 10; border-color: var(--light-pink); box-shadow: 0 20px 40px rgba(216, 27, 96, 0.15); }
+        
+        /* 🌟 ขยายขนาดรูปให้ใหญ่เหมาะกับ PC */
+        .news-card-img { position: relative; height: 420px; background: #fafafa; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 10px; }
+        .news-card-img img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 
-        .zoom-hint {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            background: rgba(0, 86, 179, 0.8);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            opacity: 0;
-            transition: 0.3s;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .news-card-simple:hover .zoom-hint {
-            opacity: 1;
-            background: #f39c12;
-            transform: scale(1.05);
-        }
+        .zoom-hint { position: absolute; bottom: 15px; right: 15px; background: rgba(216, 27, 96, 0.8); color: white; padding: 8px 15px; border-radius: 20px; font-size: 13px; opacity: 0; transition: 0.3s; pointer-events: none; display: flex; align-items: center; gap: 5px; }
+        .news-card-simple:hover .zoom-hint { opacity: 1; background: var(--accent-pink); transform: scale(1.05); }
         
-        .news-card-body { padding: 15px; } 
-        .news-date { font-size: 12px; color: #f39c12; font-weight: 500; margin-bottom: 5px; display: block; }
-        .news-title { font-size: 14px; color: #333; line-height: 1.4; font-weight: 500; }
+        .news-card-body { padding: 20px; text-align: center; } 
+        .news-date { font-size: 14px; color: var(--accent-pink); font-weight: 500; margin-bottom: 8px; display: block; }
+        .news-title { font-size: 18px; color: #333; line-height: 1.4; font-weight: 500; }
         
-        .slide-btn { background: #fff; border: 1px solid #cce5ff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: 0.3s; color: #0056b3; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 10; }
-        .slide-btn:hover { background: #0056b3; color: white; }
+        .slide-btn { background: #fff; border: 2px solid var(--light-pink); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; transition: 0.3s; color: var(--primary-pink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.1); z-index: 20; font-size: 20px; }
+        .slide-btn:hover { background: var(--primary-pink); color: white; transform: scale(1.1); }
         .slide-btn.prev { margin-right: 15px; }
         .slide-btn.next { margin-left: 15px; }
 
-        /* ระบบขยายภาพ (Lightbox และ Modal เครือข่าย) */
-        .image-modal { 
-            display: none; 
-            position: fixed; 
-            z-index: 9999; 
-            left: 0; 
-            top: 0; 
-            width: 100vw; 
-            height: 100vh; 
-            background-color: rgba(0,0,0,0.85); 
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-wrapper {
-            width: 90vw;
-            height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        /* ================== ตารางคลินิกบริการ (ย้ายมาด้านล่าง) ================== */
+        .clinic-table-section { padding: 60px 0; }
+        .info-box { background: #fff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(216, 27, 96, 0.05); border: 1px solid var(--light-pink); }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 16px; }
+        .data-table th, .data-table td { padding: 15px; text-align: center; border-bottom: 1px solid #f8bbd0; }
+        .data-table th { background: var(--light-pink); color: var(--primary-pink); font-weight: 600; font-size: 18px; }
+        .data-table tr:hover { background: #fffafb; }
 
-        .modal-content { 
-            max-width: 100%; 
-            max-height: 100%; 
-            width: auto; 
-            height: auto; 
-            object-fit: contain; 
-            box-shadow: 0 5px 25px rgba(0,0,0,0.5); 
-            border-radius: 4px;
-        }
+        /* รายการข่าวสารด้านล่าง (ประกาศจัดซื้อ / วิชาการ) */
+        .list-news { background: #fff; border: 1px solid var(--light-pink); border-radius: 15px; padding: 25px; margin-top: 0; box-shadow: 0 5px 15px rgba(216, 27, 96, 0.03); }
+        .list-item { padding: 15px 0; border-bottom: 1px dashed #f8bbd0; display: flex; gap: 15px; align-items: flex-start; cursor: pointer; transition: 0.2s; font-size: 16px; }
+        .list-item:hover { background: #fffafb; padding-left: 8px; color: var(--primary-pink); }
+        .list-date { background: var(--accent-pink); color: white; padding: 4px 10px; border-radius: 6px; font-size: 13px; white-space: nowrap; font-weight: 500; }
+        .list-title { color: #444; transition: 0.2s; }
+        .list-item:hover .list-title { color: var(--primary-pink); }
 
-        .close-modal { 
-            position: absolute; 
-            top: 20px; 
-            right: 35px; 
-            color: #fff; 
-            font-size: 40px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            transition: 0.3s; 
-            z-index: 10000; 
-        }
-        .close-modal:hover { color: #f39c12; transform: scale(1.1); }
-        
-        .list-news { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 20px; margin-top: 20px; }
-        .list-item { padding: 12px 0; border-bottom: 1px dashed #ddd; display: flex; gap: 15px; align-items: flex-start; cursor: pointer; transition: 0.2s; }
-        .list-item:hover { background: #f9fbfd; padding-left: 5px; }
-        .list-date { background: #f39c12; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px; white-space: nowrap; }
-        .list-title { font-size: 14px; color: #444; }
+        .network-section { padding: 40px 0 70px 0; }
+        .network-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+        .network-box { background: #fff; border: 1px solid var(--light-pink); padding: 15px 20px; border-radius: 10px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(216, 27, 96, 0.02); }
+        .network-box a { color: var(--primary-pink); font-weight: 600; text-decoration: none; padding: 6px 12px; background: var(--light-pink); border-radius: 6px; transition: 0.3s; white-space: nowrap; }
+        .network-box a:hover { background: var(--primary-pink); color: white; }
 
-        .contact-section { scroll-margin-top: 80px; }
-        .contact-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; padding: 50px 0; }
-        .director-card { background: #fff; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-        .director-card a { color: #555; text-decoration: none; transition: 0.3s; }
-        .director-card a:hover { color: #28a745; }
-        .network-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .network-box { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
-        .network-box a { 
-            color: #0056b3; 
-            font-weight: 600; 
-            text-decoration: none; 
-            padding: 5px 10px; 
-            background: #eef5ff; 
-            border-radius: 4px; 
-            transition: 0.3s;
-            white-space: nowrap; 
-        }
-        .network-box a:hover { background: #0056b3; color: white; }
+        /* ================== ระบบขยายภาพ (Lightbox และ Modal) ================== */
+        .image-modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
+        .modal-wrapper { width: 90vw; height: 90vh; display: flex; align-items: center; justify-content: center; }
+        .modal-content { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; box-shadow: 0 5px 25px rgba(0,0,0,0.5); border-radius: 8px; }
+        .close-modal { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 45px; font-weight: bold; cursor: pointer; transition: 0.3s; z-index: 100000; }
+        .close-modal:hover { color: var(--accent-pink); transform: scale(1.1); }
 
-        #page-staff { background: #eef5ff; padding: 60px 0; }
-        .staff-container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; }
-        .staff-header { background: #0056b3; color: white; padding: 40px 20px; text-align: center; }
-        .staff-body { padding: 40px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; }
-        .login-box { background: #f8f9fa; padding: 30px; border-radius: 15px; border: 1px solid #eee; }
-        .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; }
-        .login-box button { width: 100%; padding: 12px; background: #f39c12; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .login-box button:hover { background: #e67e22; }
-        .system-tags { display: flex; flex-wrap: wrap; gap: 10px; }
-        .tag { background: #fff; border: 1px solid #cce5ff; padding: 8px 15px; border-radius: 20px; font-size: 13px; color: #0056b3; cursor: pointer; transition: 0.3s; }
-        .tag:hover { background: #0056b3; color: white; }
+        #page-staff { background: var(--bg-pink); padding: 60px 0; }
+        .staff-container { max-width: 1000px; margin: 0 auto; background: #fff; border-radius: 20px; box-shadow: 0 15px 40px rgba(216, 27, 96, 0.08); overflow: hidden; border: 1px solid var(--light-pink); }
+        .staff-header { background: var(--primary-pink); color: white; padding: 50px 20px; text-align: center; }
+        .staff-body { padding: 50px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 50px; }
+        .login-box { background: #fffafb; padding: 40px; border-radius: 15px; border: 2px solid var(--light-pink); }
+        .login-box input { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #f8bbd0; font-size: 16px; }
+        .login-box button { width: 100%; padding: 15px; background: var(--primary-pink); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .login-box button:hover { background: #b0124a; }
+        .system-tags { display: flex; flex-wrap: wrap; gap: 12px; }
+        .tag { background: #fff; border: 1px solid var(--primary-pink); padding: 10px 18px; border-radius: 25px; font-size: 15px; color: var(--primary-pink); cursor: pointer; transition: 0.3s; }
+        .tag:hover { background: var(--primary-pink); color: white; }
         .tag.offline { border-color: #ddd; color: #888; background: #f9f9f9; }
         .tag.offline:hover { background: #dc3545; color: white; border-color: #dc3545; }
 
-        footer { background: #0d1b2a; color: #888; padding: 30px 0; text-align: center; font-size: 14px; margin-top: auto; }
+        footer { background: #3c1020; color: #fce4ec; padding: 40px 0; text-align: center; font-size: 16px; margin-top: auto; }
 
-        /* ปุ่ม Back to Top */
-        #backToTop { position: fixed; bottom: 30px; right: 30px; background-color: #0056b3; color: white; width: 50px; height: 50px; border-radius: 50%; border: none; font-size: 20px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); opacity: 0; pointer-events: none; transition: 0.3s; z-index: 9900; display: flex; justify-content: center; align-items: center; }
+        #backToTop { position: fixed; bottom: 30px; right: 30px; background-color: var(--primary-pink); color: white; width: 55px; height: 55px; border-radius: 50%; border: none; font-size: 22px; cursor: pointer; box-shadow: 0 5px 20px rgba(216, 27, 96, 0.4); opacity: 0; pointer-events: none; transition: 0.3s; z-index: 9900; display: flex; justify-content: center; align-items: center; }
         #backToTop.show { opacity: 1; pointer-events: auto; }
-        #backToTop:hover { background-color: #f39c12; transform: translateY(-5px); }
+        #backToTop:hover { background-color: #b0124a; transform: translateY(-5px); }
 
-        
+        /* การตั้งค่า Mobile Responsive */
         @media (max-width: 900px) { 
+            .director-top-card { flex-direction: column; text-align: center; gap: 20px; }
+            .director-contact { justify-content: center; }
             .header-main { flex-direction: column; align-items: center; gap: 15px; }
             nav ul { flex-wrap: wrap; justify-content: center; gap: 10px; }
-            .news-card-simple { flex: 0 0 calc(50% - 10px); } 
-            .services-grid { grid-template-columns: repeat(2, 1fr); } 
-            .info-grid { grid-template-columns: 1fr; } 
-            .contact-grid { grid-template-columns: 1fr; } 
+            .news-card-simple { flex: 0 0 calc(50% - 15px); transform: scale(0.95); opacity: 0.8; } 
+            .news-card-simple.is-center { transform: scale(1.05); opacity: 1; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); padding: 40px 0; } 
+            .network-grid { grid-template-columns: repeat(2, 1fr); } 
             .staff-body { grid-template-columns: 1fr; }
         }
         @media (max-width: 600px) { 
-            .news-card-simple { flex: 0 0 100%; } 
+            .hero h1 { font-size: 36px; }
+            .hero p { font-size: 18px; }
+            .news-card-simple { flex: 0 0 100%; transform: scale(1); opacity: 1; margin-bottom: 20px; } 
+            .news-card-simple.is-center { transform: scale(1); box-shadow: 0 5px 15px rgba(216, 27, 96, 0.1); }
             .slide-btn { display: none; } 
-            .services-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 30px 0;} 
-            .service-card { padding: 15px 10px; } 
-            .service-card i { font-size: 24px; width: 45px; height: 45px; line-height: 45px; margin-bottom: 10px; } 
-            .service-card h3 { font-size: 13px; } 
-            .header-main { flex-direction: column; align-items: flex-start; }
-            .logo { margin-bottom: 10px; }
-            nav ul { flex-wrap: wrap; gap: 5px; justify-content: center; width: 100%; }
-            nav a { padding: 6px 8px; font-size: 13px; }
-            .btn-staff { width: 100%; text-align: center; margin-top: 10px; } 
-            
+            .services-grid { grid-template-columns: 1fr; gap: 15px; padding: 30px 0;} 
             .network-grid { grid-template-columns: 1fr; } 
+            .data-table th, .data-table td { font-size: 14px; padding: 10px; white-space: nowrap; }
         }
-        @media (max-width: 600px) {
-        .data-table th, .data-table td {
-            font-size: 13px; /* ปรับตัวหนังสือใหญ่ขึ้นนิดนึงให้อ่านง่าย */
-            padding: 10px 18px; /* เพิ่มช่องไฟซ้าย-ขวาให้กว้างขึ้นเป็น 18px */
-            white-space: nowrap; 
-        }
-    }
     </style>
 </head>
 <body>
     <!-- ================== Splash Screen ================== -->
     <style>
         .splash-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            /* พื้นหลังไล่สีแบบ Spotlight ดึงความสนใจไปที่ตรงกลาง */
-            background: radial-gradient(circle at center, #2a2a2a 0%, #000000 100%); 
-            z-index: 999999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            animation: splashFadeIn 1.2s ease-out; /* แอนิเมชันเปิดตัวนุ่มนวล */
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at center, #3c1020 0%, #000000 100%); 
+            z-index: 999999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            animation: splashFadeIn 1.2s ease-out;
         }
-        .splash-img {
-            max-width: 90vw;
-            max-height: 75vh; 
-            object-fit: contain;
-            /* เพิ่มขอบบางๆ และเงาเพื่อให้ภาพแยออกจากพื้นหลัง */
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(255,255,255,0.05); 
-            border-radius: 4px;
-        }
-        .splash-btn {
-            margin-top: 35px;
-            padding: 12px 40px;
-            background: rgba(255, 255, 255, 0.08); /* ปุ่มแบบโปร่งแสง */
-            color: #ddd;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            font-family: 'Prompt', sans-serif;
-            letter-spacing: 1px;
-            backdrop-filter: blur(5px);
-        }
-        .splash-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            border-color: #fff;
-            transform: translateY(-3px); /* ปุ่มลอยขึ้นเมื่อเอาเมาส์ชี้ */
-            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
-        }
-        @keyframes splashFadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .splash-fade-out {
-            animation: splashFadeOut 0.8s ease-in forwards;
-        }
-        @keyframes splashFadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; visibility: hidden; }
-        }
+        .splash-img { max-width: 90vw; max-height: 75vh; object-fit: contain; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(216,27,96,0.15); border-radius: 4px; }
+        .splash-btn { margin-top: 35px; padding: 12px 40px; background: rgba(255, 255, 255, 0.08); color: #ddd; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50px; font-size: 18px; cursor: pointer; transition: all 0.4s ease; letter-spacing: 1px; backdrop-filter: blur(5px); }
+        .splash-btn:hover { background: rgba(216, 27, 96, 0.8); color: #fff; border-color: transparent; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(216, 27, 96, 0.4); }
+        @keyframes splashFadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        .splash-fade-out { animation: splashFadeOut 0.8s ease-in forwards; }
+        @keyframes splashFadeOut { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
     </style>
 
     <div id="splashScreen" class="splash-overlay">
         <img src="Picture/RIP.png" alt="ถวายความอาลัย" class="splash-img">
-        <button onclick="closeSplashScreen()" class="splash-btn">
-            เข้าสู่เว็บไซต์
-        </button>
+        <button onclick="closeSplashScreen()" class="splash-btn">เข้าสู่เว็บไซต์</button>
     </div>
+
     <!-- ================== Header ================== -->
-    <header>
-        <div class="header-top">
-            <div class="container">
-                <span><i class="fa-solid fa-phone"></i> <a href="tel:032282530">032-282530-31</a></span> 
-                <span><i class="fa-solid fa-envelope"></i> <a href="mailto:Tpiyarat20@gmail.com">Tpiyarat20@gmail.com</a></span>
-            </div>
         </div>
         <div class="container header-main">
             <div class="logo" onclick="switchPage(event, 'home')">
-                <img src="Picture/logo.png" alt="โลโก้โรงพยาบาลปากท่อ" style="height: 60px; width: auto; margin-right: 10px;">
+                <img src="Picture/logo.png" alt="โลโก้โรงพยาบาลปากท่อ" style="height: 65px; width: auto; margin-right: 10px;">
                 โรงพยาบาลปากท่อ
             </div>
             <nav>
                 <ul>
                     <li><a onclick="switchPage(event, 'home')" id="nav-home" class="active">หน้าแรก</a></li>
-                    
-                    <li><a href="#about-section" onclick="switchPage(event, 'home')">เกี่ยวกับเรา <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
+                    <li><a href="#about-section" onclick="switchPage(event, 'home')">เกี่ยวกับเรา <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
                         <ul class="dropdown">
                             <li><a href="http://www.pthosp.net/ceo/Staff-04122568.png" target="_blank">คณะกรรมการบริหารฯ</a></li>
                             <li><a href="http://www.pthosp.net/hospital/FTE_Paktho2566.pdf" target="_blank">โครงสร้าง รพ. ปัจจุบัน</a></li>
@@ -329,28 +220,24 @@
                             <li><a onclick="alert('ระบบออฟไลน์ชั่วคราว')" style="cursor:pointer; color:#888;">ข้อมูล GIS (Offline)</a></li>
                         </ul>
                     </li>
-                    
-                    <li><a href="#services-section" onclick="switchPage(event, 'home')">บริการประชาชน <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
+                    <li><a href="#services-section" onclick="switchPage(event, 'home')">บริการประชาชน <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
                         <ul class="dropdown">
                             <li><a href="https://srmcitizen.nhso.go.th/" target="_blank">ตรวจสอบสิทธิการรักษา</a></li>
                             <li><a href="https://sites.google.com/view/paktho-vdo-hopital/หนาแรก" target="_blank">VDO แนะนำความรู้</a></li>
                         </ul>
                     </li>
-
-                    <li><a href="#contact-section" onclick="switchPage(event, 'home')">ติดต่อเรา <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
+                    <li><a href="#contact-section" onclick="switchPage(event, 'home')">ติดต่อเรา <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
                         <ul class="dropdown">
                             <li><a href="http://www.pthosp.net/hospital/contact.php" target="_blank">รับเรื่องร้องเรียน</a></li>
                             <li><a href="http://www.pthosp.net/hospital/cont.php" target="_blank">ติดต่อโรงพยาบาล</a></li>
                         </ul>
                     </li>
-
-                    <li><a href="#news-section" onclick="switchPage(event, 'home')">ข่าวสาร <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
+                    <li><a href="#news-section" onclick="switchPage(event, 'home')">ข่าวสาร <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
                         <ul class="dropdown">
                             <li><a href="#news-section" onclick="switchPage(event, 'home')">กระดานข่าวล่าสุด</a></li>
                             <li><a href="http://pthosp.net/forum//index.php?board=6.0" target="_blank">ประกาศจัดซื้อ/จัดจ้าง</a></li>
                         </ul>
                     </li>
-                    
                     <li><a onclick="switchPage(event, 'staff')" id="nav-staff" class="btn-staff"><i class="fa-solid fa-user-lock"></i> สำหรับเจ้าหน้าที่</a></li>
                 </ul>
             </nav>
@@ -362,12 +249,27 @@
         
         <section class="hero">
             <div>
-                <h1 style="font-size: 42px; margin-bottom: 10px;">ยินดีต้อนรับสู่ <span style="white-space: nowrap;">โรงพยาบาลปากท่อ</span></h1>
-                <p style="font-size: 18px; font-weight: 300;">ให้บริการด้วยมาตรฐาน ห่วงใยสุขภาพของประชาชนชาวอำเภอปากท่อและพื้นที่ใกล้เคียง</p>
+                <h1>ยินดีต้อนรับสู่ <span style="white-space: nowrap;">โรงพยาบาลปากท่อ</span></h1>
+                <p>ให้บริการด้วยมาตรฐาน ห่วงใยสุขภาพของประชาชนชาวอำเภอปากท่อและพื้นที่ใกล้เคียง</p>
             </div>
         </section>
 
-        <!-- บริการประชาชน (🌟 อัปเดตเพิ่มเมนู ปรับปรุงข้อมูล จาก Excel) -->
+        <!-- 🌟 ย้ายรูป ผอ. มาไว้ด้านบนสุด เป็นส่วนต้อนรับ -->
+        <section class="container director-top-section" id="about-section">
+            <div class="director-top-card">
+                <img src="Picture/director.jpg" alt="พญ. ปิยารัตน์" onerror="this.style.display='none'">
+                <div class="director-info">
+                    <h2>พญ. ปิยารัตน์ ทองย้อย</h2>
+                    <p>ผู้อำนวยการโรงพยาบาลปากท่อ</p>
+                    <div class="director-contact">
+                        <a href="tel:032281585"><i class="fa-solid fa-phone"></i> 032-281585</a>
+                        <a href="mailto:Tpiyarat20@gmail.com"><i class="fa-solid fa-envelope"></i> Tpiyarat20@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- บริการประชาชน 9 กล่อง (ครบถ้วนสมบูรณ์) -->
         <section class="container services-grid" id="services-section">
             <div class="service-card" onclick="window.open('https://mbdb.cgd.go.th/wel/mwa03q050', '_blank')"><i class="fa-solid fa-id-card-clip"></i><h3>ตรวจสอบสิทธิ<br>กรมบัญชีกลาง</h3></div>
             <div class="service-card" onclick="window.open('http://pthosp.net/que/queuetoday.php', '_blank')"><i class="fa-solid fa-users"></i><h3>คิวรับบริการ<br>วันนี้</h3></div>
@@ -375,324 +277,96 @@
             <div class="service-card" onclick="window.open('https://sites.google.com/view/paktho-vdo-hopital/หนาแรก', '_blank')"><i class="fa-solid fa-video"></i><h3>VDO<br>แนะนำความรู้</h3></div>
             <div class="service-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSd0mpmHdytw-ft-Kxc9Cc8f6-3L1jDM5llUvJDtXAPG6GghvA/viewform?pli=1', '_blank')"><i class="fa-solid fa-person-walking-with-cane"></i><h3>จองคิว<br>กายภาพบำบัด</h3></div>
             <div class="service-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfMuYlwmu510qVN9VoQuweb1b7n_gHC9DBSuD7xV6p-N_KNlg/viewform', '_blank')"><i class="fa-solid fa-leaf"></i><h3>จองคิว<br>แพทย์แผนไทย</h3></div>
-            <!-- 🌟 เพิ่มเมนูนี้เข้ามาจากไฟล์ Excel -->
             <div class="service-card" onclick="window.open('http://pthosp.net/profileupdate/index.php', '_blank')"><i class="fa-solid fa-address-card"></i><h3>ปรับปรุงที่อยู่<br>เบอร์โทรศัพท์</h3></div>
             <div class="service-card" onclick="window.open('http://www.pthosp.net/hospital/contact.php', '_blank')"><i class="fa-solid fa-bullhorn"></i><h3>รับเรื่อง<br>ร้องเรียน</h3></div>
             <div class="service-card" onclick="window.open('http://www.pthosp.net/hospital/cont.php', '_blank')"><i class="fa-solid fa-address-book"></i><h3>ติดต่อ<br>โรงพยาบาล</h3></div>
         </section>
 
-       <div class="info-box">
-                    <h3 style="color:#28a745; text-align: center;"><i class="fa-solid fa-user-doctor"></i> ตารางคลินิกบริการ</h3>
-                    <div style="overflow-x: auto; margin-top: 15px;">
-                        <table class="data-table" style="min-width: 600px; margin-top: 0; margin-left: auto; margin-right: auto;">
-                            <tr>
-                                <th>คลินิกบริการ</th>
-                                <th>จันทร์</th>
-                                <th>อังคาร</th>
-                                <th>พุธ</th>
-                                <th>พฤหัสบดี</th>
-                                <th>ศุกร์</th>
-                            </tr>
-                            <tr>
-                                <td>ตรวจรักษาโรค</td>
-                                <td>8.00 - 16.00 น.</td>
-                                <td>8.00 - 16.00 น.</td>
-                                <td>8.00 - 16.00 น.</td>
-                                <td>8.00 - 16.00 น.</td>
-                                <td>8.00 - 16.00 น.</td>
-                            </tr>
-                            <tr>
-                                <td>กายภาพบำบัด และ แพทย์แผนไทย</td>
-                                <td>8.30 - 16.30 น.</td>
-                                <td>8.30 - 16.30 น.</td>
-                                <td>8.30 - 16.30 น.</td>
-                                <td>8.30 - 16.30 น.</td>
-                                <td>8.30 - 16.30 น.</td>
-                            </tr>
-                            <tr>
-                                <td>คลินิกรักษ์ไต</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>08.00-12.00 น.</td>
-                            </tr>
-                            <tr>
-                                <td>คลินิกความดันโลหิตสูง, โรคหัวใจ</td>
-                                <td>8.30 - 15.30 น.</td>
-                                <td>-</td>
-                                <td>8.30 - 15.30 น.</td>
-                                <td>-</td>
-                                <td>8.30 - 15.30 น.</td>
-                            </tr>
-                            <tr>
-                                <td>คลินิกเบาหวาน</td>
-                                <td>-</td>
-                                <td>8.30 - 15.30 น.</td>
-                                <td>-</td>
-                                <td>8.30 - 15.30 น.</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>คลินิกวัณโรค / คลินิกสุขภาพจิต</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>8.30 - 12.00 น.</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>คลินิกเด็กดี</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>8.30 - 12.00 น.</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>คลินิกส่งเสริมการมีบุตร <span style="background:red; color:white; font-size:10px; padding:2px 5px; border-radius:3px;">NEW</span></td>
-                                <td>8.30 - 16.00 น.</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>ตรวจครรภ์</td>
-                                <td>-</td>
-                                <td>8.30 - 12.00 น.</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>วางแผนครอบครัว, ยาต้านไวรัส</td>
-                                <td>8.30 - 12.00 น.</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>คลินิกหอบหืด</td>
-                                <td>8.30 - 15.30 น.</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>คลินิกปอดอุดกั้นเรื้อรัง</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>8.30 - 15.30 น.</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div style="font-size: 13px; color: #555; margin-top: 15px; background: #fdfdfd; padding: 15px; border-radius: 8px; border: 1px solid #eee;">
-                        <p style="margin-bottom: 5px;"><strong><i class="fa-solid fa-syringe" style="color:#0056b3;"></i> บริการทำแผล - ฉีดยา:</strong> บริการทุกวันจันทร์ ถึง วันอาทิตย์ เวลา 8.30 - 20.00 น.</p>
-                        <p style="margin-bottom: 5px;"><strong><i class="fa-solid fa-tooth" style="color:#0056b3;"></i> คลินิกทันตกรรม:</strong> บริการในเวลาราชการ ทุกวันจันทร์ - วันศุกร์ <br><span style="color:#dc3545;">* ยกเว้นภาคบ่าย วันศุกร์ สัปดาห์สุดท้ายของเดือน รับเฉพาะฉุกเฉิน (งดรับผู้ป่วยทั่วไป)</span></p>
-                        <p style="margin-top: 10px; color: #dc3545; font-weight: 600; text-align: center;"><i class="fa-solid fa-truck-medical"></i> วันหยุดราชการและนอกเวลาราชการ บริการเฉพาะอุบัติเหตุ-ฉุกเฉิน และเจ็บครรภ์คลอด</p>
-                    </div>
-                </div>
-
-        <!-- ส่วนข่าวสารและประชาสัมพันธ์แบบแยกหมวดหมู่ (Slider) -->
+        <!-- ส่วนข่าวสารและประชาสัมพันธ์แบบแยกหมวดหมู่ (Slider กลางขยายใหญ่) -->
         <section class="news-section" id="news-section">
             <div class="container">
                 <h2 class="section-title">ข่าวสารและ <span>ประชาสัมพันธ์</span></h2>
 
-                <!-- หมวดที่ 1: ข่าวประชาสัมพันธ์ -->
+                <!-- หมวดที่ 1: ข่าวประชาสัมพันธ์ (ไม่ตัดทอนรูปภาพใดๆ) -->
                 <div class="category-block">
                     <h3 class="category-title"><i class="fa-solid fa-bullhorn"></i> ข่าวประชาสัมพันธ์ และกระดานข่าว</h3>
                     <div class="carousel-container">
                         <button class="slide-btn prev" onclick="slideCarousel('track1', -1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <div class="carousel-track" id="track1">
                             
-                            <!-- 🌟 HEALTH ID เลื่อนมาอยู่ประชาสัมพันธ์แทน -->
                             <div class="news-card-simple" onclick="openModal('Picture/HEALTH  ID.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/HEALTH  ID.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ประชาสัมพันธ์</span>
-                                    <h4 class="news-title">ขอเชิญประชาชนยืนยันตัวตน Health ID ผ่านหมอพร้อม</h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/HEALTH  ID.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ประชาสัมพันธ์</span><h4 class="news-title">ขอเชิญประชาชนยืนยันตัวตน Health ID ผ่านหมอพร้อม</h4></div>
                             </div>
                             
                             <div class="news-card-simple" onclick="openModal('Picture/announce.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/announce.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ประกาศสำคัญ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/announce.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ประกาศสำคัญ</span><h4 class="news-title"></h4></div>
                             </div>
                             
                             <div class="news-card-simple" onclick="openModal('Picture/No gift policy.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/No gift policy.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">นโยบาย</span>
-                                    <h4 class="news-title">ประกาศเจตนารมณ์การต่อต้านทุจริต รพ.ปากท่อ</h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/No gift policy.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">นโยบาย</span><h4 class="news-title">ประกาศเจตนารมณ์การต่อต้านทุจริต รพ.ปากท่อ</h4></div>
                             </div>
                             
                             <div class="news-card-simple" onclick="openModal('Picture/News/01.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/01.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/01.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/02.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/02.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/02.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/03.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/03.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/03.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/04.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/04.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/04.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/05.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/05.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/05.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/06.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/06.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/06.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/07.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/07.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/07.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/08.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/08.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/08.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/09.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/09.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/09.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/10.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/10.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/10.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/11.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/11.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/11.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/12.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/12.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/12.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/News/13.png')">
-                                <div class="news-card-img">
-                                    <img src="Picture/News/13.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ข่าวสาร</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/News/13.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ข่าวสาร</span><h4 class="news-title"></h4></div>
                             </div>
-                            
                         </div>
                         <button class="slide-btn next" onclick="slideCarousel('track1', 1)"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
 
-                <!-- หมวดที่ 2: คนเก่ง คนดี -->
+                <!-- หมวดที่ 2: คนเก่ง คนดี (ไม่ตัดทอนรูปภาพใดๆ) -->
                 <div class="category-block">
                     <h3 class="category-title"><i class="fa-solid fa-award"></i> คนเก่ง คนดี คนคุณภาพ ที่โรงพยาบาลปากท่อ</h3>
                     <div class="carousel-container">
@@ -700,91 +374,36 @@
                         <div class="carousel-track" id="track2">
                             
                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/01.png')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Good_Persons/01.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                                <div class="news-card-img"><img src="Picture/Good_Persons/01.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title"></h4></div>
                             </div>
-                            
-                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/02.png')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Good_Persons/02.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/02.png')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/02.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title"></h4></div>
                             </div>
-                            
-                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/03.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Good_Persons/03.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/03.jpg')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/03.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title"></h4></div>
                             </div>
-                            
-                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/04.png')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Good_Persons/04.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/04.png')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/04.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title"></h4></div>
                             </div>
-                            
-                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/05.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Good_Persons/05.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
-                                    <h4 class="news-title">คุณวีรยุทธ มั่นคง พนักงานเปล ร.พ.ปากท่อ พบผู้บาดเจ็บจากอุบัติเหตุ และได้ให้ความช่วยเหลือในทันที</h4>
-                                </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/05.jpg')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/05.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title">คุณวีรยุทธ มั่นคง พนักงานเปล ร.พ.ปากท่อ พบผู้บาดเจ็บจากอุบัติเหตุ และได้ให้ความช่วยเหลือในทันที</h4></div>
                             </div>
-                            
-                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/06.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Good_Persons/06.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
-                                    <h4 class="news-title">คุณเสริมยศ พจนสิทธิ์ คนสวนร.พ.ปากท่อ เก็บของมีค่าได้และนำส่งคืนให้เจ้าของ คุณณัฐธิดา รุนเจริญ</h4>
-                                </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/06.jpg')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/06.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title">คุณเสริมยศ พจนสิทธิ์ คนสวนร.พ.ปากท่อ เก็บของมีค่าได้และนำส่งคืนให้เจ้าของ คุณณัฐธิดา รุนเจริญ</h4></div>
                             </div>
-                            
-                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/07.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Good_Persons/07.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
-                                    <h4 class="news-title">คุณนันทินี ผลเจริญ พยาบาลห้องอุบัติเหตุฉุกเฉินร.พ.ปากท่อ ขณะเดินทางกลับที่พัก พบอุบัติเหตุ จึงเข้าช่วยเหลือผู้บาดเจ็บทันที</h4>
-                                </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/07.jpg')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/07.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title">คุณนันทินี ผลเจริญ พยาบาลห้องอุบัติเหตุฉุกเฉินร.พ.ปากท่อ ขณะเดินทางกลับที่พัก พบอุบัติเหตุ จึงเข้าช่วยเหลือผู้บาดเจ็บทันที</h4></div>
                             </div>
-                            
-                             <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/08.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Good_Persons/08.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ความภูมิใจ รพ.ปากท่อ</span>
-                                    <h4 class="news-title">คุณละเมียด ศรนรินทร์ พนักงานหน่วยซักฟอก พบเงินในชุดผู้ป่วยที่ส่งซัก นำส่งมอบคืนให้ผู้ป่วย</h4>
-                                </div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Good_Persons/08.jpg')">
+                                <div class="news-card-img"><img src="Picture/Good_Persons/08.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ความภูมิใจ รพ.ปากท่อ</span><h4 class="news-title">คุณละเมียด ศรนรินทร์ พนักงานหน่วยซักฟอก พบเงินในชุดผู้ป่วยที่ส่งซัก นำส่งมอบคืนให้ผู้ป่วย</h4></div>
                             </div>
                             
                         </div>
@@ -792,109 +411,22 @@
                     </div>
                 </div>
 
-               <!-- หมวดที่ 3: โครงการดีดี -->
+               <!-- หมวดที่ 3: โครงการดีดี (ไม่ตัดทอนรูปภาพใดๆ) -->
                 <div class="category-block">
                     <h3 class="category-title"><i class="fa-solid fa-hand-holding-heart"></i> โครงการดีดีเพื่อชาวปากท่อ</h3>
                     <div class="carousel-container">
                         <button class="slide-btn prev" onclick="slideCarousel('track3', -1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <div class="carousel-track" id="track3">
-                            
-                            <!-- ================= ชุดที่ 1 (รูปเดิม) ================= -->
-                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/01.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Project for people/01.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
-                            </div>
-                            
-                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/02.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Project for people/02.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
-                                    <h4 class="news-title"></h4>
-                                </div> 
-                            </div>
-                            
-                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/03.png')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Project for people/03.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
-                                    <h4 class="news-title"></h4>
-                                </div> 
-                            </div>
-                            
-                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/04.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Project for people/04.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
-                                    <h4 class="news-title"></h4>
-                                </div> 
-                            </div>
-
-                            <!-- ================= ชุดที่ 2 (ก๊อปปี้มาซ้ำเพื่อให้สไลด์วนลูปได้เนียนๆ) ================= -->
-                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/01.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Project for people/01.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
-                                    <h4 class="news-title"></h4>
-                                </div>
-                            </div>
-                            
-                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/02.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Project for people/02.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
-                                    <h4 class="news-title"></h4>
-                                </div> 
-                            </div>
-                            
-                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/03.png')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Project for people/03.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
-                                    <h4 class="news-title"></h4>
-                                </div> 
-                            </div>
-                            
-                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/04.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Project for people/04.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">กิจกรรมเพื่อสังคม</span>
-                                    <h4 class="news-title"></h4>
-                                </div> 
-                            </div>
-                            
+                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/01.jpg')"><div class="news-card-img"><img src="Picture/Project for people/01.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div><div class="news-card-body"><span class="news-date">กิจกรรมเพื่อสังคม</span><h4 class="news-title"></h4></div></div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/02.jpg')"><div class="news-card-img"><img src="Picture/Project for people/02.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div><div class="news-card-body"><span class="news-date">กิจกรรมเพื่อสังคม</span><h4 class="news-title"></h4></div></div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/03.png')"><div class="news-card-img"><img src="Picture/Project for people/03.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div><div class="news-card-body"><span class="news-date">กิจกรรมเพื่อสังคม</span><h4 class="news-title"></h4></div></div>
+                            <div class="news-card-simple" onclick="openModal('Picture/Project for people/04.jpg')"><div class="news-card-img"><img src="Picture/Project for people/04.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div><div class="news-card-body"><span class="news-date">กิจกรรมเพื่อสังคม</span><h4 class="news-title"></h4></div></div>
                         </div>
                         <button class="slide-btn next" onclick="slideCarousel('track3', 1)"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
 
-                <!-- หมวดที่ 4: ขอขอบคุณ -->
+                <!-- หมวดที่ 4: ขอขอบคุณ (คืนชีพกลับมาครบ 10 รูป 100%) -->
                 <div class="category-block">
                     <h3 class="category-title"><i class="fa-solid fa-gift"></i> โรงพยาบาลปากท่อขอขอบคุณผู้มีอุปการคุณทุกท่าน</h3>
                     <div class="carousel-container">
@@ -902,113 +434,44 @@
                         <div class="carousel-track" id="track4">
                             
                             <div class="news-card-simple" onclick="openModal('Picture/Sponser/01.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Sponser/01.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ด้วยความขอบคุณ</span>
-                                    <h4 class="news-title"></h4>
-                                </div> 
+                                <div class="news-card-img"><img src="Picture/Sponser/01.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title"></h4></div> 
                             </div> 
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/Sponser/02.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Sponser/02.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ด้วยความขอบคุณ</span>
-                                    <h4 class="news-title"></h4>
-                                </div> 
+                                <div class="news-card-img"><img src="Picture/Sponser/02.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title"></h4></div> 
                             </div> 
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/Sponser/03.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Sponser/03.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ด้วยความขอบคุณ</span>
-                                    <h4 class="news-title"></h4>
-                                </div> 
+                                <div class="news-card-img"><img src="Picture/Sponser/03.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title"></h4></div> 
                             </div> 
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/Sponser/04.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Sponser/04.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ด้วยความขอบคุณ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>  
+                                <div class="news-card-img"><img src="Picture/Sponser/04.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title"></h4></div>  
                             </div> 
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/Sponser/05.png')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Sponser/05.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ด้วยความขอบคุณ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>  
+                                <div class="news-card-img"><img src="Picture/Sponser/05.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title"></h4></div>  
                             </div> 
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/Sponser/06.png')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Sponser/06.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ด้วยความขอบคุณ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>  
+                                <div class="news-card-img"><img src="Picture/Sponser/06.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title"></h4></div>  
                             </div> 
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/Sponser/07.png')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Sponser/07.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ด้วยความขอบคุณ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>  
+                                <div class="news-card-img"><img src="Picture/Sponser/07.png" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title"></h4></div>  
                             </div> 
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/Sponser/08.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Sponser/08.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ด้วยความขอบคุณ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>  
+                                <div class="news-card-img"><img src="Picture/Sponser/08.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title"></h4></div>  
                             </div> 
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/Sponser/09.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Sponser/09.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ด้วยความขอบคุณ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>  
+                                <div class="news-card-img"><img src="Picture/Sponser/09.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title"></h4></div>  
                             </div> 
-                            
                             <div class="news-card-simple" onclick="openModal('Picture/Sponser/10.jpg')">
-                                <div class="news-card-img">
-                                    <img src="Picture/Sponser/10.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'">
-                                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div>
-                                </div>
-                                <div class="news-card-body">
-                                    <span class="news-date">ด้วยความขอบคุณ</span>
-                                    <h4 class="news-title"></h4>
-                                </div>  
+                                <div class="news-card-img"><img src="Picture/Sponser/10.jpg" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-image fa-3x\' style=\'color:#ccc;\'></i>'"><div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> แตะเพื่อขยาย</div></div>
+                                <div class="news-card-body"><span class="news-date">ด้วยความขอบคุณ</span><h4 class="news-title"></h4></div>  
                             </div> 
                             
                         </div>
@@ -1016,50 +479,127 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-                    
-                    <div class="list-news" style="margin-top: 0;">
+                <!-- ประกาศจัดซื้อและเรื่องแจ้ง -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 40px;">
+                    <div class="list-news">
                         <h3 style="color:#f39c12; margin-bottom:15px; border-bottom:2px solid #f39c12; padding-bottom:10px;">ประกาศจัดซื้อ / จัดจ้าง</h3>
                         <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">24 ส.ค.</div><div class="list-title">รายงานสรุปผลข้อมูลสาระสำคัญในสัญญา</div></div>
                         <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">21 ส.ค.</div><div class="list-title">รับสมัครสอบคัดเลือกลูกจ้างชั่วคราว</div></div>
                         <div class="list-item" onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')"><div class="list-date">19 ส.ค.</div><div class="list-title">ประกาศร่างเอกสารประกวดราคาซื้อครุภัณฑ์</div></div>
-                        <a onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')" style="display:block; text-align:center; margin-top:15px; font-size:13px; color:#0056b3; cursor:pointer;">ดูประกาศทั้งหมด →</a>
+                        <a onclick="window.open('http://pthosp.net/forum//index.php?board=6.0', '_blank')" style="display:block; text-align:center; margin-top:20px; font-size:15px; color:var(--primary-pink); cursor:pointer; font-weight:600;">ดูประกาศทั้งหมด →</a>
                     </div>
-
-                    <div class="list-news" style="margin-top: 0;">
-                        <h3 style="color:#0056b3; margin-bottom:15px; border-bottom:2px solid #eef5ff; padding-bottom:10px;">เรื่องแจ้ง คปสอ. & วิชาการ</h3>
-                        <div class="list-item" onclick="window.open('http://pthosp.net/forum/', '_blank')"><div class="list-date" style="background:#0056b3;">ล่าสุด</div><div class="list-title">แจ้งเลื่อนการประชุม คปสอ. ประจำเดือน</div></div>
-                        <div class="list-item" onclick="window.open('http://pthosp.net/forum/', '_blank')"><div class="list-date" style="background:#0056b3;">อัปเดต</div><div class="list-title">แนวทางการรักษา (CPG) ฉบับปรับปรุงใหม่</div></div>
-                        <div class="list-item" onclick="window.open('http://pthosp.net/forum/', '_blank')"><div class="list-date" style="background:#0056b3;">ประกาศ</div><div class="list-title">สรุปรายงานการประชุมวิชาการประจำปี</div></div>
-                        <a onclick="window.open('http://pthosp.net/forum/', '_blank')" style="display:block; text-align:center; margin-top:15px; font-size:13px; color:#0056b3; cursor:pointer;">ดูกระทู้ทั้งหมด →</a>
+                    <div class="list-news">
+                        <h3 style="color:var(--primary-pink); margin-bottom:15px; border-bottom:2px solid var(--light-pink); padding-bottom:10px;">เรื่องแจ้ง คปสอ. & วิชาการ</h3>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum/', '_blank')"><div class="list-date" style="background:var(--primary-pink);">ล่าสุด</div><div class="list-title">แจ้งเลื่อนการประชุม คปสอ. ประจำเดือน</div></div>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum/', '_blank')"><div class="list-date" style="background:var(--primary-pink);">อัปเดต</div><div class="list-title">แนวทางการรักษา (CPG) ฉบับปรับปรุงใหม่</div></div>
+                        <div class="list-item" onclick="window.open('http://pthosp.net/forum/', '_blank')"><div class="list-date" style="background:var(--primary-pink);">ประกาศ</div><div class="list-title">สรุปรายงานการประชุมวิชาการประจำปี</div></div>
+                        <a onclick="window.open('http://pthosp.net/forum/', '_blank')" style="display:block; text-align:center; margin-top:20px; font-size:15px; color:var(--primary-pink); cursor:pointer; font-weight:600;">ดูกระทู้ทั้งหมด →</a>
                     </div>
-
                 </div>
 
             </div>
         </section>
 
-        <section class="container contact-grid contact-section" id="contact-section">
-            <div class="director-card">
-                <img src="Picture/director.jpg" alt="พญ. ปิยารัตน์" style="width: 140px; height: auto; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 3px solid #eef5ff;" onerror="this.style.display='none'">
-                <h3 style="color:#0056b3;">พญ. ปิยารัตน์ ทองย้อย</h3>
-                <p style="color:#666; font-size:14px;">ผู้อำนวยการโรงพยาบาล</p>
-                <div style="margin-top:10px; font-size:13px;">
-                    <a href="tel:032281585" style="display:block; margin-bottom:5px;"><i class="fa-solid fa-phone"></i> 032-281585</a>
-                    <a href="mailto:Tpiyarat20@gmail.com"><i class="fa-solid fa-envelope"></i> Tpiyarat20@gmail.com</a>
+        <!-- 🌟 ย้ายตารางคลินิกมาไว้ด้านล่างสุดก่อนเครือข่าย -->
+        <section class="container clinic-table-section">
+            <h2 class="section-title"><i class="fa-solid fa-user-doctor"></i> ตารางคลินิกบริการ</h2>
+            <div class="info-box">
+                <div style="overflow-x: auto;">
+                    <table class="data-table" style="min-width: 800px;">
+                        <tr>
+                            <th>คลินิกบริการ</th>
+                            <th>จันทร์</th>
+                            <th>อังคาร</th>
+                            <th>พุธ</th>
+                            <th>พฤหัสบดี</th>
+                            <th>ศุกร์</th>
+                        </tr>
+                        <tr>
+                            <td>ตรวจรักษาโรคทั่วไป</td>
+                            <td>8.00 - 16.00 น.</td>
+                            <td>8.00 - 16.00 น.</td>
+                            <td>8.00 - 16.00 น.</td>
+                            <td>8.00 - 16.00 น.</td>
+                            <td>8.00 - 16.00 น.</td>
+                        </tr>
+                        <tr>
+                            <td>กายภาพบำบัด / แพทย์แผนไทย</td>
+                            <td>8.30 - 16.30 น.</td>
+                            <td>8.30 - 16.30 น.</td>
+                            <td>8.30 - 16.30 น.</td>
+                            <td>8.30 - 16.30 น.</td>
+                            <td>8.30 - 16.30 น.</td>
+                        </tr>
+                        <tr>
+                            <td>คลินิกรักษ์ไต</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>08.00 - 12.00 น.</td>
+                        </tr>
+                        <tr>
+                            <td>คลินิกความดันโลหิตสูง, โรคหัวใจ</td>
+                            <td>8.30 - 15.30 น.</td>
+                            <td>-</td>
+                            <td>8.30 - 15.30 น.</td>
+                            <td>-</td>
+                            <td>8.30 - 15.30 น.</td>
+                        </tr>
+                        <tr>
+                            <td>คลินิกเบาหวาน</td>
+                            <td>-</td>
+                            <td>8.30 - 15.30 น.</td>
+                            <td>-</td>
+                            <td>8.30 - 15.30 น.</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>คลินิกวัณโรค / คลินิกสุขภาพจิต</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>8.30 - 12.00 น.</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>คลินิกเด็กดี</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>8.30 - 12.00 น.</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>คลินิกส่งเสริมการมีบุตร <span style="background:var(--primary-pink); color:white; font-size:12px; padding:3px 8px; border-radius:4px; margin-left:8px;">NEW</span></td>
+                            <td>8.30 - 16.00 น.</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="font-size: 15px; color: #555; margin-top: 25px; background: #fffafb; padding: 20px; border-radius: 10px; border: 1px dashed var(--accent-pink);">
+                    <p style="margin-bottom: 8px;"><strong><i class="fa-solid fa-syringe" style="color:var(--primary-pink);"></i> บริการทำแผล - ฉีดยา:</strong> บริการทุกวันจันทร์ ถึง วันอาทิตย์ เวลา 8.30 - 20.00 น.</p>
+                    <p style="margin-bottom: 8px;"><strong><i class="fa-solid fa-tooth" style="color:var(--primary-pink);"></i> คลินิกทันตกรรม:</strong> บริการในเวลาราชการ ทุกวันจันทร์ - วันศุกร์ <br><span style="color:#dc3545; font-size: 14px;">* ยกเว้นภาคบ่าย วันศุกร์ สัปดาห์สุดท้ายของเดือน รับเฉพาะฉุกเฉิน (งดรับผู้ป่วยทั่วไป)</span></p>
+                    <p style="margin-top: 15px; color: #dc3545; font-weight: 600; text-align: center; font-size: 16px;"><i class="fa-solid fa-truck-medical"></i> วันหยุดราชการและนอกเวลาราชการ บริการเฉพาะอุบัติเหตุ-ฉุกเฉิน และเจ็บครรภ์คลอด</p>
                 </div>
             </div>
-            <div>
-                <h3 style="color:#333;"><i class="fa-solid fa-network-wired"></i> เครือข่าย รพ.สต. ในพื้นที่</h3>
-                <div class="network-grid">
-                    <div class="network-box"><span>สสอ.ปากท่อ</span> <a href="tel:032281162">032-281-162</a></div>
-                    <div class="network-box"><span>รพ.สต.บ้านหนองไร่</span> <a href="tel:032229870">032-229-870</a></div>
-                    <div class="network-box"><span>รพ.สต.ทุ่งหลวง</span> <a href="tel:032240245">032-240-245</a></div>
-                    <div class="network-box"><span>รพ.สต.วังมะนาว</span> <a href="tel:032737552">032-737-552</a></div>
-                    <div class="network-box"><span>รพ.สต.ดอนทราย</span> <a href="tel:032282198">032-282-198</a></div>
-                    <div class="network-box"><span>รพ.ราชบุรี</span> <a href="tel:032327999">032-327-999</a></div>
-                    <div class="network-box" onclick="openNetworkModal()" style="background:#eef5ff; color:#0056b3; justify-content:center; cursor:pointer; font-weight:600; grid-column: 1 / -1;">ดูรายชื่อเครือข่ายทั้งหมด...</div>
-                </div>
+        </section>
+
+        <!-- เครือข่าย รพ.สต. -->
+        <section class="container network-section" id="contact-section">
+            <h3 style="color:var(--primary-pink); text-align: center; font-size: 26px; margin-bottom: 20px;"><i class="fa-solid fa-network-wired"></i> เครือข่าย รพ.สต. ในพื้นที่</h3>
+            <div class="network-grid">
+                <div class="network-box"><span>สสอ.ปากท่อ</span> <a href="tel:032281162">032-281-162</a></div>
+                <div class="network-box"><span>รพ.สต.บ้านหนองไร่</span> <a href="tel:032229870">032-229-870</a></div>
+                <div class="network-box"><span>รพ.สต.ทุ่งหลวง</span> <a href="tel:032240245">032-240-245</a></div>
+                <div class="network-box"><span>รพ.สต.บ้านหนองวัวดำ</span> <a href="tel:0936139375">093-613-9375</a></div>
+                <div class="network-box"><span>รพ.สต.วังมะนาว</span> <a href="tel:032737552">032-737-552</a></div>
+                <div class="network-box"><span>รพ.สต.ดอนทราย</span> <a href="tel:032282198">032-282-198</a></div>
+                <div class="network-box"><span>รพ.ราชบุรี</span> <a href="tel:032327999">032-327-999</a></div>
+                <div class="network-box" onclick="openNetworkModal()" style="background:var(--primary-pink); color:white; justify-content:center; cursor:pointer; font-weight:600; grid-column: 1 / -1; font-size: 18px; padding: 20px;">ดูรายชื่อเครือข่าย รพ.สต. ทั้งหมดคลิก...</div>
             </div>
         </section>
     </div>
@@ -1069,23 +609,23 @@
         <div class="container">
             <div class="staff-container">
                 <div class="staff-header">
-                    <i class="fa-solid fa-shield-halved" style="font-size:50px; color:#f39c12; margin-bottom:15px;"></i>
-                    <h2 style="font-weight:600;">ระบบปฏิบัติการบุคลากร (Intranet)</h2>
-                    <p style="font-weight:300; opacity:0.9;">โรงพยาบาลปากท่อ จังหวัดราชบุรี</p>
+                    <i class="fa-solid fa-shield-halved" style="font-size:60px; color:white; margin-bottom:20px;"></i>
+                    <h2 style="font-weight:600; font-size: 32px;">ระบบปฏิบัติการบุคลากร (Intranet)</h2>
+                    <p style="font-weight:300; opacity:0.9; font-size: 18px;">โรงพยาบาลปากท่อ จังหวัดราชบุรี</p>
                 </div>
                 
                 <div class="staff-body">
                     <div class="login-box">
-                        <h3 style="margin-bottom:20px; color:#333; text-align:center;">ลงชื่อเข้าใช้งาน</h3>
+                        <h3 style="margin-bottom:20px; color:var(--primary-pink); text-align:center;">ลงชื่อเข้าใช้งาน</h3>
                         <input type="text" placeholder="รหัสพนักงาน (Username)">
                         <input type="password" placeholder="รหัสผ่าน (Password)">
                         <button onclick="alert('กรุณาตรวจสอบรหัสพนักงานและรหัสผ่านของคุณอีกครั้ง (ทดสอบระบบ)')">เข้าสู่ระบบ</button>
                     </div>
 
                     <div class="system-links">
-                        <h4><i class="fa-solid fa-link"></i> ระบบงานสนับสนุน (อัพเดตตามตาราง)</h4>
-                        <!-- 🌟 อัปเดตรายการที่ตกหล่นจาก Excel ทั้งหมด -->
+                        <h4 style="font-size: 20px; margin-bottom: 15px; color: var(--primary-pink);"><i class="fa-solid fa-link"></i> ระบบงานสนับสนุน (อัพเดตตามตาราง)</h4>
                         <div class="system-tags">
+                            <!-- ลิงก์ระบบเจ้าหน้าที่ครบทุกรายการตามต้นฉบับ -->
                             <span class="tag" onclick="window.open('http://www.pthosp.net/doctor/', '_blank')">ตรวจสอบข้อมูลผู้ให้บริการ HOSxP</span>
                             <span class="tag" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSc8ZBV84tWCwL0Vm11KTEZnZCj57MRQM6oyUlekkijn6C0ISw/viewform', '_blank')">กรอกประวัติ จนท.ใหม่ Online</span>
                             <span class="tag" onclick="window.open('https://nonhr.moph.go.th/', '_blank')">ข้อมูลบุคลากรรายบุคคล NonHR</span>
@@ -1137,9 +677,9 @@
     <!-- ================== Footer ================== -->
     <footer>
         <div class="container">
-            <p>โรงพยาบาลปากท่อ เลขที่ 201/10 หมู่ 8 ถ.ท้าวอู่ทอง ต.ปากท่อ อ.ปากท่อ จ.ราชบุรี 70140 | โทรศัพท์ 032-282530-31</p>
-            <p>Copyright 2026 by Paktho Computer Center. All rights reserved.</p>
-            <div style="display:inline-block; background:#0056b3; color:white; padding:5px 15px; border-radius:20px; font-size:12px; margin-top:15px;">
+            <p style="margin-bottom: 10px;">โรงพยาบาลปากท่อ เลขที่ 201/10 หมู่ 8 ถ.ท้าวอู่ทอง ต.ปากท่อ อ.ปากท่อ จ.ราชบุรี 70140 | โทรศัพท์ 032-282530-31</p>
+            <p style="color: #f8bbd0;">Copyright 2026 by Paktho Computer Center. All rights reserved.</p>
+            <div style="display:inline-block; background:var(--primary-pink); color:white; padding:8px 20px; border-radius:25px; font-size:14px; margin-top:20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
                 <i class="fa-solid fa-chart-line"></i> สถิติผู้เข้าชมเว็บไซต์: 12,011,852 unique visits
             </div>
         </div>
@@ -1158,16 +698,14 @@
 
     <!-- โครงสร้างหน้าต่าง Popup รายชื่อเครือข่าย รพ.สต. -->
     <div id="networkModal" class="image-modal" onclick="closeNetworkModal()">
-        <div class="modal-wrapper" style="width: 800px; max-width: 90vw; height: auto; max-height: 85vh; background: #fff; border-radius: 12px; padding: 25px; flex-direction: column; align-items: stretch; justify-content: flex-start; overflow: hidden;" onclick="event.stopPropagation();">
+        <div class="modal-wrapper" style="width: 800px; max-width: 90vw; height: auto; max-height: 85vh; background: #fff; border-radius: 15px; padding: 30px; flex-direction: column; align-items: stretch; justify-content: flex-start; overflow: hidden;" onclick="event.stopPropagation();">
             
-
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eef5ff; padding-bottom: 15px; margin-bottom: 15px;">
-                <h3 style="color:#0056b3; margin:0;"><i class="fa-solid fa-network-wired"></i> รายชื่อเครือข่าย รพ.สต. ในพื้นที่</h3>
-                <span style="font-size: 30px; cursor: pointer; color: #888; line-height: 1;" onclick="closeNetworkModal()">&times;</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--light-pink); padding-bottom: 20px; margin-bottom: 20px;">
+                <h3 style="color:var(--primary-pink); margin:0; font-size: 24px;"><i class="fa-solid fa-network-wired"></i> รายชื่อเครือข่าย รพ.สต. ในพื้นที่</h3>
+                <span style="font-size: 35px; cursor: pointer; color: #888; line-height: 1;" onclick="closeNetworkModal()">&times;</span>
             </div>
             
-            
-            <div class="network-grid" style="overflow-y: auto; padding-right: 10px; margin-top: 0; align-content: start;">
+            <div class="network-grid" style="overflow-y: auto; padding-right: 15px; margin-top: 0; align-content: start;">
                 <div class="network-box"><span>สสอ.ปากท่อ</span> <a href="tel:032281162">032-281-162</a></div>
                 <div class="network-box"><span>รพ.สต.บ้านหนองไร่</span> <a href="tel:032229870">032-229-870</a></div>
                 <div class="network-box"><span>รพ.สต.ทุ่งหลวง</span> <a href="tel:032240245">032-240-245</a></div>
@@ -1188,7 +726,6 @@
                 <div class="network-box"><span>รพ.สต.ห้วยยางโทน</span> <a href="tel:0898376269">089-837-6269</a></div>
                 <div class="network-box"><span>รพ.ราชบุรี</span> <a href="tel:032327999">032-327-999</a></div>
             </div>
-            
         </div>
     </div>
 
@@ -1213,15 +750,46 @@
             }
         }
 
-        // 2. ฟังก์ชันเลื่อนภาพ Slider แบบวนลูป (Infinite Loop)
-        let isSliding = false;
+        // 🌟 2. ฟังก์ชันตรวจสอบว่ากล่องไหนอยู่ "ตรงกลาง" จอ เพื่อสั่งให้ขยายใหญ่ (Scale Center)
+        function checkCenterCard() {
+            const tracks = document.querySelectorAll('.carousel-track');
+            tracks.forEach(track => {
+                const cards = track.querySelectorAll('.news-card-simple');
+                if(cards.length === 0) return;
+                
+                // หาจุดกึ่งกลางของกรอบ Track
+                const trackCenter = track.getBoundingClientRect().left + (track.clientWidth / 2);
 
+                let closestCard = null;
+                let minDistance = Infinity;
+
+                // วนลูปหาการ์ดที่ใกล้จุดกึ่งกลางมากที่สุด
+                cards.forEach(card => {
+                    const cardCenter = card.getBoundingClientRect().left + (card.clientWidth / 2);
+                    const distance = Math.abs(trackCenter - cardCenter);
+                    
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestCard = card;
+                    }
+                    card.classList.remove('is-center');
+                });
+
+                // ใส่คลาสขยายร่างให้การ์ดที่อยู่ตรงกลาง
+                if (closestCard) {
+                    closestCard.classList.add('is-center');
+                }
+            });
+        }
+
+        // 3. ฟังก์ชันเลื่อนภาพ Slider
+        let isSliding = false;
         function slideCarousel(trackId, direction) {
             if (isSliding) return;
             isSliding = true;
 
             const track = document.getElementById(trackId);
-            const itemWidth = track.firstElementChild.clientWidth + 20;
+            const itemWidth = track.firstElementChild.clientWidth + 30; 
 
             if (direction === 1) {
                 track.scrollBy({ left: itemWidth, behavior: 'smooth' });
@@ -1231,6 +799,7 @@
                     track.scrollLeft -= itemWidth; 
                     track.style.scrollBehavior = 'smooth'; 
                     isSliding = false;
+                    checkCenterCard();
                 }, 500); 
             } else {
                 track.style.scrollBehavior = 'auto'; 
@@ -1240,40 +809,44 @@
                 
                 setTimeout(() => {
                     track.scrollBy({ left: -itemWidth, behavior: 'smooth' });
-                    setTimeout(() => { isSliding = false; }, 500);
+                    setTimeout(() => { 
+                        isSliding = false; 
+                        checkCenterCard();
+                    }, 500);
                 }, 50);
             }
         }
 
-        // 3. ฟังก์ชันตรวจจับการปัดนิ้วในมือถือ (ให้วนลูปได้เมื่อปัดสุด)
+        // ตรวจจับการสไลด์ด้วยนิ้วและเมาส์ เพื่อให้ภาพตรงกลางเด้งเสมอ
+        document.querySelectorAll('.carousel-track').forEach(track => {
+            track.addEventListener('scroll', checkCenterCard);
+        });
+
+        // 4. ฟังก์ชันตรวจจับการปัดนิ้วในมือถือ (ให้วนลูปได้เมื่อปัดสุด)
         function handleMobileSwipeLoop(trackId) {
             const track = document.getElementById(trackId);
             if(!track) return;
             
             track.addEventListener('scroll', () => {
-                // ถ้าปัดไปทางขวาจนเกือบสุดขอบ (เหลือระยะห่างน้อยกว่า 50px)
                 if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 50) {
-                    const itemWidth = track.firstElementChild.clientWidth + 20;
-                    track.style.scrollBehavior = 'auto'; // ปิดความสมูทชั่วคราว
-                    track.appendChild(track.firstElementChild); // ย้ายรูปหน้าสุดไปต่อท้าย
-                    track.scrollLeft -= itemWidth; // ขยับมุมมองตามไป
-                    track.style.scrollBehavior = 'smooth'; // เปิดความสมูทคืน
+                    const itemWidth = track.firstElementChild.clientWidth + 30;
+                    track.style.scrollBehavior = 'auto'; 
+                    track.appendChild(track.firstElementChild); 
+                    track.scrollLeft -= itemWidth; 
+                    track.style.scrollBehavior = 'smooth'; 
                 }
-                
-                // ถ้าปัดย้อนกลับไปทางซ้ายจนสุดขอบ
                 if (track.scrollLeft <= 0) {
-                    const itemWidth = track.firstElementChild.clientWidth + 20;
+                    const itemWidth = track.firstElementChild.clientWidth + 30;
                     track.style.scrollBehavior = 'auto';
-                    track.prepend(track.lastElementChild); // ย้ายรูปท้ายสุดมาไว้หน้า
+                    track.prepend(track.lastElementChild); 
                     track.scrollLeft += itemWidth;
                     track.style.scrollBehavior = 'smooth';
                 }
             });
         }
 
-        // 4. ฟังก์ชันสไลด์เลื่อนอัตโนมัติ
+        // 5. สไลด์เลื่อนอัตโนมัติ
         let autoSlideIntervals = {};
-
         function startAutoSlide(trackId) {
             const track = document.getElementById(trackId);
             if (!track) return;
@@ -1295,21 +868,24 @@
             });
         }
 
-        // สั่งให้ระบบทั้งหมดทำงานเมื่อเปิดเว็บ
+        // สั่งทำงานตอนเปิดเว็บ
         window.addEventListener('load', function() {
-            // ซ่อน Splash Screen ถ้าระบบจำได้ว่าเคยกดแล้ว
             if (sessionStorage.getItem('splashClosed')) {
                 document.getElementById('splashScreen').style.display = 'none';
             }
 
+            // รันแทร็กทั้ง 4 หมวด
             const tracks = ['track1', 'track2', 'track3', 'track4'];
             tracks.forEach(track => {
                 startAutoSlide(track);
-                handleMobileSwipeLoop(track); // เปิดระบบตรวจจับการปัดนิ้ว
+                handleMobileSwipeLoop(track); 
             });
+            
+            // สั่งให้เช็คกล่องตรงกลางครั้งแรกเมื่อโหลดเว็บเสร็จ
+            setTimeout(checkCenterCard, 200);
         });
 
-        // 5. ปุ่ม Back to Top และ Modal
+        // 6. ปุ่ม Back to Top และ Modal
         window.addEventListener('scroll', function() {
             const btn = document.getElementById('backToTop');
             if (window.scrollY > 300) {
@@ -1348,7 +924,7 @@
             
             setTimeout(() => {
                 splash.style.display = "none";
-                sessionStorage.setItem('splashClosed', 'true'); // จำไว้ว่ากดปิดแล้ว
+                sessionStorage.setItem('splashClosed', 'true'); 
             }, 800); 
         }
     </script>
