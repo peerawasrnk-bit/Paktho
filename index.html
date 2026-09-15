@@ -25,9 +25,6 @@
         .section-title span { color: var(--accent-pink); }
 
         header { background: #fff; box-shadow: 0 2px 15px rgba(216, 27, 96, 0.08); position: sticky; top: 0; z-index: 100; }
-        .header-top { background: var(--primary-pink); color: white; padding: 6px 0; font-size: 14px; display: flex; justify-content: space-between; }
-        .header-top a { color: white; text-decoration: none; transition: 0.3s; }
-        .header-top a:hover { color: var(--light-pink); }
         .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; flex-wrap: wrap; gap: 15px; }
         .logo { display: flex; align-items: center; gap: 15px; font-size: 26px; font-weight: 700; color: var(--primary-pink); cursor: pointer; white-space: nowrap; flex-shrink: 0; }
         
@@ -202,7 +199,7 @@
     </div>
 
     <!-- ================== Header ================== -->
-        </div>
+    <header>
         <div class="container header-main">
             <div class="logo" onclick="switchPage(event, 'home')">
                 <img src="Picture/logo.png" alt="โลโก้โรงพยาบาลปากท่อ" style="height: 65px; width: auto; margin-right: 10px;">
@@ -729,7 +726,7 @@
         </div>
     </div>
 
-    <!-- ================== JavaScript ================== -->
+<!-- ================== JavaScript ================== -->
     <script>
         // 1. เปลี่ยนหน้าเว็บ
         function switchPage(e, pageId) {
@@ -750,122 +747,145 @@
             }
         }
 
-        // 🌟 2. ฟังก์ชันตรวจสอบว่ากล่องไหนอยู่ "ตรงกลาง" จอ เพื่อสั่งให้ขยายใหญ่ (Scale Center)
+        // 🌟 2. อัปเดต: ฟังก์ชันขยายใหญ่รูปตรงกลาง (เพิ่มระบบลดภาระการคำนวณ ป้องกันเครื่องค้าง)
+        let isCheckingCenter = false;
         function checkCenterCard() {
-            const tracks = document.querySelectorAll('.carousel-track');
-            tracks.forEach(track => {
-                const cards = track.querySelectorAll('.news-card-simple');
-                if(cards.length === 0) return;
-                
-                // หาจุดกึ่งกลางของกรอบ Track
-                const trackCenter = track.getBoundingClientRect().left + (track.clientWidth / 2);
-
-                let closestCard = null;
-                let minDistance = Infinity;
-
-                // วนลูปหาการ์ดที่ใกล้จุดกึ่งกลางมากที่สุด
-                cards.forEach(card => {
-                    const cardCenter = card.getBoundingClientRect().left + (card.clientWidth / 2);
-                    const distance = Math.abs(trackCenter - cardCenter);
+            if (isCheckingCenter) return;
+            isCheckingCenter = true;
+            
+            requestAnimationFrame(() => {
+                const tracks = document.querySelectorAll('.carousel-track');
+                tracks.forEach(track => {
+                    const cards = track.querySelectorAll('.news-card-simple');
+                    if(cards.length === 0) return;
                     
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        closestCard = card;
-                    }
-                    card.classList.remove('is-center');
-                });
+                    const trackCenter = track.getBoundingClientRect().left + (track.clientWidth / 2);
+                    let closestCard = null;
+                    let minDistance = Infinity;
 
-                // ใส่คลาสขยายร่างให้การ์ดที่อยู่ตรงกลาง
-                if (closestCard) {
-                    closestCard.classList.add('is-center');
-                }
+                    cards.forEach(card => {
+                        const cardCenter = card.getBoundingClientRect().left + (card.clientWidth / 2);
+                        const distance = Math.abs(trackCenter - cardCenter);
+                        
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            closestCard = card;
+                        }
+                        card.classList.remove('is-center');
+                    });
+
+                    if (closestCard) {
+                        closestCard.classList.add('is-center');
+                    }
+                });
+                isCheckingCenter = false;
             });
         }
 
-        // 3. ฟังก์ชันเลื่อนภาพ Slider
-        let isSliding = false;
+        // 🌟 3. อัปเดต: ฟังก์ชันเลื่อนภาพ Slider (เพิ่มระบบ Failsafe ป้องกันการล็อคค้างถาวร)
+        let isSliding = { track1: false, track2: false, track3: false, track4: false };
+
         function slideCarousel(trackId, direction) {
-            if (isSliding) return;
-            isSliding = true;
+            if (isSliding[trackId]) return;
+            isSliding[trackId] = true;
 
             const track = document.getElementById(trackId);
+            if (!track || track.children.length === 0) {
+                isSliding[trackId] = false;
+                return;
+            }
+
             const itemWidth = track.firstElementChild.clientWidth + 30; 
 
+            // ระบบกันค้าง: บังคับปลดล็อคอัตโนมัติใน 800ms หากมี Error
+            const failsafeUnlock = setTimeout(() => { isSliding[trackId] = false; }, 800);
+
             if (direction === 1) {
-                track.scrollBy({ left: itemWidth, behavior: 'smooth' });
+                track.style.scrollBehavior = 'smooth';
+                track.scrollLeft += itemWidth;
+                
                 setTimeout(() => {
                     track.style.scrollBehavior = 'auto'; 
                     track.appendChild(track.firstElementChild);
                     track.scrollLeft -= itemWidth; 
                     track.style.scrollBehavior = 'smooth'; 
-                    isSliding = false;
                     checkCenterCard();
+                    isSliding[trackId] = false;
+                    clearTimeout(failsafeUnlock);
                 }, 500); 
             } else {
                 track.style.scrollBehavior = 'auto'; 
                 track.prepend(track.lastElementChild); 
                 track.scrollLeft += itemWidth;
-                track.style.scrollBehavior = 'smooth';
                 
-                setTimeout(() => {
-                    track.scrollBy({ left: -itemWidth, behavior: 'smooth' });
-                    setTimeout(() => { 
-                        isSliding = false; 
-                        checkCenterCard();
-                    }, 500);
-                }, 50);
+                // รอให้เบราว์เซอร์จัดเรียง DOM ก่อนค่อยเลื่อนกลับ
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        track.style.scrollBehavior = 'smooth';
+                        track.scrollLeft -= itemWidth;
+                        setTimeout(() => { 
+                            checkCenterCard();
+                            isSliding[trackId] = false;
+                            clearTimeout(failsafeUnlock);
+                        }, 500);
+                    });
+                });
             }
         }
 
-        // ตรวจจับการสไลด์ด้วยนิ้วและเมาส์ เพื่อให้ภาพตรงกลางเด้งเสมอ
         document.querySelectorAll('.carousel-track').forEach(track => {
             track.addEventListener('scroll', checkCenterCard);
         });
 
-        // 4. ฟังก์ชันตรวจจับการปัดนิ้วในมือถือ (ให้วนลูปได้เมื่อปัดสุด)
+        // 🌟 4. อัปเดต: ตรวจจับปัดนิ้วในมือถือ (หน่วงเวลาสลับ DOM ไม่ให้เบราว์เซอร์ช็อค)
+        let swipeTimeouts = {};
         function handleMobileSwipeLoop(trackId) {
             const track = document.getElementById(trackId);
             if(!track) return;
             
             track.addEventListener('scroll', () => {
-                if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 50) {
-                    const itemWidth = track.firstElementChild.clientWidth + 30;
-                    track.style.scrollBehavior = 'auto'; 
-                    track.appendChild(track.firstElementChild); 
-                    track.scrollLeft -= itemWidth; 
-                    track.style.scrollBehavior = 'smooth'; 
-                }
-                if (track.scrollLeft <= 0) {
-                    const itemWidth = track.firstElementChild.clientWidth + 30;
-                    track.style.scrollBehavior = 'auto';
-                    track.prepend(track.lastElementChild); 
-                    track.scrollLeft += itemWidth;
-                    track.style.scrollBehavior = 'smooth';
-                }
+                if (isSliding[trackId]) return; // ข้ามถ้ากำลังเลื่อนปุ่ม
+
+                clearTimeout(swipeTimeouts[trackId]);
+                swipeTimeouts[trackId] = setTimeout(() => {
+                    if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 20) {
+                        const itemWidth = track.firstElementChild.clientWidth + 30;
+                        track.style.scrollBehavior = 'auto'; 
+                        track.appendChild(track.firstElementChild); 
+                        track.scrollLeft -= itemWidth; 
+                        track.style.scrollBehavior = 'smooth'; 
+                        checkCenterCard();
+                    }
+                    if (track.scrollLeft <= 0) {
+                        const itemWidth = track.firstElementChild.clientWidth + 30;
+                        track.style.scrollBehavior = 'auto';
+                        track.prepend(track.lastElementChild); 
+                        track.scrollLeft += itemWidth;
+                        track.style.scrollBehavior = 'smooth';
+                        checkCenterCard();
+                    }
+                }, 150); // รอให้นิ้วหยุดปัด 0.15 วินาที ค่อยสลับรูป
             });
         }
 
         // 5. สไลด์เลื่อนอัตโนมัติ
         let autoSlideIntervals = {};
+        
         function startAutoSlide(trackId) {
             const track = document.getElementById(trackId);
             if (!track) return;
+
+            clearInterval(autoSlideIntervals[trackId]);
 
             autoSlideIntervals[trackId] = setInterval(() => {
                 slideCarousel(trackId, 1);
             }, 4000); 
 
-            track.addEventListener('mouseenter', () => clearInterval(autoSlideIntervals[trackId]));
-            track.addEventListener('touchstart', () => clearInterval(autoSlideIntervals[trackId]), {passive: true});
+            track.onmouseenter = () => clearInterval(autoSlideIntervals[trackId]);
+            track.ontouchstart = () => clearInterval(autoSlideIntervals[trackId]);
 
-            track.addEventListener('mouseleave', () => {
-                clearInterval(autoSlideIntervals[trackId]);
-                startAutoSlide(trackId); 
-            });
-            track.addEventListener('touchend', () => {
-                clearInterval(autoSlideIntervals[trackId]);
-                startAutoSlide(trackId); 
-            });
+            track.onmouseleave = () => startAutoSlide(trackId);
+            track.ontouchend = () => startAutoSlide(trackId);
         }
 
         // สั่งทำงานตอนเปิดเว็บ
@@ -874,14 +894,12 @@
                 document.getElementById('splashScreen').style.display = 'none';
             }
 
-            // รันแทร็กทั้ง 4 หมวด
             const tracks = ['track1', 'track2', 'track3', 'track4'];
             tracks.forEach(track => {
                 startAutoSlide(track);
                 handleMobileSwipeLoop(track); 
             });
             
-            // สั่งให้เช็คกล่องตรงกลางครั้งแรกเมื่อโหลดเว็บเสร็จ
             setTimeout(checkCenterCard, 200);
         });
 
@@ -929,4 +947,4 @@
         }
     </script>
 </body>
-</html>
+</html> 
