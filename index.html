@@ -7,12 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* โทนสีใหม่ */
+        /* โทนสี */
         :root {
-            --primary-pink: #ff80ae;    /* หัวข้อ/โลโก้ */
-            --light-pink: #fce4ec;      /* สำหรับ Hover/พื้นหลังตาราง */
-            --accent-pink: #fcc6d8;     /* ปุ่ม/ไอคอน */
-            --bg-pink: #fff5f8;         /* พื้นหลังเว็บ */
+            --primary-pink: #D81B60;    /* ชมพูเข้ม: ใช้กับโลโก้ หัวข้อหลัก และไอคอน (เพื่อให้ตัวหนังสือชัดเจน) */
+            --accent-pink: #F06292;     /* ชมพูกลาง: ใช้กับปุ่ม หรือส่วนที่ต้องการให้โดดเด่นนุ่มนวล */
+            --light-pink: #FCE4EC;      /* ชมพูอ่อน: ใช้กับเส้นขอบ พื้นหลังส่วนย่อย หรือเวลาเอาเมาส์ชี้ (Hover) */
+            --bg-pink: #FFF5F8;         /* ขาวอมชมพู: พื้นหลังหลักของเว็บ สว่างสบายตา ไม่กวนสายตา */
         }
 
         /* ขยายขนาดฟอนต์มาตรฐาน */
@@ -189,16 +189,34 @@
             .data-table th, .data-table td { font-size: 14px; padding: 10px; white-space: nowrap; }
         }
         
-        /* 🌟 แก้ไข: ย้ายสไตล์ของ Splash Screen มาไว้ใน <style> หลัก */
+        /* 🌟 แก้ไข: ปรับโทนสีหน้าถวายความอาลัยให้เป็น ขาว-ดำ-เทา อย่างเหมาะสม */
         .splash-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle at center, #3c1020 0%, #000000 100%); 
+            /* เปลี่ยนพื้นหลังเป็นเทาเข้มไล่ไปดำ */
+            background: radial-gradient(circle at center, #333333 0%, #000000 100%); 
             z-index: 999999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
             animation: splashFadeIn 1.2s ease-out;
         }
-        .splash-img { max-width: 90vw; max-height: 75vh; object-fit: contain; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(216,27,96,0.15); border-radius: 4px; }
-        .splash-btn { margin-top: 35px; padding: 12px 40px; background: rgba(255, 255, 255, 0.08); color: #ddd; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50px; font-size: 18px; cursor: pointer; transition: all 0.4s ease; letter-spacing: 1px; backdrop-filter: blur(5px); }
-        .splash-btn:hover { background: rgba(216, 27, 96, 0.8); color: #fff; border-color: transparent; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(216, 27, 96, 0.4); }
+        .splash-img { 
+            max-width: 90vw; max-height: 75vh; object-fit: contain; 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            /* เปลี่ยนเงาของรูปเป็นโทนขาว/เทา */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 40px rgba(255,255,255,0.05); 
+            border-radius: 4px; 
+        }
+        .splash-btn { 
+            margin-top: 35px; padding: 12px 40px; 
+            background: rgba(255, 255, 255, 0.08); color: #ccc; 
+            border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50px; 
+            font-size: 18px; cursor: pointer; transition: all 0.4s ease; 
+            letter-spacing: 1px; backdrop-filter: blur(5px); 
+        }
+        /* เอาสีชมพูตอน Hover ออก เปลี่ยนเป็นปุ่มสว่างขึ้นแบบสุภาพ */
+        .splash-btn:hover { 
+            background: rgba(255, 255, 255, 0.2); color: #fff; 
+            border-color: #fff; transform: translateY(-3px); 
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15); 
+        }
         @keyframes splashFadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
         .splash-fade-out { animation: splashFadeOut 0.8s ease-in forwards; }
         @keyframes splashFadeOut { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
