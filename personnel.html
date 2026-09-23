@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บุคลากรในหน่วยงาน - โรงพยาบาลปากท่อ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /*  โทนสีใหม่  */
+        :root {
+            --primary-pink: #d81b60;
+            --light-pink: #fce4ec;
+            --accent-pink: #f06292;
+            --bg-pink: #fff5f8;
+            --gray-text: #555;
+            --light-gray: #f8f9fa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
+        body { background-color: var(--bg-pink); color: #333; line-height: 1.6; font-size: 16px; }
+        .container { max-width: 1320px; margin: 0 auto; padding: 0 20px; }
+        
+        /* ================== Header ================== */
+        header { background: #fff; box-shadow: 0 2px 15px rgba(216, 27, 96, 0.08); position: sticky; top: 0; z-index: 100; }
+        .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; flex-wrap: wrap; gap: 15px; }
+        .logo { display: flex; align-items: center; gap: 15px; font-size: 26px; font-weight: 700; color: var(--primary-pink); text-decoration: none; }
+        nav ul { list-style: none; display: flex; gap: 20px; align-items: center; }
+        nav a { text-decoration: none; color: #333; font-weight: 500; font-size: 17px; cursor: pointer; transition: 0.3s; padding: 10px 15px; border-radius: 6px; }
+        nav a:hover { color: var(--primary-pink); background: var(--light-pink); }
+        .btn-home { background: var(--light-pink); color: var(--primary-pink); font-weight: 600; border: 1px solid var(--primary-pink); }
+
+        /* ================== ส่วนเนื้อหาหลัก ================== */
+        .page-header { text-align: center; padding: 40px 0 30px; }
+        .page-header h1 { font-size: 32px; color: var(--primary-pink); margin-bottom: 5px; }
+        .page-header p { color: var(--gray-text); font-size: 16px; }
+
+        .personnel-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            padding-bottom: 80px;
+            align-items: start;
+        }
+
+        /* ================== เมนูด้านซ้าย (Sidebar) ================== */
+        .sidebar { background: #fff; border-radius: 15px; padding: 20px 15px; box-shadow: 0 5px 20px rgba(216, 27, 96, 0.05); border: 1px solid var(--light-pink); position: sticky; top: 100px; max-height: calc(100vh - 120px); overflow-y: auto; }
+        
+        /* สไตล์ Scrollbar ของเมนูซ้าย */
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #f8bbd0; border-radius: 10px; }
+        
+        .sidebar h3 { font-size: 18px; color: var(--primary-pink); margin-bottom: 15px; border-bottom: 2px solid var(--light-pink); padding-bottom: 10px; padding-left: 5px; }
+        .sidebar ul { list-style: none; }
+        .sidebar li { margin-bottom: 5px; }
+        
+        /* หมวดหมู่หลัก */
+        .menu-group { font-size: 14px; font-weight: 700; color: #888; margin: 15px 0 5px 10px; }
+
+        .sidebar button {
+            width: 100%; text-align: left; background: none; border: none; padding: 10px 15px; border-radius: 8px; font-size: 15px; color: #444; cursor: pointer; transition: 0.2s; display: flex; justify-content: space-between; align-items: center;
+        }
+        .sidebar button i { font-size: 12px; color: #ccc; transition: 0.2s; }
+        .sidebar button:hover { background: var(--bg-pink); color: var(--primary-pink); }
+        .sidebar button.active { background: var(--primary-pink); color: #fff; font-weight: 500; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.2); }
+        .sidebar button.active i { color: #fff; transform: translateX(3px); }
+
+        /* ปุ่มเมนูย่อยให้ขยับเข้าไปนิดนึง */
+        .sidebar button.sub-item { padding-left: 25px; font-size: 14px; border-left: 3px solid transparent; border-radius: 0 8px 8px 0; }
+        .sidebar button.sub-item:hover { border-left-color: var(--accent-pink); }
+        .sidebar button.sub-item.active { border-left-color: #fff; }
+
+        /* ================== พื้นที่โหลด iFrame ด้านขวา ================== */
+        .content-area { background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(216, 27, 96, 0.05); border: 1px solid var(--light-pink); min-height: 800px; overflow: hidden; display: flex; flex-direction: column; }
+        .iframe-container { flex: 1; width: 100%; border: none; min-height: 800px; }
+
+        /* Footer */
+        footer { background: #3c1020; color: #fce4ec; padding: 30px 0; text-align: center; font-size: 14px; margin-top: auto; }
+
+        /* ================== Responsive (มือถือ) ================== */
+        @media (max-width: 900px) {
+            .personnel-layout { grid-template-columns: 1fr; gap: 20px; }
+            /* เปลี่ยนเมนูซ้ายเป็นแถบเลื่อนแนวนอนบนมือถือ */
+            .sidebar { position: relative; top: 0; max-height: unset; padding: 15px; overflow-x: auto; white-space: nowrap; }
+            .sidebar ul { display: inline-flex; gap: 8px; }
+            .menu-group { display: none; } /* ซ่อนหัวข้อหมวดหมู่ในมือถือให้ประหยัดที่ */
+            .sidebar li { margin-bottom: 0; }
+            .sidebar button, .sidebar button.sub-item { padding: 10px 15px; border: 1px solid #eee; border-radius: 20px; white-space: nowrap; font-size: 14px; }
+            .sidebar button i { display: none; }
+            .content-area { min-height: 600px; }
+            .iframe-container { min-height: 600px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-main">
+            <a href="../index.html" class="logo">
+                <img src="../Picture/logo.png" alt="โลโก้โรงพยาบาล" style="height: 55px; width: auto; margin-right: 10px;" onerror="this.style.display='none'">
+                โรงพยาบาลปากท่อ
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="../index.html" class="btn-home"><i class="fa-solid fa-house"></i> กลับหน้าแรก</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container page-header">
+        <h1><i class="fa-solid fa-users-rectangle"></i> บุคลากรในหน่วยงาน</h1>
+        <p>ทำเนียบผู้บริหาร และบุคลากรแผนกต่างๆ ของโรงพยาบาลปากท่อ</p>
+    </div>
+
+    <div class="container personnel-layout">
+        
+        <aside class="sidebar">
+            <h3><i class="fa-solid fa-list"></i> เลือกแผนก</h3>
+            <ul id="menuList">
+                <li><button class="tab-btn active" onclick="loadDep('dep_Supervisor.php', this)">หัวหน้ากลุ่มงาน <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_Doctor.php', this)">กลุ่มงานการแพทย์ <i class="fa-solid fa-chevron-right"></i></button></li>
+                
+                <div class="menu-group">กลุ่มงานบริหาร</div>
+                <li><button class="tab-btn sub-item" onclick="loadDep('dep_admin.php', this)">งานบริหารทั่วไป</button></li>
+                <li><button class="tab-btn sub-item" onclick="loadDep('dep_parcle.php', this)">งานพัสดุ</button></li>
+                <li><button class="tab-btn sub-item" onclick="loadDep('dep_finance.php', this)">งานการเงิน</button></li>
+                <li><button class="tab-btn sub-item" onclick="loadDep('dep_craft.php', this)">งานก่อสร้าง/ซ่อมบำรุง</button></li>
+                <li><button class="tab-btn sub-item" onclick="loadDep('dep_car.php', this)">งานยานพาหนะ</button></li>
+                <li><button class="tab-btn sub-item" onclick="loadDep('dep_wash.php', this)">งานซักฟอก</button></li>
+                <li><button class="tab-btn sub-item" onclick="loadDep('dep_guard.php', this)">งานความปลอดภัย</button></li>
+                <li><button class="tab-btn sub-item" onclick="loadDep('clean_dep.php', this)">งานทำความสะอาด</button></li>
+                <li><button class="tab-btn sub-item" onclick="loadDep('GAR.php', this)">งานภูมิทัศน์-สวน</button></li>
+
+                <div class="menu-group">งานบริการทางการแพทย์</div>
+                <li><button class="tab-btn sub-item" onclick="loadDep('dep_pan_thai.php', this)">แพทย์แผนไทย/ทางเลือก</button></li>
+                <li><button class="tab-btn sub-item" onclick="loadDep('kaypap_dep.php', this)">งานเวชกรรมฟื้นฟู</button></li>
+                
+                <div class="menu-group">กลุ่มการพยาบาลและอื่นๆ</div>
+                <li><button class="tab-btn" onclick="loadDep('dep_nurse.php', this)">กลุ่มการพยาบาล <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_male.php', this)">งานผู้ป่วยในชาย <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_female.php', this)">งานผู้ป่วยในหญิง <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_lr.php', this)">งานห้องคลอด <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('opd_dep.php', this)">งานผู้ป่วยนอก <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_er.php', this)">งานอุบัติเหตุ <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep.php', this)">งานห้องผ่าตัด <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_psychaiatric.php', this)">งานจิตเวชและยาเสพติด <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_stat.php', this)">งานเวชสถิติ/เวชระเบียน <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_ins.php', this)">งานประกันสุขภาพ <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_ins2.php', this)">งานยุทธศาสตร์ <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('venpa_dep.php', this)">งานเคลื่อนย้ายผู้ป่วย <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_pha.php', this)">งานเภสัชกรรม <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_lab.php', this)">งานชันสูตรสาธารณสุข <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_pcu.php', this)">งานบริการด้านปฐมภูมิฯ <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_dent.php', this)">กลุ่มงานทันตกรรม <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_food.php', this)">งานโภชนศาสตร์ <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_xray.php', this)">งานรังสีวินิจฉัย <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_ic.php', this)">งานหน่วยจ่ายกลาง <i class="fa-solid fa-chevron-right"></i></button></li>
+                <li><button class="tab-btn" onclick="loadDep('dep_com.php', this)">ศูนย์คอมพิวเตอร์ <i class="fa-solid fa-chevron-right"></i></button></li>
+            </ul>
+        </aside>
+
+        <main class="content-area">
+            <iframe id="cwindow" name="cwindow" src="dep_Supervisor.php" class="iframe-container" frameborder="0" scrolling="auto" onload="autoResize(this)"></iframe>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>โรงพยาบาลปากท่อ เลขที่ 201/10 หมู่ 8 ถ.ท้าวอู่ทอง ต.ปากท่อ อ.ปากท่อ จ.ราชบุรี 70140</p>
+        </div>
+    </footer>
+
+    <script>
+        function loadDep(url, btnElement) {
+            // 1. ลบไฮไลท์สีชมพูออกจากปุ่มเก่าทั้งหมด
+            var btns = document.getElementsByClassName("tab-btn");
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.remove("active");
+            }
+            
+            // 2. ไฮไลท์ปุ่มที่เพิ่งกด
+            btnElement.classList.add("active");
+            
+            // 3. สั่งให้ iFrame โหลดหน้าเว็บใหม่ตาม URL ที่กำหนด
+            document.getElementById("cwindow").src = url;
+
+            // สำหรับมือถือ: เลื่อนหน้าจอกลับขึ้นไปด้านบนตรง iFrame เพื่อให้เห็นเนื้อหาใหม่ทันที
+            if (window.innerWidth <= 900) {
+                document.querySelector('.content-area').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // ฟังก์ชันปรับความสูง iFrame อัตโนมัติตามเนื้อหาด้านใน (สคริปต์เดิมของคุณนำมาปรับปรุง)
+        function autoResize(iframe) {
+            try {
+                // พยายามอ่านความสูงของเนื้อหาด้านใน (จะทำได้ก็ต่อเมื่ออยู่ในโดเมนเดียวกัน)
+                var newHeight = iframe.contentWindow.document.body.scrollHeight;
+                if (newHeight > 800) {
+                    iframe.style.height = (newHeight + 50) + "px";
+                } else {
+                    iframe.style.height = "800px"; // ความสูงขั้นต่ำ
+                }
+            } catch(e) {
+                // หากติดปัญหา Cross-origin ให้ใช้ความสูงขั้นต่ำ
+                iframe.style.height = "800px";
+            }
+        }
+    </script>
+</body>
+</html>
