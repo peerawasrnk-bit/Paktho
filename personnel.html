@@ -125,12 +125,11 @@
     <header>
         <div class="container header-main">
             <a href="index.html" class="logo">
-                <img src="Picture/logo.png" alt="โลโก้โรงพยาบาล" style="height: 55px; width: auto; margin-right: 10px;" onerror="this.style.display='none'">
+                <img src="../Picture/logo.png" alt="โลโก้โรงพยาบาล" style="height: 55px; width: auto; margin-right: 10px;" onerror="this.style.display='none'">
                 โรงพยาบาลปากท่อ
             </a>
             <nav>
                 <ul>
-                    <!-- 🌟 แก้ลิงก์ปุ่มกลับหน้าแรก เป็น index.html -->
                     <li><a href="index.html" class="btn-home"><i class="fa-solid fa-house"></i> กลับหน้าแรก</a></li>
                 </ul>
             </nav>
@@ -149,6 +148,7 @@
             <h3><i class="fa-solid fa-list"></i> เลือกแผนก</h3>
             <ul class="menu-list">
                 
+                <div class="menu-label" style="margin-top: 5px;"><i class="fa-solid fa-user-tie"></i> บริหารและการแพทย์</div>
                 <li><button class="tab-btn active" onclick="loadDep('Picture/Personnel/Supervisor.png', this)">หัวหน้ากลุ่มงาน</button></li>
 
                 <div class="menu-label"><i class="fa-solid fa-user-nurse"></i> กลุ่มงานการแพทย์</div>
@@ -192,26 +192,29 @@
 
                 <div class="menu-label"><i class="fa-solid fa-layer-group"></i> หมวดหมู่อื่นๆ</div>
                 <li><button class="tab-btn" onclick="loadDep('Picture/Personnel/nurse_dep.png', this)">กลุ่มการพยาบาล</button></li>
-                <li><button class="tab-btn" onclick="loadDep('Picture/Personnel/dent_dep.png', this)">กลุ่มงานทันตกรรม</button></li>
                 <li><button class="tab-btn" onclick="loadDep('Picture/Personnel/dep_psychaiatric.png', this)">งานจิตเวชและยาเสพติด</button></li>
                 <li><button class="tab-btn" onclick="loadDep('Picture/Personnel/pha_dep.png', this)">งานเภสัชกรรม</button></li>
                 <li><button class="tab-btn" onclick="loadDep('Picture/Personnel/pcu_dep.png', this)">งานบริการด้านปฐมภูมิฯ</button></li>
                 <li><button class="tab-btn" onclick="loadDep('Picture/Personnel/xray_dep.png', this)">งานรังสีวินิจฉัย</button></li>
                 <li><button class="tab-btn" onclick="loadDep('Picture/Personnel/com_dep.png', this)">ศูนย์คอมพิวเตอร์</button></li>
+                <li><button class="tab-btn" onclick="loadDep('Picture/Personnel/dep_lab.png', this)">งานชันสูตรสาธารณสุข</button></li>
+                <li><button class="tab-btn" onclick="loadDep('Picture/Personnel/dent_dep.png', this)">กลุ่มงานทันตกรรม</button></li>
             </ul>
         </aside>
 
         <!-- ขวา: พื้นที่โหลดไฟล์รูปภาพ -->
         <main class="content-area">
-            <!-- 🌟 แสตนด์บายกรอบ Placeholder สำรองไว้ด้านล่างเสมอ -->
-            <div class="no-image-placeholder">
+            <!-- 🌟 1. เพิ่ม id ให้กล่อง placeholder -->
+            <div id="placeholder-box" class="no-image-placeholder">
                 <i class="fa-solid fa-image"></i>
                 <h3>กำลังปรับปรุงข้อมูลบุคลากร</h3>
                 <p>ขออภัย แผนกนี้ยังไม่มีแผนผังแสดงบุคลากร</p>
             </div>
             
-            <!-- 🌟 รูปภาพหลัก (ซ่อนรูปเมื่อ Error, และโชว์รูปเมื่อโหลดสำเร็จ) -->
-            <img id="cwindow" src="Picture/Personnel/Supervisor.png" class="img-container" alt="แผนผังบุคลากร" onerror="this.style.display='none'" onload="this.style.display='block'; this.style.opacity='1';">
+            <!-- 🌟 2. เพิ่มคำสั่ง document.getElementById('placeholder-box').style.display = ... เข้าไปใน onerror และ onload -->
+            <img id="cwindow" src="Picture/Personnel/Supervisor.png" class="img-container" alt="แผนผังบุคลากร" 
+                 onerror="this.style.display='none'; document.getElementById('placeholder-box').style.display='flex';" 
+                 onload="this.style.display='block'; this.style.opacity='1'; document.getElementById('placeholder-box').style.display='none';">
         </main>
     </div>
 
@@ -232,19 +235,20 @@
             // ระบายสีปุ่มใหม่
             btnElement.classList.add("active");
             
-            // ดึงรูปภาพมาทำงาน
             const imgViewer = document.getElementById("cwindow");
-            imgViewer.style.opacity = '0'; // เฟดออกเพื่อให้สมูท
+            const placeholderBox = document.getElementById("placeholder-box");
             
-            // หน่วงเวลาเล็กน้อยเพื่อให้ภาพเฟดดับลงก่อนเปลี่ยนรูป
+            imgViewer.style.opacity = '0'; // เฟดรูปออกเพื่อให้สมูท
+            
+            // หน่วงเวลาเล็กน้อยก่อนเปลี่ยนรูป
             setTimeout(() => {
-                imgViewer.style.display = 'block'; // 🌟 รีเซ็ตสถานะที่เคยถูกซ่อนจาก onerror ทิ้งไป ป้องกันบั๊กรูปหาย
+                imgViewer.style.display = 'block'; 
+                placeholderBox.style.display = 'flex'; // 🌟 โชว์กล่องข้อความไว้ก่อน เผื่อรูปล้มเหลว
                 imgViewer.src = url; 
             }, 200);
 
             // บนมือถือ เลื่อนจอไปที่รูปลงมาให้เห็นชัดๆ
             if (window.innerWidth <= 900) {
-                // หน่วงเวลาเลื่อนจอนิดนึงให้ดูไม่กระชาก
                 setTimeout(() => {
                     document.querySelector('.content-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 100);
