@@ -7,88 +7,57 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* โทนสีหลัก */
         :root {
             --primary-pink: #D81B60;
             --accent-pink: #F06292;
             --light-pink: #FCE4EC;
             --bg-pink: #FFF5F8;
             --gray-text: #555;
-            --light-gray: #f8f9fa;
+            --table-hover: #fff0f5;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
-        html { scroll-behavior: smooth; }
-        body { background-color: var(--bg-pink); color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; font-size: 18px; }
+        body { background-color: var(--bg-pink); color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
         
-        .container { max-width: 1320px; margin: 0 auto; padding: 0 20px; } 
+        /* ขยายขนาดตารางให้สมดุลเมื่ออยู่ตรงกลาง (900px กำลังสวยสำหรับ 3 คอลัมน์) */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; } 
+        .header-container { max-width: 1320px; margin: 0 auto; padding: 0 20px; }
 
         /* Header */
         header { background: #fff; box-shadow: 0 2px 15px rgba(216, 27, 96, 0.08); position: sticky; top: 0; z-index: 100; }
-        .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; flex-wrap: wrap; gap: 15px; }
-        .logo { display: flex; align-items: center; gap: 15px; font-size: 26px; font-weight: 700; color: var(--primary-pink); text-decoration: none; white-space: nowrap; flex-shrink: 0; }
-        nav ul { list-style: none; display: flex; gap: 20px; align-items: center; }
-        nav a { text-decoration: none; color: #333; font-weight: 500; font-size: 17px; cursor: pointer; transition: 0.3s; padding: 10px 15px; border-radius: 6px; white-space: nowrap; }
-        nav a:hover { color: var(--primary-pink); background: var(--light-pink); }
-        .btn-home { background: var(--light-pink); color: var(--primary-pink); font-weight: 600; border: 1px solid var(--primary-pink); }
+        .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+        .logo { display: flex; align-items: center; gap: 15px; font-size: 26px; font-weight: 700; color: var(--primary-pink); text-decoration: none; }
+        .btn-home { background: var(--light-pink); color: var(--primary-pink); font-weight: 600; padding: 10px 15px; border-radius: 6px; text-decoration: none; transition: 0.3s; }
+        .btn-home:hover { background: var(--primary-pink); color: #fff; }
 
         /* Page Header */
-        .page-header-stat { text-align: center; padding: 50px 0 40px; }
-        .page-header-stat h1 { font-size: 32px; color: var(--primary-pink); margin-bottom: 5px; }
-        .page-header-stat p { color: var(--gray-text); font-size: 16px; }
+        .page-header { text-align: center; padding: 50px 0 30px; }
+        .page-header h1 { font-size: 32px; color: var(--primary-pink); margin-bottom: 5px; }
+        .page-header p { color: var(--gray-text); font-size: 16px; }
 
-        /* Layout สถิติ (ซ้าย 70% - ขวา 30%) */
-        .stat-layout { display: grid; grid-template-columns: 1fr 340px; gap: 30px; padding-bottom: 80px; align-items: start; }
+        /* การ์ดตารางแบบอยู่ตรงกลางเดี่ยวๆ */
+        .table-card { background: #fff; border-radius: 15px; padding: 40px; box-shadow: 0 10px 30px rgba(216, 27, 96, 0.08); border: 1px solid var(--light-pink); margin-bottom: 80px; overflow-x: auto; }
+        .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid var(--light-pink); }
+        .table-header h2 { font-size: 22px; color: var(--primary-pink); display: flex; align-items: center; gap: 10px; }
+        .date-badge { background: var(--light-pink); color: var(--primary-pink); padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
 
-        /* ฝั่งซ้าย: ตารางข้อมูล */
-        .table-card { background: #fff; border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px rgba(216, 27, 96, 0.05); border: 1px solid var(--light-pink); overflow-x: auto; }
-        .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px dashed var(--light-pink); }
-        .table-header h2 { font-size: 20px; color: var(--primary-pink); }
-        .table-header .date-badge { background: var(--light-pink); color: var(--primary-pink); padding: 6px 15px; border-radius: 20px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
-        
-        .styled-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+        /* ตารางสไตล์คลีน */
+        .styled-table { width: 100%; border-collapse: collapse; font-size: 16px; }
         .styled-table thead tr { background-color: var(--primary-pink); color: #ffffff; text-align: left; }
-        .styled-table th { font-weight: 600; padding: 14px 15px; white-space: nowrap; }
-        .styled-table td { padding: 12px 15px; border-bottom: 1px solid #f0f0f0; color: #444; }
-        .styled-table tbody tr:nth-of-type(even) { background-color: var(--bg-pink); }
-        .styled-table tbody tr:hover { background-color: #f2e1e7; transition: 0.2s; }
-        .styled-table td:nth-child(2), .styled-table td:nth-child(3), .styled-table th:nth-child(2), .styled-table th:nth-child(3) { text-align: center; }
-        .total-row td { background-color: var(--light-pink) !important; font-weight: 700; color: var(--primary-pink) !important; font-size: 17px; border-top: 2px solid var(--primary-pink); }
-
-        /* ฝั่งขวา: Sidebar */
-        .right-sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 100px; }
+        .styled-table th { font-weight: 600; padding: 15px 20px; white-space: nowrap; }
+        .styled-table td { padding: 12px 20px; border-bottom: 1px solid #f0f0f0; color: #444; }
+        .styled-table tbody tr:nth-of-type(even) { background-color: #fafafa; }
+        .styled-table tbody tr:hover { background-color: var(--table-hover); }
         
-        /* โปรไฟล์ ผอ. */
-        .profile-card { background: #fff; border-radius: 15px; padding: 25px 20px; text-align: center; box-shadow: 0 5px 20px rgba(216, 27, 96, 0.05); border: 1px solid var(--light-pink); }
-        .profile-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--light-pink); padding: 4px; margin: 0 auto 15px; display: block; }
-        .profile-name { font-size: 18px; font-weight: 600; color: var(--primary-pink); margin-bottom: 5px; }
-        .profile-role { font-size: 14px; color: var(--gray-text); margin-bottom: 15px; }
-        .profile-contact { font-size: 14px; color: #555; background: var(--bg-pink); padding: 12px; border-radius: 8px; text-align: left; }
-        .profile-contact p { margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-        .profile-contact p:last-child { margin-bottom: 0; }
-        .profile-contact i { color: var(--accent-pink); width: 16px; text-align: center; }
+        .num-col { text-align: center !important; font-weight: 600; color: var(--primary-pink) !important; font-size: 17px; width: 25%; }
+        .study-col { text-align: center !important; color: #888 !important; width: 20%; }
+        .total-row td { background-color: var(--light-pink) !important; font-weight: 700; color: var(--primary-pink) !important; font-size: 18px; border-top: 3px solid var(--primary-pink); padding: 15px 20px; }
 
-        /* Widget Card */
-        .widget-card { background: #fff; border-radius: 15px; padding: 20px; box-shadow: 0 5px 20px rgba(216, 27, 96, 0.05); border: 1px solid var(--light-pink); }
-        .widget-card h3 { font-size: 16px; color: var(--primary-pink); margin-bottom: 15px; border-bottom: 2px solid var(--light-pink); padding-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-        .quick-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 15px; background: #fff; border: 1px solid #eee; border-radius: 8px; color: #444; font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.3s; margin-bottom: 8px; text-decoration: none; }
-        .quick-btn:last-child { margin-bottom: 0; }
-        .quick-btn i { font-size: 18px; color: var(--accent-pink); width: 25px; text-align: center; }
-        .quick-btn:hover { background: var(--light-pink); border-color: var(--primary-pink); color: var(--primary-pink); transform: translateX(5px); }
+        footer { background: #3c1020; color: #fce4ec; padding: 30px 0; text-align: center; margin-top: auto; }
 
-        /* Footer */
-        footer { background: #3c1020; color: #fce4ec; padding: 40px 0; text-align: center; font-size: 16px; margin-top: auto; }
-        
-        #backToTop { position: fixed; bottom: 30px; right: 30px; background-color: var(--primary-pink); color: white; width: 55px; height: 55px; border-radius: 50%; border: none; font-size: 22px; cursor: pointer; box-shadow: 0 5px 20px rgba(216, 27, 96, 0.4); opacity: 0; pointer-events: none; transition: 0.3s; z-index: 9900; display: flex; justify-content: center; align-items: center; }
-        #backToTop.show { opacity: 1; pointer-events: auto; }
-        #backToTop:hover { background-color: #b0124a; transform: translateY(-5px); }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .header-main { flex-direction: column; align-items: center; }
-            .stat-layout { grid-template-columns: 1fr; }
-            .right-sidebar { position: relative; top: 0; }
-            .table-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+        @media (max-width: 768px) {
+            .table-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .table-card { padding: 20px; }
         }
     </style>
 </head>
@@ -96,139 +65,92 @@
 
     <!-- Header -->
     <header>
-        <div class="container header-main">
-            <!-- 🌟 ลิงก์กลับไปหน้าแรก (index.html) -->
+        <div class="header-container header-main">
             <a href="index.html" class="logo">
-                <img src="Picture/logo.png" alt="โลโก้โรงพยาบาลปากท่อ" style="height: 65px; width: auto; margin-right: 10px;" onerror="this.style.display='none'">
+                <img src="Picture/logo.png" alt="โลโก้โรงพยาบาล" style="height: 55px; margin-right: 10px;" onerror="this.style.display='none'">
                 โรงพยาบาลปากท่อ
             </a>
-            <nav>
-                <ul>
-                    <li><a href="index.html" class="btn-home"><i class="fa-solid fa-house"></i> กลับหน้าแรก</a></li>
-                </ul>
-            </nav>
+            <a href="index.html" class="btn-home"><i class="fa-solid fa-house"></i> กลับหน้าแรก</a>
         </div>
     </header>
 
-    <!-- เนื้อหาสถิติบุคลากร -->
-    <div class="container page-header-stat">
+    <div class="container page-header">
         <h1><i class="fa-solid fa-chart-pie"></i> ข้อมูลสถิติบุคลากร</h1>
         <p>สรุปจำนวนบุคลากรโรงพยาบาลปากท่อ จำแนกตามตำแหน่งหน้าที่</p>
     </div>
 
-    <div class="container stat-layout">
-        
-        <!-- ฝั่งซ้าย: ตาราง -->
+    <!-- ส่วนเนื้อหาหลัก มีแค่ตารางตรงกลางเดี่ยวๆ -->
+    <div class="container">
         <div class="table-card">
             <div class="table-header">
-                <h2><i class="fa-solid fa-clipboard-user"></i> ตารางแสดงจำนวนบุคลากร</h2>
+                <h2><i class="fa-solid fa-users-rectangle"></i> ตารางแสดงจำนวนบุคลากร</h2>
                 <span class="date-badge"><i class="fa-regular fa-clock"></i> ข้อมูล ณ วันที่ 31 กรกฎาคม 2563</span>
             </div>
 
             <table class="styled-table">
                 <thead>
                     <tr>
-                        <th>ตำแหน่ง</th>
-                        <th>จำนวนที่ปฏิบัติงาน (คน)</th>
-                        <th>ลาศึกษา (คน)</th>
+                        <th>ตำแหน่งหน้าที่</th>
+                        <th style="text-align: center;">จำนวนที่ปฏิบัติงาน (คน)</th>
+                        <th style="text-align: center;">ลาศึกษา (คน)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>แพทย์ (ไม่นับเพิ่มพูนทักษะ) รวม ผอก.</td><td>11</td><td>-</td></tr>
-                    <tr><td>ทันตแพทย์</td><td>7</td><td>-</td></tr>
-                    <tr><td>เภสัชกร</td><td>6</td><td>-</td></tr>
-                    <tr><td>พยาบาลวิชาชีพ</td><td>56</td><td>-</td></tr>
-                    <tr><td>นักเทคนิคการแพทย์</td><td>4</td><td>-</td></tr>
-                    <tr><td>นักกายภาพบำบัด</td><td>4</td><td>-</td></tr>
-                    <tr><td>นักรังสีการแพทย์</td><td>1</td><td>-</td></tr>
-                    <tr><td>แพทย์แผนไทย</td><td>1</td><td>-</td></tr>
-                    <tr><td>นักวิชาการสาธารณสุข</td><td>4</td><td>-</td></tr>
-                    <tr><td>เจ้าพนักงานสาธารณสุข ไม่รวมเวชกิจฉุกเฉิน</td><td>2</td><td>-</td></tr>
-                    <tr><td>เจ้าพนักงานเภสัชกรรม</td><td>4</td><td>-</td></tr>
-                    <tr><td>เจ้าพนักงานวิทยาศาสตร์การแพทย์</td><td>1</td><td>-</td></tr>
-                    <tr><td>เจ้าพนักงานรังสีการแพทย์</td><td>1</td><td>-</td></tr>
-                    <tr><td>เจ้าพนักงานทันตสาธารณสุข</td><td>8</td><td>-</td></tr>
-                    <tr><td>นักวิชาการสาธารณสุข(เวชสถิติ)</td><td>1</td><td>-</td></tr>
-                    <tr><td>เจ้าพนักงานเวชสถิติ</td><td>2</td><td>-</td></tr>
-                    <tr><td>นักจัดการงานทั่วไป</td><td>1</td><td>-</td></tr>
-                    <tr><td>เจ้าพนักงานธุรการ</td><td>6</td><td>-</td></tr>
-                    <tr><td>เจ้าพนักงานพัสดุ</td><td>2</td><td>-</td></tr>
-                    <tr><td>เจ้าพนักงานการเงินและบัญชี</td><td>3</td><td>-</td></tr>
-                    <tr><td>นักวิชาการเงินและบัญชี</td><td>1</td><td>-</td></tr>
-                    <tr><td>นักโภชนาการ</td><td>1</td><td>-</td></tr>
-                    <tr><td>นายช่างเทคนิค</td><td>1</td><td>-</td></tr>
-                    <tr><td>นักวิชาการคอมพิวเตอร์</td><td>1</td><td>-</td></tr>
-                    <tr><td>พนักงานช่วยเหลือคนไข้</td><td>25</td><td>-</td></tr>
-                    <tr><td>พนักงานประจำห้องยา</td><td>3</td><td>-</td></tr>
-                    <tr><td>พนักงานประกอบอาหาร</td><td>3</td><td>-</td></tr>
-                    <tr><td>พนักงานซักฟอก</td><td>4</td><td>-</td></tr>
-                    <tr><td>เจ้าหน้าที่เครื่องคอมพิวเตอร์</td><td>1</td><td>-</td></tr>
-                    <tr><td>พนักงานบริการ</td><td>8</td><td>-</td></tr>
-                    <tr><td>พนักงานเก็บเอกสาร</td><td>5</td><td>-</td></tr>
-                    <tr><td>พนักงานขับรถยนต์</td><td>7</td><td>-</td></tr>
-                    <tr><td>ผู้ช่วยช่างทั่วไป</td><td>2</td><td>-</td></tr>
-                    <tr><td>ผู้ช่วยช่างทั่วไป(คนสวน)</td><td>1</td><td>-</td></tr>
-                    <tr><td>พนักงานเปล</td><td>6</td><td>-</td></tr>
-                    <tr><td>พนักงานรักษาความปลอดภัย</td><td>6</td><td>-</td></tr>
-                    <tr><td>พนักงานทั่วไป-แม่บ้าน</td><td>9</td><td>-</td></tr>
-                    <tr><td>คนสวน</td><td>1</td><td>-</td></tr>
+                    <tr><td>แพทย์ (ไม่นับเพิ่มพูนทักษะ) รวม ผอก.</td>  <td class="num-col">11</td>  <td class="study-col">-</td></tr>
+                    <tr><td>ทันตแพทย์</td>                           <td class="num-col">7</td>   <td class="study-col">-</td></tr>
+                    <tr><td>เภสัชกร</td>                             <td class="num-col">6</td>   <td class="study-col">-</td></tr>
+                    <tr><td>พยาบาลวิชาชีพ</td>                       <td class="num-col">56</td>  <td class="study-col">-</td></tr>
+                    <tr><td>นักเทคนิคการแพทย์</td>                    <td class="num-col">4</td>   <td class="study-col">-</td></tr>
+                    <tr><td>นักกายภาพบำบัด</td>                      <td class="num-col">4</td>   <td class="study-col">-</td></tr>
+                    <tr><td>นักรังสีการแพทย์</td>                     <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>แพทย์แผนไทย</td>                         <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>นักวิชาการสาธารณสุข</td>                  <td class="num-col">4</td>   <td class="study-col">-</td></tr>
+                    <tr><td>เจ้าพนักงานสาธารณสุข ไม่รวมเวชกิจฉุกเฉิน</td> <td class="num-col">2</td>   <td class="study-col">-</td></tr>
+                    <tr><td>เจ้าพนักงานเภสัชกรรม</td>                 <td class="num-col">4</td>   <td class="study-col">-</td></tr>
+                    <tr><td>เจ้าพนักงานวิทยาศาสตร์การแพทย์</td>         <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>เจ้าพนักงานรังสีการแพทย์</td>              <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>เจ้าพนักงานทันตสาธารณสุข</td>             <td class="num-col">8</td>   <td class="study-col">-</td></tr>
+                    <tr><td>นักวิชาการสาธารณสุข (เวชสถิติ)</td>        <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>เจ้าพนักงานเวชสถิติ</td>                  <td class="num-col">2</td>   <td class="study-col">-</td></tr>
+                    <tr><td>นักจัดการงานทั่วไป</td>                    <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>เจ้าพนักงานธุรการ</td>                    <td class="num-col">6</td>   <td class="study-col">-</td></tr>
+                    <tr><td>เจ้าพนักงานพัสดุ</td>                     <td class="num-col">2</td>   <td class="study-col">-</td></tr>
+                    <tr><td>เจ้าพนักงานการเงินและบัญชี</td>            <td class="num-col">3</td>   <td class="study-col">-</td></tr>
+                    <tr><td>นักวิชาการเงินและบัญชี</td>                <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>นักโภชนาการ</td>                         <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>นายช่างเทคนิค</td>                       <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>นักวิชาการคอมพิวเตอร์</td>                 <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>พนักงานช่วยเหลือคนไข้</td>                 <td class="num-col">25</td>  <td class="study-col">-</td></tr>
+                    <tr><td>พนักงานประจำห้องยา</td>                  <td class="num-col">3</td>   <td class="study-col">-</td></tr>
+                    <tr><td>พนักงานประกอบอาหาร</td>                  <td class="num-col">3</td>   <td class="study-col">-</td></tr>
+                    <tr><td>พนักงานซักฟอก</td>                       <td class="num-col">4</td>   <td class="study-col">-</td></tr>
+                    <tr><td>เจ้าหน้าที่เครื่องคอมพิวเตอร์</td>             <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>พนักงานบริการ</td>                       <td class="num-col">8</td>   <td class="study-col">-</td></tr>
+                    <tr><td>พนักงานเก็บเอกสาร</td>                    <td class="num-col">5</td>   <td class="study-col">-</td></tr>
+                    <tr><td>พนักงานขับรถยนต์</td>                     <td class="num-col">7</td>   <td class="study-col">-</td></tr>
+                    <tr><td>ผู้ช่วยช่างทั่วไป</td>                      <td class="num-col">2</td>   <td class="study-col">-</td></tr>
+                    <tr><td>ผู้ช่วยช่างทั่วไป (คนสวน)</td>              <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    <tr><td>พนักงานเปล</td>                         <td class="num-col">6</td>   <td class="study-col">-</td></tr>
+                    <tr><td>พนักงานรักษาความปลอดภัย</td>              <td class="num-col">6</td>   <td class="study-col">-</td></tr>
+                    <tr><td>พนักงานทั่วไป-แม่บ้าน</td>                 <td class="num-col">9</td>   <td class="study-col">-</td></tr>
+                    <tr><td>คนสวน</td>                             <td class="num-col">1</td>   <td class="study-col">-</td></tr>
+                    
                     <tr class="total-row">
                         <td>รวมบุคลากรทั้งหมด</td>
-                        <td>210</td>
-                        <td>-</td>
+                        <td class="num-col">210</td>
+                        <td class="study-col">-</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-        <!-- ฝั่งขวา: เมนูย่อย -->
-        <aside class="right-sidebar">
-            <div class="profile-card">
-                <img src="Picture/director.jpg" alt="พญ.ปิยารัตน์" class="profile-img" onerror="this.src='https://placehold.co/120x120/fce4ec/d81b60?text=Profile'">
-                <h3 class="profile-name">พญ. ปิยารัตน์ ทองย้อย</h3>
-                <p class="profile-role">ผู้อำนวยการโรงพยาบาลปากท่อ</p>
-                <div class="profile-contact">
-                    <p><i class="fa-solid fa-envelope"></i> Tpiyarat20@gmail.com</p>
-                    <p><i class="fa-solid fa-phone"></i> 032-281585</p>
-                </div>
-            </div>
-
-            <div class="widget-card">
-                <h3><i class="fa-solid fa-link"></i> ระบบภายในโรงพยาบาล</h3>
-                <!-- ลิงก์ไปหน้าแผนผังที่แยกไฟล์ไว้ -->
-                <a href="personnel.html" class="quick-btn"><i class="fa-solid fa-sitemap"></i> <span>แผนผังโครงสร้างองค์กร</span></a>
-                <a href="http://www.pthosp.net/hospital/tel.php" target="_blank" class="quick-btn"><i class="fa-solid fa-phone-volume"></i> <span>หมายเลขโทรศัพท์ภายใน</span></a>
-                <a href="http://www.pthosp.net/hospital/download1.php" target="_blank" class="quick-btn"><i class="fa-solid fa-file-arrow-down"></i> <span>ดาวน์โหลดแบบฟอร์ม</span></a>
-                <a href="http://192.168.13.248/backoffice" target="_blank" class="quick-btn"><i class="fa-solid fa-network-wired"></i> <span>Backoffice (ภายใน)</span></a>
-            </div>
-        </aside>
     </div>
 
     <!-- Footer -->
     <footer>
-        <div class="container">
-            <p style="margin-bottom: 10px;">โรงพยาบาลปากท่อ เลขที่ 201/10 หมู่ 8 ถ.ท้าวอู่ทอง ต.ปากท่อ อ.ปากท่อ จ.ราชบุรี 70140 | โทรศัพท์ 032-282530-31</p>
-            <p style="color: #f8bbd0;">Copyright 2026 by Paktho Computer Center. All rights reserved.</p>
+        <div class="header-container">
+            <p>โรงพยาบาลปากท่อ เลขที่ 201/10 หมู่ 8 ถ.ท้าวอู่ทอง ต.ปากท่อ อ.ปากท่อ จ.ราชบุรี 70140</p>
         </div>
     </footer>
 
-    <!-- ปุ่ม Back to Top -->
-    <button id="backToTop" onclick="scrollToTop()" title="กลับขึ้นด้านบน"><i class="fa-solid fa-arrow-up"></i></button>
-
-    <script>
-        // ระบบปุ่ม Back to Top แบบง่ายๆ
-        window.addEventListener('scroll', function() {
-            const btn = document.getElementById('backToTop');
-            if (window.scrollY > 300) {
-                btn.classList.add('show');
-            } else {
-                btn.classList.remove('show');
-            }
-        });
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    </script>
 </body>
 </html>
