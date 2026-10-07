@@ -237,38 +237,41 @@
                 โรงพยาบาลปากท่อ
             </div>
             <nav>
-                <ul>
-                    <li><a onclick="switchPage(event, 'home')" id="nav-home" class="active">หน้าแรก</a></li>
-                    <li><a href="#about-section" onclick="switchPage(event, 'home')">เกี่ยวกับเรา <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
-                        <ul class="dropdown">
-                            <li><a href="http://www.pthosp.net/ceo/Staff-04122568.png" target="_blank">คณะกรรมการบริหารฯ</a></li>
-                            <li><a href="http://www.pthosp.net/hospital/FTE_Paktho2566.pdf" target="_blank">โครงสร้าง รพ. ปัจจุบัน</a></li>
-                            <li><a href="personnel.html">บุคลากรในหน่วยงาน</a></li>
-                            <li><a href="http://www.pthosp.net/hospital/work.php" target="_blank">ข้อมูลบุคลากรโรงพยาบาล</a></li>
-                            <li><a onclick="alert('ระบบออฟไลน์ชั่วคราว')" style="cursor:pointer; color:#888;">ข้อมูล GIS (Offline)</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#services-section" onclick="switchPage(event, 'home')">บริการประชาชน <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
-                        <ul class="dropdown">
-                            <li><a href="https://srmcitizen.nhso.go.th/" target="_blank">ตรวจสอบสิทธิการรักษา</a></li>
-                            <li><a href="https://sites.google.com/view/paktho-vdo-hopital/หนาแรก" target="_blank">VDO แนะนำความรู้</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#contact-section" onclick="switchPage(event, 'home')">ติดต่อเรา <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
-                        <ul class="dropdown">
-                            <li><a href="http://www.pthosp.net/hospital/contact.php" target="_blank">รับเรื่องร้องเรียน</a></li>
-                            <li><a href="http://www.pthosp.net/hospital/cont.php" target="_blank">ติดต่อโรงพยาบาล</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#news-section" onclick="switchPage(event, 'home')">ข่าวสาร <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
-                        <ul class="dropdown">
-                            <li><a href="#news-section" onclick="switchPage(event, 'home')">กระดานข่าวล่าสุด</a></li>
-                            <li><a href="http://pthosp.net/forum//index.php?board=6.0" target="_blank">ประกาศจัดซื้อ/จัดจ้าง</a></li>
-                        </ul>
-                    </li>
-                    <li><a onclick="switchPage(event, 'staff')" id="nav-staff" class="btn-staff"><i class="fa-solid fa-user-lock"></i> สำหรับเจ้าหน้าที่</a></li>
-                </ul>
-            </nav>
+    <ul>
+        <li><a onclick="switchPage(event, 'home')" id="nav-home" class="active">หน้าแรก</a></li>
+        <li><a href="#about-section" onclick="switchPage(event, 'home')">เกี่ยวกับเรา <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
+            <ul class="dropdown">
+                <li><a href="http://www.pthosp.net/ceo/Staff-04122568.png" target="_blank">คณะกรรมการบริหารฯ</a></li>
+                <li><a href="http://www.pthosp.net/hospital/FTE_Paktho2566.pdf" target="_blank">โครงสร้าง รพ. ปัจจุบัน</a></li>
+                <!-- เชื่อมโยงไปยังหน้า personnel.html -->
+                <li><a href="personnel.html">บุคลากรในหน่วยงาน</a></li>
+                <!-- เชื่อมโยงไปยังหน้า personnel_stat.html -->
+                <li><a href="personnel_stat.html">ข้อมูลบุคลากรโรงพยาบาล</a></li>
+                <li><a onclick="alert('ระบบออฟไลน์ชั่วคราว')" style="cursor:pointer; color:#888;">ข้อมูล GIS (Offline)</a></li>
+            </ul>
+        </li>
+        <li><a href="#services-section" onclick="switchPage(event, 'home')">บริการประชาชน <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
+            <ul class="dropdown">
+                <li><a href="https://srmcitizen.nhso.go.th/" target="_blank">ตรวจสอบสิทธิการรักษา</a></li>
+                <li><a href="https://sites.google.com/view/paktho-vdo-hopital/หนาแรก" target="_blank">VDO แนะนำความรู้</a></li>
+            </ul>
+        </li>
+        <li><a href="#contact-section" onclick="switchPage(event, 'home')">ติดต่อเรา <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
+            <ul class="dropdown">
+                <!-- เชื่อมโยงไปยังหน้า complaint.html สำหรับทั้ง 2 เมนู -->
+                <li><a href="complaint.html">รับเรื่องร้องเรียน</a></li>
+                <li><a href="complaint.html">ติดต่อโรงพยาบาล</a></li>
+            </ul>
+        </li>
+        <li><a href="#news-section" onclick="switchPage(event, 'home')">ข่าวสาร <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
+            <ul class="dropdown">
+                <li><a href="#news-section" onclick="switchPage(event, 'home')">กระดานข่าวล่าสุด</a></li>
+                <li><a href="http://pthosp.net/forum//index.php?board=6.0" target="_blank">ประกาศจัดซื้อ/จัดจ้าง</a></li>
+            </ul>
+        </li>
+        <li><a onclick="switchPage(event, 'staff')" id="nav-staff" class="btn-staff"><i class="fa-solid fa-user-lock"></i> สำหรับเจ้าหน้าที่</a></li>
+    </ul>
+</nav>
         </div>
     </header>
 
