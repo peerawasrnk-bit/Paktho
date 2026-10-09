@@ -1,47 +1,3 @@
-<?php
-// ส่วนประมวลผลการส่งอีเมล (PHP)
-$status_msg = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // ตรวจสอบ Captcha บวกลข (ป้องกัน Spam Bot)
-    $captcha_answer = $_POST['captcha_answer'];
-    
-    if ($captcha_answer == "8") { // คำตอบของ 5 + 3
-        $name = strip_tags(trim($_POST["name"]));
-        $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
-        $subject = strip_tags(trim($_POST["subject"]));
-        $message = trim($_POST["message"]);
-
-        // ตั้งค่าอีเมลปลายทาง (อ้างอิงจากเว็บเก่า)
-        $to = "topsleep@gmail.com"; 
-        
-        // หัวข้ออีเมล
-        $email_subject = "ร้องเรียน/แนะนำ จากหน้าเว็บไซต์: $subject";
-        
-        // เนื้อหาอีเมล
-        $email_content = "มีข้อความใหม่ส่งมาจากหน้าเว็บไซต์โรงพยาบาลปากท่อ\n\n";
-        $email_content .= "ชื่อผู้ติดต่อ: $name\n";
-        $email_content .= "อีเมลสำหรับติดต่อกลับ: $email\n\n";
-        $email_content .= "หัวข้อเรื่อง: $subject\n";
-        $email_content .= "รายละเอียดข้อความ:\n$message\n";
-
-        // ตั้งค่า Header (ให้รองรับภาษาไทย)
-        $headers = "From: webmaster@pthosp.net\r\n"; // ควรเปลี่ยนเป็นอีเมลระบบของเซิร์ฟเวอร์คุณ
-        $headers .= "Reply-To: $email\r\n";
-        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
-        // สั่งส่งอีเมล
-        if (mail($to, $email_subject, $email_content, $headers)) {
-            $status_msg = "<div class='alert success'><i class='fa-solid fa-circle-check'></i> ส่งข้อความของท่านเรียบร้อยแล้ว เจ้าหน้าที่จะดำเนินการตรวจสอบโดยเร็วที่สุด ขอบคุณครับ/ค่ะ</div>";
-        } else {
-            $status_msg = "<div class='alert error'><i class='fa-solid fa-circle-xmark'></i> ขออภัย ระบบไม่สามารถส่งข้อความได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง หรือติดต่อทางโทรศัพท์</div>";
-        }
-    } else {
-        $status_msg = "<div class='alert error'><i class='fa-solid fa-triangle-exclamation'></i> รหัสยืนยันความปลอดภัย (ผลบวกตัวเลข) ไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง</div>";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -60,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
-        body { background-color: var(--bg-pink); color: #333; line-height: 1.6; }
+        body { background-color: var(--bg-pink); color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; } 
 
         /* Header */
@@ -74,11 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .page-header { text-align: center; padding: 40px 0 30px; }
         .page-header h1 { font-size: 32px; color: var(--primary-pink); margin-bottom: 5px; }
         .page-header p { color: var(--gray-text); font-size: 16px; }
-
-        /* การแจ้งเตือนเมื่อกดส่งฟอร์ม */
-        .alert { padding: 15px 20px; border-radius: 8px; margin-bottom: 25px; font-weight: 500; display: flex; align-items: center; gap: 10px; font-size: 16px; }
-        .alert.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .alert.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
         /* Layout แบ่ง 2 ฝั่ง ซ้ายเบอร์โทร - ขวาฟอร์มอีเมล */
         .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding-bottom: 60px; align-items: start; }
@@ -121,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <header>
         <div class="container header-main">
             <a href="index.html" class="logo">
-                <img src="Picture/logo.png" alt="โลโก้" style="height: 50px;">
+                <img src="Picture/logo.png" alt="โลโก้โรงพยาบาล" style="height: 50px;" onerror="this.style.display='none'">
                 โรงพยาบาลปากท่อ
             </a>
             <a href="index.html" class="btn-home"><i class="fa-solid fa-house"></i> กลับหน้าแรก</a>
@@ -134,12 +85,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class="container">
-        <!-- แสดงข้อความสถานะเมื่อกดส่งอีเมล -->
-        <?php echo $status_msg; ?>
-
         <div class="contact-layout">
             
-            <!-- ฝั่งซ้าย: รายชื่อเบอร์โทรศัพท์ (อิงรายชื่อจากตารางเก่า) -->
+            <!-- ฝั่งซ้าย: รายชื่อเบอร์โทรศัพท์ -->
             <div class="content-card">
                 <h2><i class="fa-solid fa-phone-volume"></i> ติดต่อทางโทรศัพท์</h2>
                 <div class="complaint-list">
@@ -163,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <span class="complaint-name"><i class="fa-solid fa-user"></i> คุณรดา สุทธาวาศ</span>
                         <a href="tel:0970297612" class="complaint-phone">097-0297612</a>
                     </div>
-                    <div class="contact-item" style="padding:12px 15px; border-bottom:1px solid #eee; display:flex; justify-content:space-between;">
+                    <div class="complaint-item">
                         <span class="complaint-name"><i class="fa-solid fa-user"></i> คุณจุฑาทิพย์ จ่าปาหอม</span>
                         <a href="tel:0899186968" class="complaint-phone">089-9186968</a>
                     </div>
@@ -186,15 +134,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
 
-            <!-- ฝั่งขวา: แบบฟอร์มส่งอีเมล (ทำงานได้จริงผ่าน PHP) -->
+            <!-- ฝั่งขวา: แบบฟอร์มจำลองสำหรับ Live Server -->
             <div class="content-card">
                 <h2><i class="fa-solid fa-envelope-open-text"></i> ติดต่อทางอีเมล</h2>
                 <p style="color: #666; margin-bottom: 20px; font-size: 14px;">
                     กรุณากรอกข้อมูลด้านล่าง ข้อความของท่านจะถูกส่งตรงไปยังอีเมล <strong style="color:var(--primary-pink);">topsleep@gmail.com</strong>
                 </p>
 
-                <!-- สังเกต method="POST" คือการส่งข้อมูลไปให้ PHP ด้านบนประมวลผล -->
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                <!-- สคริปต์จำลองการส่งข้อมูล เมื่อใช้งานจริงบนโฮสติ้ง ให้เปลี่ยนไปใช้โค้ด PHP ที่ผมให้ไปก่อนหน้านี้ครับ -->
+                <form id="contactForm" onsubmit="simulateSend(event)">
                     <div class="form-group">
                         <label for="name">ชื่อ - นามสกุล ผู้ติดต่อ <span style="color:red;">*</span></label>
                         <input type="text" id="name" name="name" class="form-control" placeholder="กรอกชื่อของคุณ" required>
@@ -215,7 +163,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <textarea id="message" name="message" class="form-control" placeholder="กรอกรายละเอียดข้อความของท่านที่นี่..." required></textarea>
                     </div>
 
-                    <!-- กล่องยืนยันตัวตนแบบบวกเลข (ใช้ง่ายกว่าการพิมพ์ตัวอักษรภาษาอังกฤษ) -->
                     <div class="captcha-box">
                         <div>
                             <label style="margin-bottom: 0;">รหัสยืนยันความปลอดภัย <span style="color:red;">*</span></label>
@@ -223,11 +170,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div style="display: flex; align-items: center; gap: 15px;">
                             <span class="captcha-question">5 + 3 = </span>
-                            <input type="number" name="captcha_answer" class="form-control" style="width: 80px; text-align: center; padding: 10px;" placeholder="?" required>
+                            <input type="number" id="captcha" name="captcha_answer" class="form-control" style="width: 80px; text-align: center; padding: 10px;" placeholder="?" required>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-submit">
+                    <button type="submit" class="btn-submit" id="submitBtn">
                         <i class="fa-regular fa-paper-plane"></i> ส่งข้อความ (Send Message)
                     </button>
                 </form>
@@ -243,5 +190,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </footer>
 
+    <script>
+        // จำลองการกดส่งข้อความสำหรับ Live Server
+        function simulateSend(event) {
+            event.preventDefault();
+            const captcha = document.getElementById('captcha').value;
+            const btn = document.getElementById('submitBtn');
+            
+            if(captcha == "8") {
+                btn.innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> กำลังส่งข้อมูล...";
+                btn.style.backgroundColor = "#888";
+                
+                setTimeout(() => {
+                    alert("ส่งข้อความสำเร็จ! (นี่คือการจำลองใน Live Server ของ VS Code การส่งอีเมลจริงต้องใช้โค้ด PHP และอัปโหลดขึ้นโฮสติ้งของโรงพยาบาลครับ)");
+                    document.getElementById('contactForm').reset();
+                    btn.innerHTML = "<i class='fa-regular fa-paper-plane'></i> ส่งข้อความ (Send Message)";
+                    btn.style.backgroundColor = "var(--primary-pink)";
+                }, 1000);
+            } else {
+                alert("กรุณาตอบคำถามบวกเลขให้ถูกต้องครับ (5 + 3 = 8)");
+            }
+        }
+    </script>
 </body>
 </html>
