@@ -7,15 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* โทนสี */
+        
         :root {
-            --primary-pink: #D81B60;    /* ชมพูเข้ม: ใช้กับโลโก้ หัวข้อหลัก และไอคอน (เพื่อให้ตัวหนังสือชัดเจน) */
-            --accent-pink: #F06292;     /* ชมพูกลาง: ใช้กับปุ่ม หรือส่วนที่ต้องการให้โดดเด่นนุ่มนวล */
-            --light-pink: #FCE4EC;      /* ชมพูอ่อน: ใช้กับเส้นขอบ พื้นหลังส่วนย่อย หรือเวลาเอาเมาส์ชี้ (Hover) */
-            --bg-pink: #FFF5F8;         /* ขาวอมชมพู: พื้นหลังหลักของเว็บ สว่างสบายตา ไม่กวนสายตา */
+            --primary-pink: #D81B60;    
+            --accent-pink: #F06292;     
+            --light-pink: #FCE4EC;      
+            --bg-pink: #FFF5F8;         
         }
 
-        /* ขยายขนาดฟอนต์มาตรฐาน */
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
         html { scroll-behavior: smooth; }
         body { background-color: var(--bg-pink); color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; font-size: 18px; }
@@ -24,7 +24,7 @@
         .section-title { text-align: center; font-size: 36px; font-weight: 600; color: var(--primary-pink); margin-bottom: 40px; }
         .section-title span { color: var(--accent-pink); }
 
-        /* Header */
+        
         header { background: #fff; box-shadow: 0 2px 15px rgba(216, 27, 96, 0.08); position: sticky; top: 0; z-index: 100; }
         .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; flex-wrap: wrap; gap: 15px; }
         .logo { display: flex; align-items: center; gap: 15px; font-size: 26px; font-weight: 700; color: var(--primary-pink); cursor: pointer; white-space: nowrap; flex-shrink: 0; }
@@ -47,7 +47,7 @@
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ฮีโร่แบนเนอร์ */
+        
         .hero { 
             background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('Picture/Banner/banner 04.jpg') center/cover no-repeat; 
             height: 450px; 
@@ -69,7 +69,7 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.5); 
         }
         
-        /* ส่วนต้อนรับ ผอ. */
+        
         .director-top-section { margin-top: -60px; position: relative; z-index: 10; padding: 0 20px; }
         .director-top-card { background: #fff; border-radius: 20px; box-shadow: 0 15px 40px rgba(216, 27, 96, 0.12); padding: 40px; display: flex; align-items: center; justify-content: center; gap: 40px; max-width: 900px; margin: 0 auto; border: 2px solid var(--light-pink); }
         .director-top-card img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; object-position: top; border: 5px solid var(--light-pink); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
@@ -79,7 +79,7 @@
         .director-contact a { color: var(--primary-pink); text-decoration: none; font-weight: 500; transition: 0.3s; }
         .director-contact a:hover { color: var(--accent-pink); }
 
-        /* บริการ 9 กล่อง */
+        
         .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; padding: 70px 0; }
         .service-card { background: #fff; border: 1px solid var(--light-pink); padding: 35px 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(216, 27, 96, 0.04); }
         .service-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(216, 27, 96, 0.12); border-color: var(--accent-pink); }
@@ -87,7 +87,7 @@
         .service-card:hover i { background: var(--primary-pink); color: white; transform: scale(1.1); }
         .service-card h3 { font-size: 19px; color: #333; }
 
-        /* หมวดหมู่ข่าวสาร (ระบบ Center Scale) */
+        
         .news-section { padding: 60px 0; background: #fff; scroll-margin-top: 80px; }
         .category-block { margin-bottom: 60px; }
         .category-title { font-size: 24px; color: var(--primary-pink); border-bottom: 3px solid var(--light-pink); padding-bottom: 10px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; }
@@ -117,7 +117,7 @@
         .slide-btn.prev { margin-right: 15px; }
         .slide-btn.next { margin-left: 15px; }
 
-        /* ตารางคลินิกบริการ */
+        
         .clinic-table-section { padding: 60px 0; }
         .info-box { background: #fff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(216, 27, 96, 0.05); border: 1px solid var(--light-pink); }
         .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 16px; }
@@ -125,7 +125,7 @@
         .data-table th { background: var(--light-pink); color: var(--primary-pink); font-weight: 600; font-size: 18px; }
         .data-table tr:hover { background: #fffafb; }
 
-        /* รายการข่าวสารด้านล่าง */
+        
         .list-news { background: #fff; border: 1px solid var(--light-pink); border-radius: 15px; padding: 25px; margin-top: 0; box-shadow: 0 5px 15px rgba(216, 27, 96, 0.03); }
         .list-item { padding: 15px 0; border-bottom: 1px dashed #f8bbd0; display: flex; gap: 15px; align-items: flex-start; cursor: pointer; transition: 0.2s; font-size: 16px; }
         .list-item:hover { background: #fffafb; padding-left: 8px; color: var(--primary-pink); }
@@ -139,7 +139,7 @@
         .network-box a { color: var(--primary-pink); font-weight: 600; text-decoration: none; padding: 6px 12px; background: var(--light-pink); border-radius: 6px; transition: 0.3s; white-space: nowrap; }
         .network-box a:hover { background: var(--primary-pink); color: white; }
 
-        /* ระบบขยายภาพ Lightbox และ Modal */
+        
         .image-modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
         .modal-wrapper { width: 90vw; height: 90vh; display: flex; align-items: center; justify-content: center; }
         .modal-content { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; box-shadow: 0 5px 25px rgba(0,0,0,0.5); border-radius: 8px; }
@@ -166,7 +166,7 @@
         #backToTop.show { opacity: 1; pointer-events: auto; }
         #backToTop:hover { background-color: #b0124a; transform: translateY(-5px); }
 
-        /* การตั้งค่า Mobile Responsive */
+        
         @media (max-width: 900px) { 
             .director-top-card { flex-direction: column; text-align: center; gap: 20px; }
             .director-contact { justify-content: center; }
@@ -189,7 +189,7 @@
             .data-table th, .data-table td { font-size: 14px; padding: 10px; white-space: nowrap; }
         }
         
-        /* 🌟 แก้ไข: ปรับโทนสีหน้าถวายความอาลัยให้เป็น ขาว-ดำ-เทา อย่างเหมาะสม */
+        
         .splash-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             /* เปลี่ยนพื้นหลังเป็นเทาเข้มไล่ไปดำ */
@@ -211,7 +211,7 @@
             font-size: 18px; cursor: pointer; transition: all 0.4s ease; 
             letter-spacing: 1px; backdrop-filter: blur(5px); 
         }
-        /* เอาสีชมพูตอน Hover ออก เปลี่ยนเป็นปุ่มสว่างขึ้นแบบสุภาพ */
+        
         .splash-btn:hover { 
             background: rgba(255, 255, 255, 0.2); color: #fff; 
             border-color: #fff; transform: translateY(-3px); 
@@ -317,7 +317,7 @@
             <div class="container">
                 <h2 class="section-title">ข่าวสารและ <span>ประชาสัมพันธ์</span></h2>
 
-                <!-- หมวดที่ 1: ข่าวประชาสัมพันธ์ (ไม่ตัดทอนรูปภาพใดๆ) -->
+                <!-- หมวดที่ 1: ข่าวประชาสัมพันธ์ -->
                 <div class="category-block">
                     <h3 class="category-title"><i class="fa-solid fa-bullhorn"></i> ข่าวประชาสัมพันธ์ และกระดานข่าว</h3>
                     <div class="carousel-container">
@@ -666,7 +666,7 @@
                             <span class="tag" onclick="window.open('https://www.who.int/', '_blank')">ICD-10 Version:2016</span>
                             <span class="tag" onclick="window.open('http://www.thcc.or.th/ICD-10TM/index.html', '_blank')">ICD10_TM</span>
                             <span class="tag" onclick="window.open('http://icd9.chrisendres.com/', '_blank')">รหัสหัตถการ ICD9_CM</span>
-                            <span class="tag" onclick="window.open('http://www.pthosp.net/hospital/doc/portfolio.pdf', '_blank')">แผนปฏิบัติการราชการรายบุคคล</span>
+                            <span class="tag" onclick="window.open('Document/portfolio.pdf', '_blank')">แผนปฏิบัติการราชการรายบุคคล</span>
                             <span class="tag offline" onclick="alert('ระบบออฟไลน์ชั่วคราว')">DATA Check <i class="fa-solid fa-triangle-exclamation"></i></span>
                             <span class="tag offline" onclick="alert('ระบบออฟไลน์ชั่วคราว')">His Mobile (Intra Web) <i class="fa-solid fa-triangle-exclamation"></i></span>
                             <span class="tag offline" onclick="alert('ระบบออฟไลน์ชั่วคราว')">EMR Hosxp <i class="fa-solid fa-triangle-exclamation"></i></span>
