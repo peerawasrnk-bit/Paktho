@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDO แนะนำความรู้สุขภาพ - โรงพยาบาลปากท่อ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-pink: #D81B60;
+            --accent-pink: #F06292;
+            --light-pink: #FCE4EC;
+            --bg-pink: #FFF5F8;
+            --gray-text: #555;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-pink); color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; } 
+
+        /* Header (เหมือนหน้าอื่นๆ เพื่อความต่อเนื่อง) */
+        header { background: #fff; box-shadow: 0 2px 15px rgba(216, 27, 96, 0.08); position: sticky; top: 0; z-index: 100; }
+        .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; flex-wrap: wrap; gap: 15px; }
+        .logo { display: flex; align-items: center; gap: 15px; font-size: 24px; font-weight: 700; color: var(--primary-pink); text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+        
+        nav ul { list-style: none; display: flex; gap: 20px; align-items: center; }
+        nav > ul > li { position: relative; padding: 10px 0; }
+        nav a { text-decoration: none; color: #333; font-weight: 500; font-size: 17px; cursor: pointer; transition: 0.3s; padding: 10px 15px; border-radius: 6px; white-space: nowrap; }
+        nav a:hover, nav a.active { color: var(--primary-pink); background: var(--light-pink); }
+        
+        .dropdown { display: none; position: absolute; top: 100%; left: 0; background: #fff; box-shadow: 0 4px 15px rgba(216, 27, 96, 0.1); width: 240px; border-radius: 8px; overflow: hidden; z-index: 1000; }
+        nav > ul > li:hover .dropdown { display: block; }
+        .dropdown li { border-bottom: 1px solid #f8bbd0; }
+        .dropdown a { display: block; padding: 12px 18px; font-size: 16px; color: #555; }
+        .dropdown a:hover { background: var(--bg-pink); color: var(--primary-pink); }
+        .btn-staff { background: var(--accent-pink); color: white !important; padding: 10px 24px !important; border-radius: 25px !important; }
+        .btn-staff:hover { background: var(--primary-pink) !important; color: white !important; }
+
+        /* Page Header */
+        .page-header { text-align: center; padding: 40px 0 30px; }
+        .page-header h1 { font-size: 32px; color: var(--primary-pink); margin-bottom: 5px; }
+        .page-header p { color: var(--gray-text); font-size: 16px; }
+
+        /* โครงสร้าง Video Grid */
+        .video-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 30px; 
+            padding-bottom: 80px; 
+        }
+
+        /* การ์ดวิดีโอ */
+        .video-card { 
+            background: #fff; border-radius: 15px; overflow: hidden; 
+            box-shadow: 0 5px 20px rgba(216, 27, 96, 0.05); 
+            border: 1px solid var(--light-pink); transition: 0.3s; 
+            display: flex; flex-direction: column; 
+        }
+        .video-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 15px 30px rgba(216, 27, 96, 0.12); 
+            border-color: var(--accent-pink); 
+        }
+
+        /* ส่วนแสดงวิดีโอ (Responsive 16:9) */
+        .video-container { 
+            position: relative; padding-bottom: 56.25%; /* สัดส่วน 16:9 */
+            height: 0; overflow: hidden; background: #000;
+        }
+        .video-container iframe { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; 
+        }
+
+        /* ข้อมูลใต้วิดีโอ */
+        .video-info { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .video-category { font-size: 13px; color: var(--accent-pink); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .video-title { font-size: 18px; color: #333; font-weight: 500; line-height: 1.4; margin-bottom: 15px; }
+        .video-card:hover .video-title { color: var(--primary-pink); }
+        .video-date { font-size: 14px; color: #888; margin-top: auto; display: flex; align-items: center; gap: 8px; border-top: 1px dashed #eee; padding-top: 15px; }
+
+        footer { background: #3c1020; color: #fce4ec; padding: 30px 0; text-align: center; margin-top: auto; font-size: 14px; }
+
+        @media (max-width: 900px) {
+            .header-main { flex-direction: column; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-main">
+            <a href="index.html" class="logo">
+                <img src="Picture/logo.png" alt="โลโก้โรงพยาบาล" style="height: 50px;" onerror="this.style.display='none'">
+                โรงพยาบาลปากท่อ
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">หน้าแรก</a></li>
+                    <li><a href="#">เกี่ยวกับเรา <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="ceo.html">คณะกรรมการบริหารฯ</a></li>
+                            <li><a href="Document/FTE_Paktho2566.pdf" target="_blank">โครงสร้าง รพ. ปัจจุบัน</a></li>
+                            <li><a href="personnel.html">บุคลากรในหน่วยงาน</a></li>
+                            <li><a href="personnel_stat.html">ข้อมูลสถิติบุคลากร</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="active">บริการประชาชน <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="https://srmcitizen.nhso.go.th/" target="_blank">ตรวจสอบสิทธิการรักษา</a></li>
+                            <li><a href="vdo.html" class="active">VDO แนะนำความรู้สุขภาพ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">ติดต่อเรา <i class="fa-solid fa-chevron-down" style="font-size:12px;"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="contact_us.html">ติดต่อโรงพยาบาล / พิกัดที่ตั้ง</a></li>
+                            <li><a href="contact_us.html">รับเรื่องร้องเรียน</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index.html#staff" class="btn-staff"><i class="fa-solid fa-user-lock"></i> สำหรับเจ้าหน้าที่</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="container page-header">
+        <h1><i class="fa-solid fa-photo-film"></i> VDO แนะนำความรู้สุขภาพ</h1>
+        <p>ศูนย์รวมวิดีโอให้ความรู้เรื่องโรคภัยไข้เจ็บและการดูแลสุขภาพ โดยโรงพยาบาลปากท่อ</p>
+    </div>
+
+    <!-- Video Gallery Grid -->
+    <div class="container">
+        <div class="video-grid">
+            
+            <!-- วิดีโอ 1 -->
+            <div class="video-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/kH0BMa94SHM" title="โรคหลอดเลือดสมองและโรคกล้ามเนื้อหัวใจขาดเลือด" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <span class="video-category">สาระสุขภาพ</span>
+                    <h3 class="video-title">โรคหลอดเลือดสมอง และโรคกล้ามเนื้อหัวใจขาดเลือด</h3>
+                    <div class="video-date">
+                        <i class="fa-regular fa-calendar-days"></i> 26 มีนาคม 2569
+                    </div>
+                </div>
+            </div>
+
+            <!-- วิดีโอ 2 -->
+            <div class="video-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/kTrnn3b_7XU" title="การลดการบาดเจ็บที่ศีรษะและสมองด้วยการสวมหมวกนิรภัย" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <span class="video-category">อุบัติเหตุ / ความปลอดภัย</span>
+                    <h3 class="video-title">การลดการบาดเจ็บที่ศีรษะและสมองด้วยการสวมหมวกนิรภัย</h3>
+                    <div class="video-date">
+                        <i class="fa-regular fa-calendar-days"></i> 26 มีนาคม 2569
+                    </div>
+                </div>
+            </div>
+
+            <!-- วิดีโอ 3 -->
+            <div class="video-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/PXwZH0tO5no" title="โรงพยาบาลปากท่อ 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <span class="video-category">แนะนำโรงพยาบาล</span>
+                    <h3 class="video-title">วิดีทัศน์แนะนำโรงพยาบาลปากท่อ (ตอนที่ 2)</h3>
+                    <div class="video-date">
+                        <i class="fa-regular fa-calendar-days"></i> 25 มิถุนายน 2569
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>โรงพยาบาลปากท่อ เลขที่ 201/10 หมู่ 8 ถ.ท้าวอู่ทอง ต.ปากท่อ อ.ปากท่อ จ.ราชบุรี 70140</p>
+            <p style="color: #f8bbd0; margin-top: 5px;">Copyright 2026 by Paktho Computer Center.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
