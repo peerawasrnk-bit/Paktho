@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบปฏิบัติการบุคลากร - โรงพยาบาลปากท่อ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-pink: #D81B60;  
+            --accent-pink: #F06292;     
+            --light-pink: #FCE4EC;      
+            --bg-pink: #FFF5F8;         
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
+        body { background-color: var(--bg-pink); color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; font-size: 16px; }
+        .container { max-width: 1320px; margin: 0 auto; padding: 0 20px; } 
+
+        /* Header */
+        header { background: #fff; box-shadow: 0 2px 15px rgba(216, 27, 96, 0.08); position: sticky; top: 0; z-index: 100; }
+        .header-main { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; flex-wrap: wrap; gap: 15px; }
+        .logo { display: flex; align-items: center; gap: 15px; font-size: 26px; font-weight: 700; color: var(--primary-pink); text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+        nav ul { list-style: none; display: flex; gap: 20px; align-items: center; }
+        nav > ul > li { position: relative; padding: 10px 0; }
+        nav a { text-decoration: none; color: #333; font-weight: 500; font-size: 17px; cursor: pointer; transition: 0.3s; padding: 10px 15px; border-radius: 6px; white-space: nowrap; }
+        nav a:hover { color: var(--primary-pink); background: var(--light-pink); }
+        .btn-staff { background: var(--primary-pink) !important; color: white !important; padding: 10px 24px !important; border-radius: 25px !important; }
+        .btn-staff:hover { background: #b0124a !important; color: white !important; }
+
+        /* ส่วนของหน้าเจ้าหน้าที่ */
+        #page-staff { padding: 40px 0 60px 0; flex: 1; }
+        .staff-container { max-width: 1200px; margin: 0 auto; background: transparent; }
+        
+        .staff-header-banner { background: linear-gradient(135deg, var(--primary-pink), var(--accent-pink)); color: white; padding: 40px 20px; text-align: center; border-radius: 20px; box-shadow: 0 10px 30px rgba(216, 27, 96, 0.15); margin-bottom: 40px; }
+        
+        /* Layout Grid */
+        .staff-layout { display: grid; grid-template-columns: 350px 1fr; gap: 30px; align-items: start; }
+        
+        /* กล่อง Login */
+        .login-card { background: #fff; padding: 35px; border-radius: 20px; border: 1px solid var(--light-pink); box-shadow: 0 5px 20px rgba(216, 27, 96, 0.05); position: sticky; top: 110px; }
+        .login-card h3 { color: var(--primary-pink); margin-bottom: 25px; text-align: center; font-size: 22px; }
+        .login-card input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #f8bbd0; font-size: 15px; outline: none; transition: 0.3s; background: #fafafa; }
+        .login-card input:focus { border-color: var(--primary-pink); background: #fff; box-shadow: 0 0 0 3px var(--light-pink); }
+        .login-card button { width: 100%; padding: 14px; background: var(--primary-pink); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .login-card button:hover { background: #b0124a; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(216, 27, 96, 0.2); }
+
+        /* หมวดหมู่ลิงก์ */
+        .system-category { background: #fff; border-radius: 20px; border: 1px solid var(--light-pink); box-shadow: 0 5px 20px rgba(216, 27, 96, 0.05); padding: 30px; margin-bottom: 30px; }
+        .category-header { display: flex; align-items: center; gap: 15px; border-bottom: 2px solid var(--light-pink); padding-bottom: 15px; margin-bottom: 25px; }
+        .category-header i { font-size: 24px; color: var(--primary-pink); background: var(--light-pink); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
+        .category-header h4 { font-size: 20px; color: #333; }
+
+        /* ป้าย Tag รูปแบบใหม่ */
+        .tags-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+        .sys-link { display: flex; align-items: center; gap: 10px; padding: 12px 15px; background: #fdfdfd; border: 1px solid #eee; border-radius: 10px; color: #444; text-decoration: none; font-size: 14px; transition: 0.2s; font-weight: 500; cursor: pointer; }
+        .sys-link i.fa-circle-dot { font-size: 8px; color: var(--accent-pink); }
+        .sys-link:hover { background: var(--bg-pink); border-color: var(--primary-pink); color: var(--primary-pink); transform: translateX(5px); }
+        
+        .sys-link.offline { background: #f9f9f9; color: #888; border-color: #eee; }
+        .sys-link.offline i.fa-circle-dot { color: #ccc; }
+        .sys-link.offline i.fa-triangle-exclamation { color: #dc3545; margin-left: auto; }
+        .sys-link.offline:hover { border-color: #dc3545; color: #dc3545; background: #fff5f5; }
+
+        /* Footer */
+        footer { background: #3c1020; color: #fce4ec; padding: 40px 0; text-align: center; font-size: 16px; margin-top: auto; }
+
+        /* Responsive */
+        @media (max-width: 992px) { 
+            .staff-layout { grid-template-columns: 1fr; }
+            .login-card { position: static; margin-bottom: 30px; }
+        }
+        @media (max-width: 768px) {
+            .header-main { flex-direction: column; align-items: center; gap: 15px; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .tags-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-main">
+            <a href="index.html" class="logo">
+                <img src="Picture/logo.png" alt="โลโก้โรงพยาบาลปากท่อ" style="height: 65px; width: auto; margin-right: 10px;">
+                โรงพยาบาลปากท่อ
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">หน้าแรก</a></li>
+                    <li><a href="index.html#about-section">เกี่ยวกับเรา</a></li>
+                    <li><a href="index.html#services-section">บริการประชาชน</a></li>
+                    <li><a href="index.html#contact-section">ติดต่อเรา</a></li>
+                    <li><a href="index.html#news-section">ข่าวสาร</a></li>
+                    <li><a href="staff.html" class="btn-staff"><i class="fa-solid fa-user-check"></i> สำหรับเจ้าหน้าที่</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- PAGE: หน้าเจ้าหน้าที่ (Staff Portal) -->
+    <div id="page-staff">
+        <div class="container">
+            <div class="staff-container">
+                
+                <!-- Banner หัวข้อ -->
+                <div class="staff-header-banner">
+                    <i class="fa-solid fa-shield-halved" style="font-size:50px; margin-bottom:15px;"></i>
+                    <h2 style="font-weight:600; font-size: 30px;">ระบบปฏิบัติการบุคลากร (Intranet)</h2>
+                    <p style="font-weight:300; opacity:0.9; font-size: 16px; margin-top: 5px;">โรงพยาบาลปากท่อ จังหวัดราชบุรี</p>
+                </div>
+                
+                <!-- เลย์เอาต์ 2 คอลัมน์ (ซ้าย Login / ขวา เมนูระบบ) -->
+                <div class="staff-layout">
+                    
+                    <!-- ฝั่งซ้าย: กล่องลงชื่อเข้าใช้งาน -->
+                    <div class="login-column">
+                        <div class="login-card">
+                            <h3><i class="fa-solid fa-right-to-bracket"></i> ลงชื่อเข้าใช้งาน</h3>
+                            <input type="text" placeholder="รหัสพนักงาน (Username)">
+                            <input type="password" placeholder="รหัสผ่าน (Password)">
+                            <button onclick="alert('กรุณาตรวจสอบรหัสพนักงานและรหัสผ่านของคุณอีกครั้ง (ทดสอบระบบ)')">เข้าสู่ระบบ</button>
+                            <p style="text-align: center; margin-top: 15px; font-size: 13px; color: #888;">มีปัญหาในการเข้าสู่ระบบ ติดต่อศูนย์คอมพิวเตอร์ ต่อ 500</p>
+                        </div>
+                    </div>
+
+                    <!-- ฝั่งขวา: หมวดหมู่ระบบงาน -->
+                    <div class="system-column">
+                        
+                        <!-- หมวดที่ 1: ระบบงานภายใน -->
+                        <div class="system-category">
+                            <div class="category-header">
+                                <i class="fa-solid fa-network-wired"></i>
+                                <h4>ระบบงานภายใน (Intranet & Admin)</h4>
+                            </div>
+                            <div class="tags-grid">
+                                <a onclick="window.open('http://192.168.13.248/backoffice/login')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> Backoffice (ภายใน)</a>
+                                <a onclick="window.open('http://183.88.245.106/backoffice/login')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> Backoffice (ภายนอก)</a>
+                                <a onclick="window.open('http://www.pthosp.net/forum/')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> กระดานสนทนาภายใน</a>
+                                <a onclick="window.open('http://www.pthosp.net/hospital/tel.php')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> หมายเลขโทรศัพท์ภายใน</a>
+                                <a onclick="window.open('http://www.pthosp.net/hospital/download1.php')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> ดาวน์โหลดแบบฟอร์ม</a>
+                                <a onclick="window.open('http://pthosp.net/forum//index.php?board=6.0')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> จัดซื้อ / จัดจ้าง</a>
+                                <a onclick="window.open('http://pthosp.net/owncloud/index.php/login')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> OwnCloud Paktho Hosp.</a>
+                                <a onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSc8ZBV84tWCwL0Vm11KTEZnZCj57MRQM6oyUlekkijn6C0ISw/viewform')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> กรอกประวัติ จนท.ใหม่ Online</a>
+                                <a onclick="window.open('http://www.pthosp.net/sliplink/paysliplink.php')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> ระบบแจ้งเงินเดือนออนไลน์</a>
+                                <a onclick="window.open('https://nonhr.moph.go.th/')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> ข้อมูลบุคลากร NonHR</a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> Paktho Web Service <i class="fa-solid fa-triangle-exclamation"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- หมวดที่ 2: ระบบข้อมูลการแพทย์ -->
+                        <div class="system-category">
+                            <div class="category-header">
+                                <i class="fa-solid fa-laptop-medical"></i>
+                                <h4>ระบบข้อมูลการแพทย์ (HOSxP & EMR)</h4>
+                            </div>
+                            <div class="tags-grid">
+                                <a onclick="window.open('https://hosxp.net/wordpress/')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> HOSxP Main</a>
+                                <a onclick="window.open('http://www.pthosp.net/doctor/')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> ตรวจสอบผู้ให้บริการ HOSxP</a>
+                                <a onclick="window.open('http://www.pthosp.net/pthp/index_main.php')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> PTHP รพสต.ปากท่อ</a>
+                                <a onclick="window.open('http://pthosp.net/dhdc2/frontend/web/index.php')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> DHDC PAKTHO</a>
+                                <a onclick="window.open('http://pthosp.net/pthp/rpst/index_dhdc_ncd.php')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> EMR-DHDC</a>
+                                <a onclick="window.open('http://pthosp.net/phr/register.php')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> PHR Register</a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> EMR Hosxp <i class="fa-solid fa-triangle-exclamation"></i></a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> Ihosxp <i class="fa-solid fa-triangle-exclamation"></i></a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> HIS Mobile (2023) <i class="fa-solid fa-triangle-exclamation"></i></a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> His Mobile (Intra Web) <i class="fa-solid fa-triangle-exclamation"></i></a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> Hosxp Training <i class="fa-solid fa-triangle-exclamation"></i></a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> ANTWEBViewer <i class="fa-solid fa-triangle-exclamation"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- หมวดที่ 3: ระบบรายงานและสถิติ -->
+                        <div class="system-category">
+                            <div class="category-header">
+                                <i class="fa-solid fa-chart-pie"></i>
+                                <h4>ระบบรายงานและสถิติ (Report & Stat)</h4>
+                            </div>
+                            <div class="tags-grid">
+                                <a onclick="window.open('https://hdc.moph.go.th/rbr/public/main')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> HDC ราชบุรี</a>
+                                <a onclick="window.open('http://www.pthosp.net/hospital/opdcase1.php')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> สถิติผู้รับบริการ</a>
+                                <a onclick="window.open('http://www.pthosp.net/20opd/report-20opd.php')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> สถิติบริการรายไตรมาส</a>
+                                <a onclick="window.open('http://www.pthosp.net/20opd/report-dent57.php')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> รายงานทันตกรรม</a>
+                                <a onclick="window.open('http://pthosp.net/eoc/index.php')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> EOC ON WEB</a>
+                                <a onclick="window.open('https://www.google.com/maps/d/viewer?mid=12JS3TepoBTvHN07jvdDsPjX3KFc&ll=13.536093647264932%2C99.46320352539058&z=9')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> พิกัดแผนที่ CVD RISK</a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> พิกัดหลอดเลือดหัวใจ CAD <i class="fa-solid fa-triangle-exclamation"></i></a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> DATA Check <i class="fa-solid fa-triangle-exclamation"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- หมวดที่ 4: ระบบประกันสุขภาพ -->
+                        <div class="system-category">
+                            <div class="category-header">
+                                <i class="fa-solid fa-file-shield"></i>
+                                <h4>ระบบประกันสุขภาพ (NHSO & Insurance)</h4>
+                            </div>
+                            <div class="tags-grid">
+                                <a onclick="window.open('https://moph.go.th/')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> กระทรวงสาธารณสุข</a>
+                                <a onclick="window.open('https://www.nhso.go.th/th/')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> สปสช.</a>
+                                <a onclick="window.open('https://www.sso.go.th/')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> สำนักงานประกันสังคม</a>
+                                <a onclick="window.open('https://cmi.moph.go.th')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> ระบบ CMI กระทรวง</a>
+                                <a onclick="window.open('https://smt.nhso.go.th/smtf/#/home/budget/summary')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> รายงานการเงิน NHSO</a>
+                                <a onclick="window.open('https://op.nhso.go.th/op/main/MainWebAction.do')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> รับ-ส่ง OP/PP สปสช.</a>
+                                <a onclick="window.open('Picture/HEALTH  ID.jpg')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> HEALTH ID</a>
+                                <a onclick="window.open('https://eoffice-paktho.moph.go.th/api/auth/login')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> MOPH GDCC e Office</a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> เรียกค่ารักษาผู้มีปัญหาฯ <i class="fa-solid fa-triangle-exclamation"></i></a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> Myoffice สสจ. <i class="fa-solid fa-triangle-exclamation"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- หมวดที่ 5: การจัดการความรู้ -->
+                        <div class="system-category">
+                            <div class="category-header">
+                                <i class="fa-solid fa-book-medical"></i>
+                                <h4>มาตรฐานและวิชาการ (Knowledge)</h4>
+                            </div>
+                            <div class="tags-grid">
+                                <a onclick="window.open('http://pthosp.net/forum//index.php?board=2.0')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> ระบบงาน HA</a>
+                                <a onclick="window.open('https://paktho.thai-nrls.org/')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> การบริหารจัดการความเสี่ยง</a>
+                                <a onclick="window.open('https://www.who.int/')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> ICD-10 Version:2016</a>
+                                <a onclick="window.open('http://www.thcc.or.th/ICD-10TM/index.html')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> ICD10_TM</a>
+                                <a onclick="window.open('http://icd9.chrisendres.com/')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> รหัสหัตถการ ICD9_CM</a>
+                                <a onclick="window.open('http://www.pthosp.net/hospital/doc/portfolio.pdf')" class="sys-link"><i class="fa-solid fa-circle-dot"></i> แผนปฏิบัติการรายบุคคล</a>
+                                <a onclick="alert('ระบบออฟไลน์ชั่วคราว')" class="sys-link offline"><i class="fa-solid fa-circle-dot"></i> วารสาร BMS <i class="fa-solid fa-triangle-exclamation"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p style="margin-bottom: 10px;">โรงพยาบาลปากท่อ เลขที่ 201/10 หมู่ 8 ถ.ท้าวอู่ทอง ต.ปากท่อ อ.ปากท่อ จ.ราชบุรี 70140 | โทรศัพท์ 032-282530-31</p>
+            <p style="color: #f8bbd0;">Copyright 2026 by Paktho Computer Center. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
